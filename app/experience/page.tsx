@@ -14,7 +14,7 @@ export default function ExperiencePage() {
       </h1>
 
       <div className="space-y-12">
-        {experiences.map((exp, index) => (
+        {experiences.map((exp) => (
           <div
             key={exp.id}
             className="relative border-l-2 border-cyan-500/30 pl-8 pb-12 last:pb-0"
@@ -35,25 +35,39 @@ export default function ExperiencePage() {
 
               <p className="text-slate-300">{exp.description}</p>
 
-              {exp.achievements.length > 0 && (
+              {exp.highlights && exp.highlights.length > 0 && (
                 <div>
-                  <h4 className="mb-2 font-semibold text-slate-50">Key Achievements:</h4>
+                  <h4 className="mb-2 font-semibold text-slate-50">Key Highlights:</h4>
                   <ul className="space-y-1">
-                    {exp.achievements.map((achievement, i) => (
-                      <li key={i} className="flex items-start text-sm text-slate-300">
+                    {exp.highlights.map((highlight, i) => (
+                      <li key={`${exp.id}-highlight-${i}`} className="flex items-start text-sm text-slate-300">
                         <span className="mr-2 text-cyan-400">•</span>
-                        <span>{achievement}</span>
+                        <span>{highlight}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              {exp.technologies.length > 0 && (
+              {exp.impact && exp.impact.length > 0 && (
+                <div>
+                  <h4 className="mb-2 font-semibold text-slate-50">Impact:</h4>
+                  <ul className="space-y-1">
+                    {exp.impact.map((item, i) => (
+                      <li key={`${exp.id}-impact-${i}`} className="flex items-start text-sm text-slate-300">
+                        <span className="mr-2 text-cyan-400">→</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {exp.technologies && exp.technologies.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {exp.technologies.map((tech) => (
                     <span
-                      key={tech}
+                      key={`${exp.id}-tech-${tech}`}
                       className="rounded-full border border-slate-700 bg-slate-900/50 px-3 py-1 text-xs text-slate-300"
                     >
                       {tech}

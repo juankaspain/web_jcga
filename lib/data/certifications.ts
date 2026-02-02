@@ -1,67 +1,182 @@
-export interface CertificationGroup {
-  id: string
-  provider: string
-  certifications: Certification[]
-}
-
 export interface Certification {
   name: string
-  year?: string
-  badge?: string
+  issuer: string
+  date?: string
+  credentialId?: string
+  url?: string
+}
+
+export interface CertificationGroup {
+  provider: string
+  logo?: string
+  certifications: Certification[]
+  count: number
 }
 
 export const certificationGroups: CertificationGroup[] = [
   {
-    id: "azure",
     provider: "Microsoft Azure",
+    count: 40,
     certifications: [
-      { name: "Azure Solutions Architect Expert", year: "2024" },
-      { name: "Azure DevOps Engineer Expert", year: "2024" },
-      { name: "Azure Security Engineer Associate", year: "2024" },
-      { name: "Azure Data Engineer Associate", year: "2024" },
-      { name: "Azure AI Engineer Associate", year: "2025" },
-      { name: "Azure Fundamentals", year: "2023" },
-      { name: "Azure AI Fundamentals", year: "2024" },
-      { name: "Azure Data Fundamentals", year: "2024" }
+      {
+        name: "Azure Solutions Architect Expert",
+        issuer: "Microsoft",
+        date: "2024"
+      },
+      {
+        name: "Azure DevOps Engineer Expert",
+        issuer: "Microsoft",
+        date: "2024"
+      },
+      {
+        name: "Azure Security Engineer Associate",
+        issuer: "Microsoft",
+        date: "2024"
+      },
+      {
+        name: "Azure Data Engineer Associate",
+        issuer: "Microsoft",
+        date: "2024"
+      },
+      {
+        name: "Azure AI Engineer Associate",
+        issuer: "Microsoft",
+        date: "2025"
+      }
     ]
   },
   {
-    id: "oracle",
     provider: "Oracle Cloud",
+    count: 15,
     certifications: [
-      { name: "Infrastructure 2023 Foundations" },
-      { name: "Data Management 2023 Foundations" },
-      { name: "AI Foundations" }
+      {
+        name: "Oracle Cloud Infrastructure 2023 Foundations",
+        issuer: "Oracle",
+        date: "2023"
+      },
+      {
+        name: "Oracle Cloud Data Management 2023 Foundations",
+        issuer: "Oracle",
+        date: "2023"
+      },
+      {
+        name: "Oracle Cloud Infrastructure AI Foundations",
+        issuer: "Oracle",
+        date: "2024"
+      }
     ]
   },
   {
-    id: "mongodb",
-    provider: "MongoDB & AI",
+    provider: "MongoDB",
+    count: 12,
     certifications: [
-      { name: "AI and Innovation: How MongoDB Enables a Resilient AI Strategy" },
-      { name: "Securing MongoDB Self-Managed Networking" },
-      { name: "MongoDB Developer Fundamentals" }
+      {
+        name: "AI and Innovation: How MongoDB Enables a Resilient AI Strategy",
+        issuer: "MongoDB University",
+        date: "2024"
+      },
+      {
+        name: "Securing MongoDB Self-Managed Networking",
+        issuer: "MongoDB University",
+        date: "2024"
+      },
+      {
+        name: "MongoDB for SQL Professionals",
+        issuer: "MongoDB University",
+        date: "2023"
+      }
     ]
   },
   {
-    id: "devops",
     provider: "DevOps & Agile",
+    count: 25,
     certifications: [
-      { name: "DevOps Foundation" },
-      { name: "GitOps Fundamentals" },
-      { name: "GitOps at Scale" },
-      { name: "Scrum Fundamentals" },
-      { name: "Team Kanban Practitioner" },
-      { name: "Six Sigma Yellow Belt" }
+      {
+        name: "DevOps Foundation",
+        issuer: "DevOps Institute",
+        date: "2022"
+      },
+      {
+        name: "GitOps Fundamentals",
+        issuer: "Codefresh",
+        date: "2023"
+      },
+      {
+        name: "GitOps at Scale",
+        issuer: "Codefresh",
+        date: "2023"
+      },
+      {
+        name: "Scrum Fundamentals Certified",
+        issuer: "SCRUMstudy",
+        date: "2021"
+      },
+      {
+        name: "Team Kanban Practitioner",
+        issuer: "Kanban University",
+        date: "2021"
+      },
+      {
+        name: "Six Sigma Yellow Belt",
+        issuer: "Six Sigma",
+        date: "2020"
+      }
     ]
   },
   {
-    id: "education",
-    provider: "Academic Education",
+    provider: "Data Science & AI",
+    count: 18,
     certifications: [
-      { name: "Specialization in AI & Data Science", year: "2025-2026", badge: "UNIR (9.3/10)" },
-      { name: "Master in Software Engineering", year: "2012", badge: "Universidad Europea" },
-      { name: "Degree in Computer Engineering", year: "2008", badge: "Universidad Europea" }
+      {
+        name: "AI & Data Science Specialization (9.3/10)",
+        issuer: "UNIR",
+        date: "2025-2026"
+      },
+      {
+        name: "Azure AI Fundamentals",
+        issuer: "Microsoft",
+        date: "2024"
+      },
+      {
+        name: "Azure Data Fundamentals",
+        issuer: "Microsoft",
+        date: "2024"
+      }
+    ]
+  },
+  {
+    provider: "Architecture & Platforms",
+    count: 30,
+    certifications: [
+      {
+        name: "Enterprise Architecture",
+        issuer: "Various",
+        date: "2018-2024"
+      },
+      {
+        name: "API Management & Design",
+        issuer: "Various",
+        date: "2018-2024"
+      },
+      {
+        name: "Microservices Architecture",
+        issuer: "Various",
+        date: "2019-2024"
+      }
     ]
   }
+]
+
+export const totalCertifications = certificationGroups.reduce(
+  (acc, group) => acc + group.count,
+  0
+)
+
+export const topCertifications = [
+  "Azure Solutions Architect Expert",
+  "Azure DevOps Engineer Expert",
+  "Azure Security Engineer Associate",
+  "Azure Data Engineer Associate",
+  "Azure AI Engineer Associate",
+  "AI & Data Science Specialization (UNIR)"
 ]

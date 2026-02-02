@@ -146,15 +146,20 @@ export function ExperienceTimeline({ locale = "es" }: ExperienceTimelineProps) {
                           </div>
                         )}
 
-                        {/* Impact badge */}
-                        {exp.impact && (
+                        {/* Impact badge - now handles string array */}
+                        {exp.impact && exp.impact.length > 0 && (
                           <div className="mt-4 rounded-lg border border-cyan-500/20 bg-cyan-500/5 p-3">
                             <div className="text-xs font-medium uppercase tracking-wider text-cyan-400">
                               {locale === "es" ? "Impacto" : "Impact"}
                             </div>
-                            <div className="mt-1 text-sm text-slate-300">
-                              {exp.impact}
-                            </div>
+                            <ul className="mt-2 space-y-1">
+                              {exp.impact.slice(0, 2).map((item, iIndex) => (
+                                <li key={iIndex} className="text-sm text-slate-300 flex items-start gap-2">
+                                  <span className="text-cyan-400">→</span>
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
                           </div>
                         )}
                       </div>

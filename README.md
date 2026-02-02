@@ -1,40 +1,93 @@
 # Juan Carlos García Arriero - Professional Portfolio
 
-Modern, professional portfolio website built with Next.js 15, TypeScript, Tailwind CSS, and Framer Motion.
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-ff0055?style=flat-square&logo=framer)](https://www.framer.com/motion/)
+
+Modern, professional portfolio website showcasing 15+ years of experience in cloud architecture, digital banking, and AI-driven solutions.
+
+🌐 **Live Site**: Coming soon
+
+---
+
+## 🎯 About This Project
+
+This portfolio demonstrates expertise in:
+- ☁️ **Cloud Architecture** (Azure, Oracle Cloud)
+- 💳 **Payment Systems** (SEPA, instant payments, international transfers)
+- 🏦 **Digital Banking** (channels, PFM/BFM, subscriptions)
+- 🤖 **Data & AI** (categorization, risk engines, AI-driven services)
+- 🚀 **DevOps & Engineering Excellence** (CI/CD, testing, observability)
+
+---
 
 ## 🚀 Tech Stack
 
-- **Framework**: Next.js 15 (App Router, React Server Components)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4
-- **Animations**: Framer Motion
-- **3D Graphics**: React Three Fiber (optional)
-- **Content**: MDX for rich project descriptions
-- **Deployment**: Vercel
+### Frontend Framework
+- **Next.js 15** - App Router, React Server Components, Server Actions
+- **React 19** - Latest features and concurrent rendering
+- **TypeScript 5.4** - Full type safety
+
+### Styling & Design
+- **Tailwind CSS v4** - Utility-first CSS framework
+- **Framer Motion 11** - Smooth animations and scroll effects
+- **Custom Design System** - Neo-naturalism digital theme
+
+### Future Enhancements
+- **React Three Fiber** - 3D interactive elements (Hero, Skills orbit)
+- **MDX** - Rich content for project case studies
+- **Sanity CMS** - Optional headless CMS for content management
+
+### Deployment
+- **Vercel** - Edge network, automatic deployments
+- **GitHub Actions** - CI/CD pipeline
+
+---
 
 ## 📋 Prerequisites
 
-- Node.js 18+ or 20+
-- npm, yarn, or pnpm
+Before you begin, ensure you have:
+- **Node.js** 18.x or 20.x ([Download](https://nodejs.org/))
+- **npm**, **yarn**, or **pnpm** package manager
+- **Git** for version control
 
-## 🛠️ Installation
+---
 
-1. Clone the repository:
+## 🛠️ Installation & Setup
+
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/juankaspain/web_jcga.git
 cd web_jcga
 ```
 
-2. Install dependencies:
+### 2. Rename Route Group (Important!)
+
+Next.js uses parentheses for route groups. Rename the directory:
+
 ```bash
+mv app/public_root "app/(public)"
+```
+
+### 3. Install Dependencies
+
+Choose your preferred package manager:
+
+```bash
+# Using npm
 npm install
-# or
+
+# Using yarn
 yarn install
-# or
+
+# Using pnpm
 pnpm install
 ```
 
-3. Run the development server:
+### 4. Start Development Server
+
 ```bash
 npm run dev
 # or
@@ -43,76 +96,245 @@ yarn dev
 pnpm dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+### 5. Open in Browser
+
+Navigate to [http://localhost:3000](http://localhost:3000)
+
+---
 
 ## 📁 Project Structure
 
 ```
 web_jcga/
 ├── app/
-│   ├── public_root/         # Main layout group
-│   │   ├── layout.tsx       # Root layout
-│   │   └── page.tsx         # Home page
-│   ├── about/              # About page
-│   ├── experience/         # Experience page
-│   ├── projects/           # Projects listing & detail
-│   ├── certifications/     # Certifications page
-│   ├── skills/             # Skills page
-│   ├── content/            # Blog/content pages
-│   ├── contact/            # Contact page
-│   └── globals.css         # Global styles
+│   ├── (public)/              # Route group (rename from public_root)
+│   │   ├── layout.tsx         # Root layout with Header/Footer
+│   │   └── page.tsx           # Home page
+│   ├── about/                 # About page
+│   │   └── page.tsx
+│   ├── experience/            # Professional experience
+│   │   └── page.tsx
+│   ├── projects/              # Portfolio projects
+│   │   ├── page.tsx           # Projects listing
+│   │   └── [slug]/            # Individual project pages
+│   │       └── page.tsx
+│   ├── certifications/        # Certifications & badges
+│   │   └── page.tsx
+│   ├── skills/                # Technical skills
+│   │   └── page.tsx
+│   ├── content/               # Blog/articles
+│   │   ├── page.tsx
+│   │   └── [slug]/
+│   │       └── page.tsx
+│   ├── contact/               # Contact form
+│   │   └── page.tsx
+│   ├── api/                   # API routes
+│   │   └── contact/
+│   │       └── route.ts
+│   └── globals.css            # Global styles
+│
 ├── components/
-│   ├── layout/             # Header, Footer, Nav
-│   ├── home/               # Home page components
-│   ├── ui/                 # Reusable UI components
-│   └── ...
+│   ├── layout/
+│   │   ├── Header.tsx         # Sticky navigation
+│   │   └── Footer.tsx         # Site footer
+│   ├── home/
+│   │   ├── Hero.tsx           # Hero section with animations
+│   │   ├── ImpactStats.tsx    # Key statistics
+│   │   ├── WhatIDo.tsx        # Services overview
+│   │   └── HighlightsTimeline.tsx
+│   ├── experience/
+│   │   └── ExperienceTimeline.tsx
+│   ├── projects/
+│   │   ├── ProjectsGrid.tsx
+│   │   └── ProjectHeader.tsx
+│   ├── skills/
+│   │   └── SkillsCategories.tsx
+│   ├── contact/
+│   │   └── ContactForm.tsx
+│   └── ui/                    # Reusable UI components
+│       ├── Section.tsx
+│       ├── Card.tsx
+│       └── Badge.tsx
+│
 ├── lib/
-│   ├── data/               # Data files (experience, projects, etc.)
-│   ├── animations/         # Framer Motion variants
-│   └── utils/              # Utility functions
-└── public/
-    └── images/             # Static images
+│   ├── data/                  # Data files
+│   │   ├── experience.ts      # Work history
+│   │   ├── projects.ts        # Portfolio projects
+│   │   ├── skills.ts          # Technical skills
+│   │   └── certifications.ts  # Certs & badges
+│   ├── animations/
+│   │   └── variants.ts        # Framer Motion presets
+│   └── utils/
+│       └── classNames.ts      # Utility functions
+│
+├── public/
+│   └── images/                # Static assets
+│
+├── styles/
+│   └── globals.css            # Additional global styles
+│
+├── .gitignore
+├── next.config.mjs            # Next.js configuration
+├── tailwind.config.ts         # Tailwind configuration
+├── tsconfig.json              # TypeScript configuration
+├── postcss.config.mjs         # PostCSS configuration
+├── package.json               # Dependencies
+└── README.md
 ```
+
+---
 
 ## 🎨 Features
 
-- ✅ **Modern Design**: Clean, professional design with smooth animations
-- ✅ **Fully Responsive**: Mobile-first approach
-- ✅ **Dark Theme**: Optimized for readability
-- ✅ **Performance Optimized**: Server Components, code splitting
-- ✅ **SEO Ready**: Proper metadata and semantic HTML
-- ✅ **Accessible**: WCAG 2.1 AA compliant
-- ✅ **Type-Safe**: Full TypeScript coverage
+### Current Features
+- ✅ **Modern Design** - Clean, professional UI with smooth animations
+- ✅ **Fully Responsive** - Mobile-first approach, optimized for all devices
+- ✅ **Dark Theme** - Eye-friendly dark mode with cyan accents
+- ✅ **Server Components** - React Server Components for optimal performance
+- ✅ **Type-Safe** - Full TypeScript coverage throughout
+- ✅ **SEO Optimized** - Proper metadata, semantic HTML, Open Graph tags
+- ✅ **Accessible** - WCAG 2.1 AA compliant
+- ✅ **Smooth Animations** - Framer Motion scroll and hover effects
+
+### Coming Soon
+- 🔄 Interactive 3D elements (Three.js/R3F)
+- 🔄 MDX blog with code syntax highlighting
+- 🔄 Contact form with API integration
+- 🔄 Project case studies with detailed breakdowns
+- 🔄 Multilingual support (EN/ES)
+
+---
 
 ## 📝 Content Management
 
 Content is managed through TypeScript files in `lib/data/`:
 
-- `experience.ts` - Professional experience
-- `projects.ts` - Portfolio projects
-- `skills.ts` - Technical skills
-- `certifications.ts` - Certifications and badges
+### `lib/data/experience.ts`
+```typescript
+export const experience = [
+  {
+    company: "Santander Digital Services",
+    role: "Senior Technical Lead & Cloud Solutions Architect",
+    period: "2018 - Present",
+    description: "Leading technical solutions for digital banking...",
+    technologies: ["Azure", "Node.js", "MongoDB", "AI"]
+  }
+]
+```
+
+### `lib/data/projects.ts`
+```typescript
+export const projects = [
+  {
+    slug: "payment-platform",
+    title: "Multi-Channel Payment Platform",
+    description: "Centralized platform for international payments...",
+    tags: ["Payments", "SEPA", "Cloud"]
+  }
+]
+```
+
+---
 
 ## 🚀 Deployment
 
-The easiest way to deploy is using [Vercel](https://vercel.com):
+### Deploy to Vercel (Recommended)
 
 1. Push your code to GitHub
-2. Import project in Vercel
-3. Deploy!
+2. Go to [Vercel](https://vercel.com)
+3. Click "Import Project"
+4. Select your repository
+5. Vercel auto-detects Next.js and deploys
 
-Vercel will automatically detect Next.js and configure everything.
+**Environment Variables** (if needed):
+```bash
+NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+```
+
+### Build Locally
+
+```bash
+npm run build
+npm run start
+```
+
+---
+
+## 🧪 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server on http://localhost:3000 |
+| `npm run build` | Build production bundle |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
+
+---
+
+## 🎯 Performance Targets
+
+Core Web Vitals goals:
+- **LCP** (Largest Contentful Paint): < 2.5s
+- **CLS** (Cumulative Layout Shift): < 0.1
+- **INP** (Interaction to Next Paint): < 200ms
+
+Optimization strategies:
+- React Server Components for 60%+ bundle reduction
+- Next.js Image component with WebP/AVIF
+- Code splitting and lazy loading
+- Edge deployment with Vercel
+
+---
+
+## 🤝 Contributing
+
+This is a personal portfolio project. Not open for contributions.
+
+---
 
 ## 📄 License
 
-This project is personal and not open for public use.
+This project is private and proprietary.
+
+© 2026 Juan Carlos García Arriero. All rights reserved.
+
+---
 
 ## 👤 Author
 
 **Juan Carlos García Arriero**
-- LinkedIn: [juancarlosga](https://www.linkedin.com/in/juancarlosga/)
-- Email: juanca755@hotmail.com
+
+- **Role**: Senior Technical Lead & Cloud Solutions Architect
+- **LinkedIn**: [juancarlosga](https://www.linkedin.com/in/juancarlosga/)
+- **Email**: juanca755@hotmail.com
+- **Location**: Madrid, Spain
+- **Company**: Santander Digital Services
+
+### Expertise
+- ☁️ Cloud Architecture (Azure, Oracle)
+- 💳 Payment Systems & Banking
+- 🤖 Data Engineering & AI
+- 🚀 DevOps & Platform Engineering
+- 👥 Technical Leadership (teams up to 12)
+
+### Certifications
+- 140+ professional certifications
+- Azure Solutions Architect Expert
+- Azure DevOps Engineer Expert
+- Multiple Azure Data & AI certifications
+- Oracle Cloud Infrastructure
+- MongoDB certifications
 
 ---
 
-*Built with ❤️ using Next.js 15*
+## 🙏 Acknowledgments
+
+Built with inspiration from:
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Framer Motion](https://www.framer.com/motion/)
+- Modern portfolio trends 2026
+
+---
+
+**Status**: 🚧 In Development | **Version**: 1.0.0 | **Last Updated**: February 2026

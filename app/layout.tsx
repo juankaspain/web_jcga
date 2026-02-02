@@ -43,9 +43,15 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.svg', type: 'image/svg+xml', sizes: '32x32' },
+      { url: '/favicon.svg', sizes: '32x32', type: 'image/svg+xml' },
     ],
-    apple: '/icon.svg',
+    apple: [
+      { url: '/apple-touch-icon.svg', sizes: '180x180', type: 'image/svg+xml' },
+    ],
+    other: [
+      { rel: 'icon', url: '/icon-192.svg', sizes: '192x192', type: 'image/svg+xml' },
+      { rel: 'icon', url: '/icon-512.svg', sizes: '512x512', type: 'image/svg+xml' },
+    ],
   },
   manifest: '/manifest.json',
   openGraph: {
@@ -58,10 +64,11 @@ export const metadata: Metadata = {
     description: 'Senior Technical Lead & Cloud Solutions Architect en banca digital, especializado en pagos, cloud, datos y AI.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.svg',
         width: 1200,
         height: 630,
         alt: 'Juan Carlos García Arriero - Cloud & Payments Architect',
+        type: 'image/svg+xml',
       },
     ],
   },
@@ -69,7 +76,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Juan Carlos García Arriero | Cloud & Payments Architect',
     description: 'Senior Technical Lead & Cloud Solutions Architect en banca digital.',
-    images: ['/og-image.png'],
+    images: ['/og-image.svg'],
   },
   alternates: {
     canonical: 'https://jcga.dev',
@@ -100,6 +107,7 @@ function JsonLd() {
     jobTitle: 'Senior Technical Lead & Cloud Solutions Architect',
     description: 'Especializado en banca digital, pagos, cloud, datos y AI',
     url: 'https://jcga.dev',
+    image: 'https://jcga.dev/og-image.svg',
     sameAs: [
       'https://linkedin.com/in/juancarlosgarciarriero',
       'https://github.com/juankaspain',

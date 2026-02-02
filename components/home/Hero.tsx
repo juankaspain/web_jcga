@@ -2,7 +2,14 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { Button } from "@/components/ui/Button"
+import dynamic from "next/dynamic"
+import { staggerContainer, staggerItem } from "@/lib/animations/variants"
+
+// Dynamic import para ParticleNetwork (no SSR, es Canvas)
+const ParticleNetwork = dynamic(
+  () => import("@/components/effects/ParticleNetwork").then(mod => mod.ParticleNetwork),
+  { ssr: false }
+)
 
 type HeroProps = {
   locale?: "es" | "en"
@@ -17,11 +24,12 @@ const copy = {
     ctaPrimary: "Ver proyectos de alto impacto",
     ctaSecondary: "Ver experiencia completa",
     impactTitle: "Impacto",
-    customers: "Soluciones para millones de clientes en varios países.",
-    certifications: "+140 certificaciones en Azure, Oracle, DevOps, Data & AI, MongoDB.",
-    team: "Liderazgo de equipos multidisciplinares de hasta 12 personas.",
-    years: "+15 años",
-    yearsDesc: "de experiencia en TI (sanidad, telecomunicaciones, banca).",
+    impactItems: [
+      { highlight: "+15 años", text: "de experiencia en TI (sanidad, telecomunicaciones, banca)." },
+      { highlight: "Millones", text: "de clientes impactados en varios países." },
+      { highlight: "+140", text: "certificaciones en Azure, Oracle, DevOps, Data & AI." },
+      { highlight: "12 personas", text: "liderando equipos multidisciplinares." }
+    ]
   },
   en: {
     kicker: "Cloud · Payments · Data & AI · Digital Banking",
@@ -31,223 +39,143 @@ const copy = {
     ctaPrimary: "View high-impact projects",
     ctaSecondary: "View full experience",
     impactTitle: "Impact",
-    customers: "Solutions for millions of customers across multiple countries.",
-    certifications: "+140 certifications in Azure, Oracle, DevOps, Data & AI, MongoDB.",
-    team: "Leadership of multidisciplinary teams of up to 12 people.",
-    years: "+15 years",
-    yearsDesc: "of experience in IT (healthcare, telecom, banking).",
-  },
-}
-
-// Floating particles component
-function FloatingParticles() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 bg-cyan-500/20 rounded-full"
-          style={{
-            left: `${15 + i * 15}%`,
-            top: `${20 + (i % 3) * 25}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.5, 0.2],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 4 + i * 0.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.3,
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-// Gradient orbs
-function GradientOrbs() {
-  return (
-    <>
-      <motion.div
-        className="absolute -top-40 -right-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute -bottom-40 -left-40 w-96 h-96 bg-cyan-600/5 rounded-full blur-3xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-    </>
-  )
+    impactItems: [
+      { highlight: "+15 years", text: "of experience in IT (healthcare, telecom, banking)." },
+      { highlight: "Millions", text: "of customers impacted across multiple countries." },
+      { highlight: "+140", text: "certifications in Azure, Oracle, DevOps, Data & AI." },
+      { highlight: "12 people", text: "leading multidisciplinary teams." }
+    ]
+  }
 }
 
 export function Hero({ locale = "es" }: HeroProps) {
   const t = copy[locale]
 
   return (
-    <section className="relative overflow-hidden border-b border-slate-800 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-grid opacity-50" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.08),transparent_50%)]" />
-      <GradientOrbs />
-      <FloatingParticles />
+    <section className="relative min-h-[90vh] overflow-hidden border-b border-slate-800 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      {/* Neural Network Background */}
+      <div className="absolute inset-0">
+        <ParticleNetwork />
+      </div>
 
-      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-20 md:flex-row md:items-center md:py-28 lg:py-32">
-        {/* Left content */}
+      {/* Gradient overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950" />
+
+      {/* Content */}
+      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-20 md:flex-row md:items-center md:py-32">
+        {/* Left: Text content */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="max-w-xl flex-1"
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="max-w-xl"
         >
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-            className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300"
+            variants={staggerItem}
+            className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-cyan-400"
           >
             {t.kicker}
           </motion.p>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
+            variants={staggerItem}
             className="mb-4 text-4xl font-bold tracking-tight text-slate-50 md:text-5xl lg:text-6xl"
           >
-            <span className="text-gradient">{t.title.split(' ')[0]} {t.title.split(' ')[1]}</span>
-            <br />
-            <span>{t.title.split(' ').slice(2).join(' ')}</span>
+            {t.title}
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="mb-4 text-lg text-slate-300 leading-relaxed"
+            variants={staggerItem}
+            className="mb-4 text-lg text-slate-300 md:text-xl"
           >
             {t.subtitle}
           </motion.p>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
+            variants={staggerItem}
             className="mb-8 text-sm text-slate-400 leading-relaxed"
           >
             {t.body}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            variants={staggerItem}
             className="flex flex-wrap gap-4"
           >
-            <Button href="/projects" variant="primary" size="lg">
-              {t.ctaPrimary}
-            </Button>
-            <Button href="/experience" variant="outline" size="lg">
+            <Link
+              href={locale === "es" ? "/projects" : "/en/projects"}
+              className="group relative overflow-hidden rounded-full bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 transition-all hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/25"
+            >
+              <span className="relative z-10">{t.ctaPrimary}</span>
+            </Link>
+            <Link
+              href={locale === "es" ? "/experience" : "/en/experience"}
+              className="rounded-full border border-slate-600 bg-slate-900/50 px-6 py-3 text-sm font-semibold text-slate-50 backdrop-blur-sm transition-all hover:border-cyan-500/50 hover:bg-slate-800"
+            >
               {t.ctaSecondary}
-            </Button>
+            </Link>
           </motion.div>
         </motion.div>
 
-        {/* Right content - Impact card */}
+        {/* Right: Impact card */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, x: 50 }}
+          initial={{ opacity: 0, scale: 0.9, x: 40 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.7, ease: "easeOut" }}
-          className="flex-1 flex justify-center md:justify-end"
+          transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+          className="mt-8 flex-1 md:mt-0"
         >
-          <div className="relative">
-            {/* Glow effect behind card */}
-            <div className="absolute inset-0 bg-cyan-500/20 blur-2xl rounded-3xl scale-90" />
+          <div className="relative mx-auto max-w-sm rounded-3xl border border-slate-700/50 bg-slate-900/80 p-8 backdrop-blur-md">
+            {/* Glow effect */}
+            <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-cyan-500/20 via-transparent to-purple-500/20 opacity-50" />
             
-            <motion.div
-              className="relative glass-card rounded-3xl p-8 max-w-sm hover-lift"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="mb-6 flex items-center gap-3">
-                <div className="h-1 w-8 bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full" />
-                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  {t.impactTitle}
-                </span>
+            <div className="relative">
+              <div className="mb-6 text-xs font-bold uppercase tracking-[0.3em] text-cyan-400">
+                {t.impactTitle}
               </div>
-
-              <ul className="space-y-4">
-                <motion.li
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="flex gap-3"
-                >
-                  <span className="text-2xl">🚀</span>
-                  <div>
-                    <span className="font-bold text-cyan-300">{t.years}</span>
-                    <span className="text-sm text-slate-300"> {t.yearsDesc}</span>
-                  </div>
-                </motion.li>
-
-                <motion.li
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 }}
-                  className="flex gap-3"
-                >
-                  <span className="text-2xl">🌍</span>
-                  <span className="text-sm text-slate-300">{t.customers}</span>
-                </motion.li>
-
-                <motion.li
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.7 }}
-                  className="flex gap-3"
-                >
-                  <span className="text-2xl">🏆</span>
-                  <span className="text-sm text-slate-300">{t.certifications}</span>
-                </motion.li>
-
-                <motion.li
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.8 }}
-                  className="flex gap-3"
-                >
-                  <span className="text-2xl">👥</span>
-                  <span className="text-sm text-slate-300">{t.team}</span>
-                </motion.li>
-              </ul>
-
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden rounded-tr-3xl">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-500/10 to-transparent" />
-              </div>
-            </motion.div>
+              
+              <motion.ul
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
+                className="space-y-4"
+              >
+                {t.impactItems.map((item, index) => (
+                  <motion.li
+                    key={`impact-${index}`}
+                    variants={staggerItem}
+                    className="flex items-start gap-3 text-sm"
+                  >
+                    <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-cyan-400" />
+                    <span className="text-slate-300">
+                      <span className="font-bold text-cyan-300">{item.highlight}</span>{" "}
+                      {item.text}
+                    </span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.5 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-2 text-slate-500"
+        >
+          <span className="text-xs uppercase tracking-widest">Scroll</span>
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </motion.div>
+      </motion.div>
     </section>
   )
 }

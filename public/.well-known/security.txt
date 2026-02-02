@@ -1,0 +1,16 @@
+# Security Policy for jcga.dev
+# Last updated: 2026-02-03
+
+Contact: mailto:security@jcga.dev
+Contact: https://github.com/juankaspain/web_jcga/security/advisories/new
+
+Expires: 2027-02-03T00:00:00.000Z
+
+Preferred-Languages: es, en
+
+Canonical: https://jcga.dev/.well-known/security.txt
+
+Policy: https://github.com/juankaspain/web_jcga/security/policy
+
+# If you find a security vulnerability, please report it responsibly.
+# We appreciate your help in keeping this site secure.

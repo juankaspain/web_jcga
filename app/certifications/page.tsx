@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { certificationGroups } from "@/lib/data/certifications"
+import { certificationGroups, totalCertifications } from "@/lib/data/certifications"
 
 export const metadata: Metadata = {
   title: "Certifications | Juan Carlos García Arriero",
@@ -7,11 +7,6 @@ export const metadata: Metadata = {
 }
 
 export default function CertificationsPage() {
-  const totalCount = certificationGroups.reduce(
-    (sum, group) => sum + group.certifications.length,
-    0
-  )
-
   return (
     <div className="mx-auto max-w-6xl px-4 py-16">
       <div className="mb-12">
@@ -19,33 +14,36 @@ export default function CertificationsPage() {
           Certifications
         </h1>
         <p className="text-lg text-slate-400">
-          {totalCount}+ professional certifications demonstrating continuous learning and expertise
+          {totalCertifications}+ professional certifications demonstrating continuous learning and expertise
         </p>
       </div>
 
       <div className="space-y-8">
-        {certificationGroups.map((group) => (
+        {certificationGroups.map((group, groupIndex) => (
           <div
-            key={group.id}
+            key={`group-${groupIndex}-${group.provider}`}
             className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6"
           >
-            <h2 className="mb-6 text-2xl font-semibold text-slate-50">
-              {group.provider}
-            </h2>
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-semibold text-slate-50">
+                {group.provider}
+              </h2>
+              <span className="rounded-full bg-cyan-500/20 px-3 py-1 text-sm font-medium text-cyan-300">
+                {group.count} certs
+              </span>
+            </div>
             
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {group.certifications.map((cert, index) => (
+              {group.certifications.map((cert, certIndex) => (
                 <div
-                  key={index}
+                  key={`cert-${groupIndex}-${certIndex}`}
                   className="flex flex-col gap-1 rounded-lg border border-slate-800 bg-slate-950/60 p-4"
                 >
                   <h3 className="font-medium text-slate-200">{cert.name}</h3>
                   <div className="flex flex-wrap gap-2 text-xs">
-                    {cert.year && (
-                      <span className="text-cyan-400">{cert.year}</span>
-                    )}
-                    {cert.badge && (
-                      <span className="text-slate-400">• {cert.badge}</span>
+                    <span className="text-slate-400">{cert.issuer}</span>
+                    {cert.date && (
+                      <span className="text-cyan-400">• {cert.date}</span>
                     )}
                   </div>
                 </div>

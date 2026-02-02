@@ -4,7 +4,7 @@ import { ImpactStats } from "@/components/home/ImpactStats"
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <Hero locale="es" />
       <ImpactStats />
     </>
   )

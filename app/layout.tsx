@@ -40,6 +40,14 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.svg', type: 'image/svg+xml', sizes: '32x32' },
+    ],
+    apple: '/icon.svg',
+  },
+  manifest: '/manifest.json',
   openGraph: {
     type: 'website',
     locale: 'es_ES',
@@ -62,9 +70,6 @@ export const metadata: Metadata = {
     title: 'Juan Carlos García Arriero | Cloud & Payments Architect',
     description: 'Senior Technical Lead & Cloud Solutions Architect en banca digital.',
     images: ['/og-image.png'],
-  },
-  verification: {
-    google: 'your-google-verification-code',
   },
   alternates: {
     canonical: 'https://jcga.dev',
@@ -131,11 +136,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* Preconnect to external resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
       </head>
       <body className="bg-slate-950 text-slate-50 antialiased">
         {/* Skip to content for accessibility */}

@@ -1,4 +1,10 @@
+export interface ProjectMetric {
+  label: string
+  value: string
+}
+
 export interface Project {
+  id: string
   slug: string
   title: string
   subtitle: string
@@ -8,12 +14,16 @@ export interface Project {
   impact: string[]
   technologies: string[]
   category: "Payments" | "Banking" | "Cloud" | "AI" | "Platform"
+  categories: string[] // For filtering
   year: string
   featured: boolean
+  icon?: string
+  metrics?: ProjectMetric[]
 }
 
 export const projects: Project[] = [
   {
+    id: "payment-platform",
     slug: "payment-platform-multicanal",
     title: "Multi-Channel Payment Platform",
     subtitle: "Centralized payment processing for international banks",
@@ -26,19 +36,19 @@ export const projects: Project[] = [
       "Achieved 99.9% uptime for critical payment operations",
       "Reduced payment processing time by 40%"
     ],
-    technologies: [
-      "Java/Spring",
-      "Apache Camel",
-      "SWIFT",
-      "SEPA",
-      "Payment Gateways",
-      "Message Routing"
-    ],
+    technologies: ["Java/Spring", "Apache Camel", "SWIFT", "SEPA", "Payment Gateways", "Message Routing"],
     category: "Payments",
+    categories: ["payments", "architecture"],
     year: "2012-2018",
-    featured: true
+    featured: true,
+    icon: "💳",
+    metrics: [
+      { label: "Daily Txns", value: "10M+" },
+      { label: "Uptime", value: "99.9%" }
+    ]
   },
   {
+    id: "digital-banking",
     slug: "digital-banking-health",
     title: "Digital Banking & Financial Health Platform",
     subtitle: "PFM/BFM solutions for 7M+ customers",
@@ -51,19 +61,19 @@ export const projects: Project[] = [
       "Improved release frequency by 32%",
       "95%+ accuracy in transaction categorization"
     ],
-    technologies: [
-      "Azure",
-      "Node.js",
-      "MongoDB",
-      "AI/ML",
-      "Microservices",
-      "Event-Driven Architecture"
-    ],
+    technologies: ["Azure", "Node.js", "MongoDB", "AI/ML", "Microservices", "Event-Driven Architecture"],
     category: "Banking",
+    categories: ["cloud", "data", "architecture"],
     year: "2018-Present",
-    featured: true
+    featured: true,
+    icon: "🏦",
+    metrics: [
+      { label: "Customers", value: "7M+" },
+      { label: "Countries", value: "4" }
+    ]
   },
   {
+    id: "instant-payments",
     slug: "instant-payments-verifactu",
     title: "Instant Payments & Verifactu Integration",
     subtitle: "Real-time payment processing with regulatory compliance",
@@ -76,18 +86,19 @@ export const projects: Project[] = [
       "Enabled instant payments for 500K+ SMEs",
       "99.95% transaction success rate"
     ],
-    technologies: [
-      "Instant Payments",
-      "Azure",
-      "Microservices",
-      "Event Streaming",
-      "API Gateway"
-    ],
+    technologies: ["Instant Payments", "Azure", "Microservices", "Event Streaming", "API Gateway"],
     category: "Payments",
+    categories: ["payments", "cloud"],
     year: "2022-Present",
-    featured: true
+    featured: true,
+    icon: "⚡",
+    metrics: [
+      { label: "SMEs", value: "500K+" },
+      { label: "Success", value: "99.95%" }
+    ]
   },
   {
+    id: "psd2-api",
     slug: "psd2-open-banking-api",
     title: "PSD2 Open Banking API Platform",
     subtitle: "Enterprise API management for Open Banking",
@@ -100,19 +111,19 @@ export const projects: Project[] = [
       "99.9% API availability",
       "Sub-200ms average response time"
     ],
-    technologies: [
-      "REST API",
-      "OpenAPI/Swagger",
-      "OAuth2/OIDC",
-      "3Scale",
-      "IBM API Connect",
-      "Node-RED"
-    ],
+    technologies: ["REST API", "OpenAPI/Swagger", "OAuth2/OIDC", "3Scale", "IBM API Connect", "Node-RED"],
     category: "Banking",
+    categories: ["architecture", "cloud"],
     year: "2018",
-    featured: true
+    featured: true,
+    icon: "🔐",
+    metrics: [
+      { label: "Integrations", value: "50+" },
+      { label: "Response", value: "<200ms" }
+    ]
   },
   {
+    id: "risk-engine",
     slug: "risk-engine-authentication",
     title: "Risk Engine & Authentication Platform",
     subtitle: "AI-powered risk assessment for digital onboarding",
@@ -125,19 +136,19 @@ export const projects: Project[] = [
       "Improved onboarding conversion by 25%",
       "Real-time risk scoring (<100ms)"
     ],
-    technologies: [
-      "Azure AI",
-      "Machine Learning",
-      "Python",
-      "Node.js",
-      "MongoDB",
-      "Real-time Analytics"
-    ],
+    technologies: ["Azure AI", "Machine Learning", "Python", "Node.js", "MongoDB", "Real-time Analytics"],
     category: "AI",
+    categories: ["data", "cloud"],
     year: "2020-Present",
-    featured: true
+    featured: true,
+    icon: "🧠",
+    metrics: [
+      { label: "Fraud -", value: "70%" },
+      { label: "Scoring", value: "<100ms" }
+    ]
   },
   {
+    id: "devops-platform",
     slug: "devops-platform-engineering",
     title: "DevOps Platform & Engineering Excellence",
     subtitle: "CI/CD pipeline and developer platform",
@@ -150,17 +161,16 @@ export const projects: Project[] = [
       "Critical incidents reduced 55%",
       "Test coverage increased to 85%+"
     ],
-    technologies: [
-      "Azure DevOps",
-      "GitOps",
-      "Docker",
-      "Terraform",
-      "SonarQube",
-      "Monitoring Stack"
-    ],
+    technologies: ["Azure DevOps", "GitOps", "Docker", "Terraform", "SonarQube", "Monitoring Stack"],
     category: "Platform",
+    categories: ["cloud", "architecture"],
     year: "2019-Present",
-    featured: false
+    featured: true,
+    icon: "🚀",
+    metrics: [
+      { label: "Deploy +", value: "300%" },
+      { label: "Coverage", value: "85%+" }
+    ]
   }
 ]
 

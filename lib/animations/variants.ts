@@ -31,6 +31,8 @@ export const fadeUp: Variants = {
   }
 }
 
+export const fadeInUp = fadeUp // Alias for compatibility
+
 export const fadeDown: Variants = {
   hidden: { opacity: 0, y: -30 },
   visible: { 
@@ -128,6 +130,21 @@ export const staggerItem: Variants = {
   }
 }
 
+// Hover effects (for whileHover prop)
+export const hoverLift = {
+  y: -4,
+  transition: { duration: 0.2 }
+}
+
+export const hoverScale = {
+  scale: 1.02,
+  transition: { duration: 0.2 }
+}
+
+export const tapScale = {
+  scale: 0.98
+}
+
 // Card hover
 export const cardHover: Variants = {
   rest: { 
@@ -144,6 +161,24 @@ export const cardHover: Variants = {
   tap: {
     scale: 0.98,
     transition: { duration: 0.1 }
+  }
+}
+
+// Card reveal
+export const cardReveal: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: 40,
+    scale: 0.95
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { 
+      duration: 0.5, 
+      ease: [0.25, 0.46, 0.45, 0.94] 
+    }
   }
 }
 
@@ -200,6 +235,8 @@ export const glowPulse: Variants = {
   }
 }
 
+export const pulseGlow = glowPulse // Alias
+
 // Page transition
 export const pageTransition: Variants = {
   initial: { opacity: 0, y: 20 },
@@ -253,6 +290,8 @@ export const textRevealChar: Variants = {
     transition: { duration: 0.3, ease: 'easeOut' }
   }
 }
+
+export const textReveal = textRevealChar // Alias
 
 // Tooltip
 export const tooltip: Variants = {

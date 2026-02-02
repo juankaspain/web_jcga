@@ -1,7 +1,7 @@
 # Juan Carlos García Arriero - Professional Portfolio
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-ff0055?style=flat-square&logo=framer)](https://www.framer.com/motion/)
 
@@ -25,14 +25,18 @@ This portfolio demonstrates expertise in:
 ## 🚀 Tech Stack
 
 ### Frontend Framework
-- **Next.js 15** - App Router, React Server Components, Server Actions
+- **Next.js 15.1** - App Router, React Server Components, Server Actions
 - **React 19** - Latest features and concurrent rendering
-- **TypeScript 5.4** - Full type safety
+- **TypeScript 5.7** - Full type safety
 
 ### Styling & Design
 - **Tailwind CSS v4** - Utility-first CSS framework
 - **Framer Motion 11** - Smooth animations and scroll effects
 - **Custom Design System** - Neo-naturalism digital theme
+
+### Quality & Tooling
+- **ESLint 9.x** - Latest flat config format
+- **PostCSS + Autoprefixer** - CSS processing
 
 ### Future Enhancements
 - **React Three Fiber** - 3D interactive elements (Hero, Skills orbit)
@@ -49,7 +53,7 @@ This portfolio demonstrates expertise in:
 
 Before you begin, ensure you have:
 - **Node.js** 18.x or 20.x ([Download](https://nodejs.org/))
-- **npm**, **yarn**, or **pnpm** package manager
+- **npm** 11.8.0+ (recommended), **yarn**, or **pnpm** package manager
 - **Git** for version control
 
 ---
@@ -68,7 +72,14 @@ cd web_jcga
 Next.js uses parentheses for route groups. Rename the directory:
 
 ```bash
+# On macOS/Linux
 mv app/public_root "app/(public)"
+
+# On Windows (PowerShell)
+Rename-Item -Path "app\public_root" -NewName "(public)"
+
+# On Windows (CMD)
+ren app\public_root (public)
 ```
 
 ### 3. Install Dependencies
@@ -76,7 +87,7 @@ mv app/public_root "app/(public)"
 Choose your preferred package manager:
 
 ```bash
-# Using npm
+# Using npm (recommended)
 npm install
 
 # Using yarn
@@ -86,7 +97,21 @@ yarn install
 pnpm install
 ```
 
-### 4. Start Development Server
+**Note**: You may see deprecation warnings during installation. These have been addressed in the latest package.json.
+
+### 4. Clean Install (if needed)
+
+If you encounter issues, perform a clean install:
+
+```bash
+# Remove node_modules and lock file
+rm -rf node_modules package-lock.json
+
+# Reinstall
+npm install
+```
+
+### 5. Start Development Server
 
 ```bash
 npm run dev
@@ -96,9 +121,66 @@ yarn dev
 pnpm dev
 ```
 
-### 5. Open in Browser
+### 6. Open in Browser
 
 Navigate to [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🐛 Troubleshooting
+
+### Deprecation Warnings
+
+If you see warnings about deprecated packages:
+
+```bash
+# Update npm to latest version
+npm install -g npm@latest
+
+# Clear npm cache
+npm cache clean --force
+
+# Reinstall dependencies
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Security Vulnerabilities
+
+To check and fix vulnerabilities:
+
+```bash
+# Check for vulnerabilities
+npm audit
+
+# Attempt automatic fix
+npm audit fix
+
+# Force fix (may introduce breaking changes)
+npm audit fix --force
+```
+
+### ESLint Issues
+
+This project uses ESLint 9.x with flat config format. If you see ESLint errors:
+
+```bash
+# Make sure you're using the flat config file
+ls eslint.config.mjs
+
+# Run lint
+npm run lint
+```
+
+### Type Errors
+
+If TypeScript shows errors:
+
+```bash
+# Regenerate type definitions
+rm -rf .next
+npm run dev
+```
 
 ---
 
@@ -170,10 +252,8 @@ web_jcga/
 ├── public/
 │   └── images/                # Static assets
 │
-├── styles/
-│   └── globals.css            # Additional global styles
-│
 ├── .gitignore
+├── eslint.config.mjs          # ESLint 9.x flat config
 ├── next.config.mjs            # Next.js configuration
 ├── tailwind.config.ts         # Tailwind configuration
 ├── tsconfig.json              # TypeScript configuration
@@ -195,6 +275,7 @@ web_jcga/
 - ✅ **SEO Optimized** - Proper metadata, semantic HTML, Open Graph tags
 - ✅ **Accessible** - WCAG 2.1 AA compliant
 - ✅ **Smooth Animations** - Framer Motion scroll and hover effects
+- ✅ **Modern Tooling** - ESLint 9.x, latest dependencies
 
 ### Coming Soon
 - 🔄 Interactive 3D elements (Three.js/R3F)

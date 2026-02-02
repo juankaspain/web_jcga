@@ -1,9 +1,10 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
 const config: Config = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./lib/**/*.{ts,tsx}"
   ],
   theme: {
     extend: {
@@ -11,12 +12,12 @@ const config: Config = {
         cyan: {
           300: "#67e8f9",
           400: "#22d3ee",
-          500: "#06b6d4",
-        },
-      },
-    },
+          500: "#06b6d4"
+        }
+      }
+    }
   },
-  plugins: [],
-};
+  plugins: []
+}
 
-export default config;
+export default config

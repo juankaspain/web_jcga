@@ -138,7 +138,12 @@ function JsonLd() {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="es" className="scroll-smooth" suppressHydrationWarning>
+    <html 
+      lang="es" 
+      className="scroll-smooth" 
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <head>
         <JsonLd />
         {/* Preconnect to external resources */}

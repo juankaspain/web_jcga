@@ -119,7 +119,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-1 text-sm lg:flex">
+          <nav className="hidden items-center gap-1 text-sm lg:flex relative">
             {navItems.map((item) => {
               const href = localizePath(item.href, currentLocale)
               const label = item.label[currentLocale]

@@ -6,8 +6,7 @@ export const metadata: Metadata = {
   description: "Technical skills in cloud architecture, DevOps, data & AI, payments, and technical leadership."
 }
 
-const levelColors = {
-  Beginner: "text-slate-500 border-slate-700",
+const levelColors: Record<string, string> = {
   Intermediate: "text-blue-400 border-blue-700",
   Advanced: "text-cyan-400 border-cyan-700",
   Expert: "text-emerald-400 border-emerald-700"
@@ -31,28 +30,25 @@ export default function SkillsPage() {
             key={category.id}
             className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6"
           >
-            <h2 className="mb-6 text-xl font-semibold text-slate-50">
-              {category.name}
+            <h2 className="mb-2 text-xl font-semibold text-slate-50">
+              {category.title}
             </h2>
+            <p className="mb-6 text-sm text-slate-400">{category.description}</p>
             
-            <div className="space-y-4">
-              {category.skills.map((skill) => (
-                <div key={skill.name} className="space-y-1">
-                  <div className="flex items-baseline justify-between gap-2">
+            <div className="space-y-3">
+              {category.skills.map((skill, index) => (
+                <div key={`${category.id}-skill-${index}`} className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
                     <span className="font-medium text-slate-200">{skill.name}</span>
-                    {skill.level && (
-                      <span
-                        className={`rounded-full border px-2 py-0.5 text-xs font-medium ${
-                          levelColors[skill.level]
-                        }`}
-                      >
-                        {skill.level}
-                      </span>
+                    {skill.years && (
+                      <span className="text-xs text-slate-500">({skill.years}y)</span>
                     )}
                   </div>
-                  {skill.description && (
-                    <p className="text-sm text-slate-400">{skill.description}</p>
-                  )}
+                  <span
+                    className={`rounded-full border px-2 py-0.5 text-xs font-medium ${levelColors[skill.level] || "text-slate-400 border-slate-700"}`}
+                  >
+                    {skill.level}
+                  </span>
                 </div>
               ))}
             </div>

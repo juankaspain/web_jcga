@@ -9,7 +9,7 @@ export const metadata = {
     "Senior Technical Lead & Cloud Solutions Architect specializing in digital banking, payments, and AI-driven solutions.",
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="scroll-smooth">
       <body className="bg-slate-950 text-slate-50 antialiased">

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#020617"/>
+  
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="cyanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#67e8f9"/>
+      <stop offset="50%" style="stop-color:#06b6d4"/>
+      <stop offset="100%" style="stop-color:#0891b2"/>
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#67e8f9"/>
+      <stop offset="100%" style="stop-color:#06b6d4"/>
+    </linearGradient>
+    <radialGradient id="glowGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
+  
+  <!-- Central glow -->
+  <ellipse cx="600" cy="315" rx="400" ry="250" fill="url(#glowGradient)"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="150" cy="100" r="80" fill="#0891b2" opacity="0.1"/>
+  <circle cx="1050" cy="530" r="120" fill="#06b6d4" opacity="0.08"/>
+  
+  <!-- Corner accents -->
+  <path d="M 50 50 L 50 120" stroke="url(#cyanGradient)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 50 50 L 120 50" stroke="url(#cyanGradient)" stroke-width="3" stroke-linecap="round"/>
+  
+  <path d="M 1150 580 L 1150 510" stroke="url(#cyanGradient)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 1150 580 L 1080 580" stroke="url(#cyanGradient)" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Main content -->
+  <text x="600" y="220" text-anchor="middle" font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="72" font-weight="700" fill="#f8fafc">Juan Carlos García Arriero</text>
+  
+  <!-- Divider line -->
+  <rect x="400" y="260" width="400" height="3" rx="1.5" fill="url(#cyanGradient)"/>
+  
+  <!-- Title -->
+  <text x="600" y="340" text-anchor="middle" font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="36" font-weight="500" fill="#06b6d4">Senior Technical Lead</text>
+  <text x="600" y="390" text-anchor="middle" font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="36" font-weight="500" fill="#06b6d4">Cloud & Payments Architect</text>
+  
+  <!-- Keywords -->
+  <text x="600" y="480" text-anchor="middle" font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="24" fill="#94a3b8">Azure · DevOps · Data & AI · Digital Banking · FinTech</text>
+  
+  <!-- Stats badges -->
+  <g transform="translate(350, 520)">
+    <rect width="140" height="40" rx="20" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="70" y="26" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#f8fafc">+15 años</text>
+  </g>
+  <g transform="translate(530, 520)">
+    <rect width="140" height="40" rx="20" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="70" y="26" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#f8fafc">+140 certs</text>
+  </g>
+  <g transform="translate(710, 520)">
+    <rect width="140" height="40" rx="20" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="70" y="26" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#f8fafc">Santander</text>
+  </g>
+  
+  <!-- JCGA watermark -->
+  <text x="1140" y="60" text-anchor="end" font-family="system-ui, sans-serif" font-size="28" font-weight="700" fill="#334155">JCGA</text>
+</svg>

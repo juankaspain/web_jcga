@@ -22,7 +22,7 @@ export default function ProjectsPage() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
           <Link
-            key={project.id}
+            key={project.slug}
             href={`/projects/${project.slug}`}
             className="group rounded-2xl border border-slate-800 bg-slate-900/60 p-6 transition-all hover:border-cyan-500/50 hover:bg-slate-900"
           >
@@ -39,9 +39,9 @@ export default function ProjectsPage() {
             </p>
             
             <div className="flex flex-wrap gap-2">
-              {project.technologies.slice(0, 3).map((tech) => (
+              {project.technologies.slice(0, 3).map((tech, index) => (
                 <span
-                  key={tech}
+                  key={`${project.slug}-tech-${index}`}
                   className="rounded-full border border-slate-700 bg-slate-950 px-2 py-0.5 text-xs text-slate-400"
                 >
                   {tech}

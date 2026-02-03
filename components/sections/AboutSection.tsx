@@ -11,7 +11,7 @@ interface AboutSectionProps {
 
 const copy = {
   es: {
-    eyebrow: 'Sobre mí',
+    eyebrow: 'SOBRE MÍ',
     title: 'Arquitecto de soluciones que escalan',
     description: 'Más de 15 años transformando ideas en plataformas que procesan millones de transacciones.',
     bio: [
@@ -28,7 +28,7 @@ const copy = {
     cta: 'Ver mi trayectoria completa',
   },
   en: {
-    eyebrow: 'About me',
+    eyebrow: 'ABOUT ME',
     title: 'Architect of solutions that scale',
     description: 'Over 15 years transforming ideas into platforms processing millions of transactions.',
     bio: [
@@ -47,76 +47,88 @@ const copy = {
 }
 
 export function AboutSection({ locale = 'es' }: AboutSectionProps) {
-  const t = copy[locale]
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const t = copy[locale]
+  const aboutLink = locale === 'en' ? '/en/about' : '/about'
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-slate-950 py-24" style={{ position: 'relative' }}>
-      {/* Background accent */}
-      <div className="absolute right-0 top-0 h-[600px] w-[600px] translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/5 blur-3xl" />
+    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.08),transparent_50%)]" />
+      
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          {/* Left: Text content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <SectionHeading
+              label={t.eyebrow}
+              title={t.title}
+              subtitle={t.description}
+              align="left"
+            />
 
-      <div className="relative mx-auto max-w-7xl px-6">
-        <SectionHeading
-          eyebrow={t.eyebrow}
-          title={t.title}
-          description={t.description}
-        />
-
-        {/* Two column layout */}
-        <div className="hero-layout">
-          {/* Left - Bio */}
-          <div className="hero-left">
-            <div className="space-y-6">
+            <div className="mt-8 space-y-4">
               {t.bio.map((paragraph, index) => (
                 <motion.p
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
-                  className="text-base leading-relaxed text-slate-400"
+                  transition={{ delay: 0.2 + index * 0.1 }}
+                  className="text-slate-400 leading-relaxed"
                 >
                   {paragraph}
                 </motion.p>
               ))}
+            </div>
 
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.5 }}
+              className="mt-8"
+            >
+              <MagneticButton href={aboutLink}>
+                {t.cta}
+              </MagneticButton>
+            </motion.div>
+          </motion.div>
+
+          {/* Right: Highlights grid */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="grid grid-cols-2 gap-4"
+          >
+            {t.highlights.map((item, index) => (
               <motion.div
+                key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.6, duration: 0.6 }}
-                className="pt-4"
+                transition={{ delay: 0.4 + index * 0.1 }}
+                className="group relative p-6 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700/50 backdrop-blur-sm hover:border-cyan-500/30 transition-all duration-300"
               >
-                <MagneticButton
-                  href={locale === 'es' ? '/about' : '/en/about'}
-                  variant="secondary"
-                >
-                  {t.cta}
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </MagneticButton>
+                {/* Glow on hover */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <div className="relative">
+                  <span className="text-3xl mb-4 block">{item.icon}</span>
+                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-500">
+                    {item.desc}
+                  </p>
+                </div>
               </motion.div>
-            </div>
-          </div>
-
-          {/* Right - Highlights grid 2x2 using CSS class */}
-          <div className="hero-right" style={{ width: '100%', maxWidth: '500px' }}>
-            <div className="highlights-grid">
-              {t.highlights.map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                  animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                  transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-                  className="group rounded-2xl border border-slate-700/50 bg-slate-900/60 p-6 backdrop-blur-sm transition-all hover:border-slate-600 hover:bg-slate-800/60"
-                >
-                  <span className="text-3xl">{item.icon}</span>
-                  <h3 className="mt-4 font-semibold text-slate-50">{item.title}</h3>
-                  <p className="mt-1 text-sm text-slate-400">{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

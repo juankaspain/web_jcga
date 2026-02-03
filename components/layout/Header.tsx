@@ -118,7 +118,7 @@ export function Header() {
             <span className="text-slate-50 transition-colors group-hover:text-cyan-400">JCGA</span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Added position relative for layoutId */}
           <nav className="hidden items-center gap-1 text-sm lg:flex relative">
             {navItems.map((item) => {
               const href = localizePath(item.href, currentLocale)
@@ -137,11 +137,7 @@ export function Header() {
                 >
                   {label}
                   {isActive && (
-                    <motion.div
-                      layoutId="activeNav"
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full" />
                   )}
                 </Link>
               )

@@ -175,12 +175,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <ScrollProgress />
           <MouseGlow />
 
-          <div className="relative min-h-screen flex flex-col">
+          {/* Added position:relative to fix Framer Motion scroll warning */}
+          <div className="relative min-h-screen flex flex-col" style={{ position: 'relative' }}>
             <Header />
             <main
               id="main-content"
               className="flex-1 focus:outline-none"
               tabIndex={-1}
+              style={{ position: 'relative' }}
             >
               {children}
             </main>

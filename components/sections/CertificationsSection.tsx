@@ -44,16 +44,9 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
   const totalCerts = vendors.reduce((acc, v) => acc + v.count, 0)
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-slate-900/50 py-24">
+    <section ref={ref} className="relative overflow-hidden bg-slate-900/50 py-24" style={{ position: 'relative' }}>
       {/* Background */}
-      <div 
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.03), transparent 70%)',
-          pointerEvents: 'none',
-        }}
-      />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(6,182,212,0.03),transparent_70%)]" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeading
@@ -67,65 +60,35 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           initial={{ opacity: 0, scale: 0.8 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8 }}
-          style={{ marginBottom: '4rem', textAlign: 'center' }}
+          className="mb-16 text-center"
         >
-          <div style={{ fontSize: 'clamp(4rem, 12vw, 8rem)', fontWeight: 700 }}>
-            <span style={{ background: 'linear-gradient(90deg, #22d3ee, #67e8f9, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <div className="text-6xl font-bold sm:text-7xl lg:text-8xl">
+            <span className="text-gradient">
               <AnimatedCounter value={totalCerts} suffix="+" duration={3} />
             </span>
           </div>
-          <p style={{ marginTop: '1rem', fontSize: '1.125rem', color: '#94a3b8' }}>{t.totalLabel}</p>
+          <p className="mt-4 text-lg text-slate-400">{t.totalLabel}</p>
         </motion.div>
 
-        {/* Vendor grid using flexbox */}
-        <div 
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '1rem',
-            maxWidth: '900px',
-            margin: '0 auto',
-          }}
-        >
+        {/* Vendor grid - uses CSS class */}
+        <div className="certifications-grid">
           {vendors.map((vendor, index) => (
             <motion.div
               key={vendor.name}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.3 + index * 0.05, duration: 0.5 }}
-              style={{
-                flex: '1 1 120px',
-                maxWidth: '140px',
-                borderRadius: '0.75rem',
-                border: '1px solid rgba(51, 65, 85, 0.5)',
-                background: 'rgba(15, 23, 42, 0.6)',
-                backdropFilter: 'blur(8px)',
-                padding: '1rem',
-                textAlign: 'center',
-                transition: 'all 0.3s ease',
-              }}
-              className="group hover:border-slate-600 hover:bg-slate-800/60"
+              className="certification-card group rounded-xl border border-slate-700/50 bg-slate-900/60 p-4 text-center backdrop-blur-sm transition-all hover:border-slate-600 hover:bg-slate-800/60"
             >
               <div
-                style={{
-                  margin: '0 auto 0.75rem',
-                  display: 'flex',
-                  height: '3rem',
-                  width: '3rem',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '0.75rem',
-                  backgroundColor: `${vendor.color}20`,
-                  transition: 'transform 0.3s ease',
-                }}
-                className="group-hover:scale-110"
+                className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
+                style={{ backgroundColor: `${vendor.color}20` }}
               >
-                <span style={{ fontSize: '1.25rem', fontWeight: 700, color: vendor.color }}>
+                <span className="text-xl font-bold" style={{ color: vendor.color }}>
                   {vendor.count}
                 </span>
               </div>
-              <p style={{ fontSize: '0.75rem', fontWeight: 500, color: '#94a3b8' }}>{vendor.name}</p>
+              <p className="text-xs font-medium text-slate-400">{vendor.name}</p>
             </motion.div>
           ))}
         </div>
@@ -135,7 +98,7 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.8 }}
-          style={{ marginTop: '4rem', textAlign: 'center' }}
+          className="mt-16 text-center"
         >
           <MagneticButton
             href={locale === 'es' ? '/certifications' : '/en/certifications'}

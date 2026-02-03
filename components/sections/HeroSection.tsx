@@ -73,6 +73,7 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
     <section
       ref={containerRef}
       className="relative min-h-screen overflow-hidden bg-slate-950"
+      style={{ position: 'relative' }}
     >
       {/* Background layers */}
       <div className="absolute inset-0">
@@ -88,10 +89,10 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
         style={{ y, opacity }}
         className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-20"
       >
-        {/* Two column layout using flexbox */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center' }}>
+        {/* Two column layout - uses CSS class from globals.css */}
+        <div className="hero-layout">
           {/* Left column - Text */}
-          <div style={{ flex: '1 1 400px', minWidth: '300px' }}>
+          <div className="hero-left">
             <div className="space-y-6">
               {/* Availability badge */}
               <motion.div
@@ -124,7 +125,7 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.6 }}
-                  style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 700, lineHeight: 1.1, color: '#f8fafc' }}
+                  className="text-4xl font-bold text-slate-50 sm:text-5xl lg:text-6xl"
                 >
                   {t.name}
                 </motion.h1>
@@ -132,7 +133,7 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.6 }}
-                  style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 700, lineHeight: 1.1, background: 'linear-gradient(90deg, #22d3ee, #67e8f9, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+                  className="text-4xl font-bold text-gradient sm:text-5xl lg:text-6xl"
                 >
                   {t.lastName}
                 </motion.h1>
@@ -163,7 +164,7 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
-                style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', paddingTop: '0.5rem' }}
+                className="flex flex-wrap gap-4 pt-2"
               >
                 <MagneticButton
                   href={locale === 'es' ? '/projects' : '/en/projects'}
@@ -191,82 +192,46 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
             initial={{ opacity: 0, scale: 0.9, x: 50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            style={{ flex: '1 1 350px', minWidth: '300px', maxWidth: '450px' }}
+            className="hero-right"
           >
             {/* Glass Card */}
-            <div 
-              style={{
-                position: 'relative',
-                overflow: 'hidden',
-                borderRadius: '1.5rem',
-                border: '1px solid rgba(51, 65, 85, 0.5)',
-                background: 'rgba(15, 23, 42, 0.7)',
-                backdropFilter: 'blur(16px)',
-                padding: '2rem',
-              }}
-            >
-              {/* Gradient border glow */}
-              <div 
-                style={{
-                  position: 'absolute',
-                  inset: '-1px',
-                  borderRadius: '1.5rem',
-                  background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.2), transparent 50%, rgba(139, 92, 246, 0.2))',
-                  pointerEvents: 'none',
-                }}
-              />
-              
-              <div style={{ position: 'relative' }}>
-                {/* Stats Grid - 2x2 using CSS Grid */}
-                <div 
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(2, 1fr)',
-                    gap: '2rem',
-                  }}
-                >
-                  {t.stats.map((stat, index) => (
-                    <motion.div
-                      key={stat.label}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 + index * 0.1 }}
-                      style={{ textAlign: 'center' }}
-                    >
-                      <div style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, color: '#22d3ee' }}>
-                        <AnimatedCounter
-                          value={stat.value}
-                          suffix={stat.suffix}
-                          duration={2.5}
-                        />
-                      </div>
-                      <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#94a3b8' }}>{stat.label}</p>
-                    </motion.div>
-                  ))}
-                </div>
+            <div className="glass-card rounded-3xl p-8">
+              {/* Stats Grid - 2x2 using CSS class */}
+              <div className="stats-grid">
+                {t.stats.map((stat, index) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 + index * 0.1 }}
+                    className="text-center"
+                  >
+                    <div className="text-3xl font-bold text-cyan-400 sm:text-4xl">
+                      <AnimatedCounter
+                        value={stat.value}
+                        suffix={stat.suffix}
+                        duration={2.5}
+                      />
+                    </div>
+                    <p className="mt-2 text-sm text-slate-400">{stat.label}</p>
+                  </motion.div>
+                ))}
+              </div>
 
-                {/* Tech stack preview */}
-                <div style={{ marginTop: '2rem', borderTop: '1px solid rgba(51, 65, 85, 0.5)', paddingTop: '1.5rem' }}>
-                  <p style={{ marginBottom: '1rem', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#64748b' }}>
-                    {t.techStack}
-                  </p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    {['Azure', 'Kubernetes', 'Python', 'React', 'Node.js', 'Terraform'].map((tech) => (
-                      <span
-                        key={tech}
-                        style={{
-                          borderRadius: '9999px',
-                          background: 'rgba(30, 41, 59, 0.8)',
-                          padding: '0.375rem 0.75rem',
-                          fontSize: '0.75rem',
-                          fontWeight: 500,
-                          color: '#cbd5e1',
-                        }}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+              {/* Tech stack preview */}
+              <div className="mt-8 border-t border-slate-700/50 pt-6">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  {t.techStack}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {['Azure', 'Kubernetes', 'Python', 'React', 'Node.js', 'Terraform'].map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-full bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-slate-300"
+                    >
+                      {tech}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>

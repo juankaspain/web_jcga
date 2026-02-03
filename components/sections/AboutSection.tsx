@@ -52,22 +52,9 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-slate-950 py-24">
+    <section ref={ref} className="relative overflow-hidden bg-slate-950 py-24" style={{ position: 'relative' }}>
       {/* Background accent */}
-      <div 
-        style={{
-          position: 'absolute',
-          right: 0,
-          top: 0,
-          height: '600px',
-          width: '600px',
-          transform: 'translate(50%, -50%)',
-          borderRadius: '50%',
-          background: 'rgba(6, 182, 212, 0.05)',
-          filter: 'blur(60px)',
-          pointerEvents: 'none',
-        }}
-      />
+      <div className="absolute right-0 top-0 h-[600px] w-[600px] translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/5 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeading
@@ -77,9 +64,9 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
         />
 
         {/* Two column layout */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem' }}>
+        <div className="hero-layout">
           {/* Left - Bio */}
-          <div style={{ flex: '1 1 400px', minWidth: '300px' }}>
+          <div className="hero-left">
             <div className="space-y-6">
               {t.bio.map((paragraph, index) => (
                 <motion.p
@@ -97,7 +84,7 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.6, duration: 0.6 }}
-                style={{ paddingTop: '1rem' }}
+                className="pt-4"
               >
                 <MagneticButton
                   href={locale === 'es' ? '/about' : '/en/about'}
@@ -112,36 +99,20 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
             </div>
           </div>
 
-          {/* Right - Highlights grid 2x2 using CSS Grid */}
-          <div style={{ flex: '1 1 400px', minWidth: '300px' }}>
-            <div 
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '1rem',
-              }}
-            >
+          {/* Right - Highlights grid 2x2 using CSS class */}
+          <div className="hero-right" style={{ width: '100%', maxWidth: '500px' }}>
+            <div className="highlights-grid">
               {t.highlights.map((item, index) => (
                 <motion.div
                   key={item.title}
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
                   transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-                  style={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    borderRadius: '1rem',
-                    border: '1px solid rgba(51, 65, 85, 0.5)',
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    backdropFilter: 'blur(8px)',
-                    padding: '1.5rem',
-                    transition: 'all 0.3s ease',
-                  }}
-                  className="group hover:border-slate-600 hover:bg-slate-800/60"
+                  className="group rounded-2xl border border-slate-700/50 bg-slate-900/60 p-6 backdrop-blur-sm transition-all hover:border-slate-600 hover:bg-slate-800/60"
                 >
-                  <span style={{ fontSize: '2rem' }}>{item.icon}</span>
-                  <h3 style={{ marginTop: '1rem', fontWeight: 600, color: '#f8fafc' }}>{item.title}</h3>
-                  <p style={{ marginTop: '0.25rem', fontSize: '0.875rem', color: '#94a3b8' }}>{item.desc}</p>
+                  <span className="text-3xl">{item.icon}</span>
+                  <h3 className="mt-4 font-semibold text-slate-50">{item.title}</h3>
+                  <p className="mt-1 text-sm text-slate-400">{item.desc}</p>
                 </motion.div>
               ))}
             </div>

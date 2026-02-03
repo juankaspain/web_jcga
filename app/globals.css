@@ -54,6 +54,154 @@
   --animate-shimmer: shimmer 2s linear infinite;
 }
 
+/* ============================================
+   CRITICAL GRID UTILITIES
+   These override any Tailwind issues
+   ============================================ */
+
+/* 2x2 Grid - Always 2 columns */
+.grid-2x2 {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 1.5rem !important;
+}
+
+/* 2x2 Grid - Responsive (1 col mobile, 2 col tablet+) */
+.grid-2x2-responsive {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 1rem !important;
+}
+
+@media (min-width: 480px) {
+  .grid-2x2-responsive {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Hero layout - 2 columns on desktop */
+.hero-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2rem !important;
+}
+
+@media (min-width: 768px) {
+  .hero-layout {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 3rem !important;
+  }
+}
+
+.hero-left {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+.hero-right {
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media (min-width: 768px) {
+  .hero-right {
+    width: 400px !important;
+    max-width: 400px !important;
+  }
+}
+
+/* Stats grid inside hero card */
+.stats-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 1.5rem !important;
+}
+
+/* About highlights grid */
+.highlights-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 1rem !important;
+}
+
+@media (max-width: 479px) {
+  .highlights-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Skills grid */
+.skills-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 1.5rem !important;
+}
+
+@media (min-width: 640px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Projects grid */
+.projects-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 1.5rem !important;
+}
+
+@media (min-width: 640px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* Certifications flex grid */
+.certifications-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 1rem !important;
+}
+
+.certification-card {
+  flex: 0 0 calc(50% - 0.5rem) !important;
+  max-width: calc(50% - 0.5rem) !important;
+}
+
+@media (min-width: 480px) {
+  .certification-card {
+    flex: 0 0 calc(33.333% - 0.75rem) !important;
+    max-width: calc(33.333% - 0.75rem) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .certification-card {
+    flex: 0 0 calc(25% - 0.75rem) !important;
+    max-width: calc(25% - 0.75rem) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .certification-card {
+    flex: 0 0 calc(14.285% - 0.875rem) !important;
+    max-width: calc(14.285% - 0.875rem) !important;
+  }
+}
+
+/* ============================================
+   END CRITICAL GRID UTILITIES
+   ============================================ */
+
 /* Keyframe Animations */
 @keyframes fade-in {
   from {

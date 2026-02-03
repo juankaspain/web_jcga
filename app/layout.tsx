@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from "next"
 import "./globals.css"
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
-import { PageTransitionProvider } from "@/components/layout/PageTransitionProvider"
 import { SkipToContent } from "@/components/a11y/SkipToContent"
 
 // SEO Metadata
@@ -120,25 +119,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html 
       lang="es" 
-      className="scroll-smooth" 
+      className="scroll-smooth"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>
         <JsonLd />
-        {/* Preconnect to external resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="bg-slate-950 text-slate-50 antialiased">
-        {/* Skip to content for accessibility */}
         <SkipToContent />
         
         <div className="min-h-screen flex flex-col">
           <Header />
           <main id="main-content" className="flex-1 focus:outline-none" tabIndex={-1}>
-            <PageTransitionProvider>
-              {children}
-            </PageTransitionProvider>
+            {children}
           </main>
           <Footer />
         </div>

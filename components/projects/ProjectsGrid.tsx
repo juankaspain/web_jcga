@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { useState } from "react"
 import Link from "next/link"
 import { projects } from "@/lib/data/projects"
@@ -22,7 +22,6 @@ const categories = [
 
 export function ProjectsGrid({ locale = "es", limit, showFilters = true }: ProjectsGridProps) {
   const [activeFilter, setActiveFilter] = useState("all")
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null)
 
   const filteredProjects = projects.filter((project) => {
     if (activeFilter === "all") return true
@@ -77,126 +76,93 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
 
         {/* Projects grid */}
         <motion.div
-          layout
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
-          <AnimatePresence mode="popLayout">
-            {displayedProjects.map((project, index) => (
-              <motion.article
-                key={project.id}
-                layout
-                variants={staggerItem}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                onMouseEnter={() => setHoveredProject(project.id)}
-                onMouseLeave={() => setHoveredProject(null)}
-                className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/10"
-              >
-                {/* Project image/preview area */}
-                <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
-                  {/* Animated gradient background */}
-                  <motion.div
-                    animate={{
-                      background: hoveredProject === project.id
-                        ? [
-                            "linear-gradient(45deg, rgba(6,182,212,0.2), rgba(139,92,246,0.2))",
-                            "linear-gradient(90deg, rgba(139,92,246,0.2), rgba(6,182,212,0.2))",
-                            "linear-gradient(135deg, rgba(6,182,212,0.2), rgba(139,92,246,0.2))"
-                          ]
-                        : "linear-gradient(45deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1))"
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="absolute inset-0"
-                  />
+          {displayedProjects.map((project) => (
+            <motion.article
+              key={project.id}
+              variants={staggerItem}
+              className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/10"
+            >
+              {/* Project image/preview area */}
+              <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
+                {/* Gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 transition-opacity duration-300 group-hover:opacity-70" />
 
-                  {/* Project icon/visual */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      animate={{
-                        scale: hoveredProject === project.id ? 1.1 : 1,
-                        rotate: hoveredProject === project.id ? 5 : 0
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="text-6xl opacity-30"
-                    >
-                      {project.icon || "💼"}
-                    </motion.div>
+                {/* Project icon/visual */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-6xl opacity-30 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    {project.icon || "💼"}
                   </div>
+                </div>
 
-                  {/* Category badges */}
-                  <div className="absolute left-3 top-3 flex flex-wrap gap-1">
-                    {project.categories?.slice(0, 2).map((cat) => (
-                      <span
-                        key={cat}
-                        className="rounded-full bg-slate-950/80 px-2 py-0.5 text-xs font-medium text-cyan-400 backdrop-blur-sm"
-                      >
-                        {cat}
-                      </span>
+                {/* Category badges */}
+                <div className="absolute left-3 top-3 flex flex-wrap gap-1">
+                  {project.categories?.slice(0, 2).map((cat) => (
+                    <span
+                      key={cat}
+                      className="rounded-full bg-slate-950/80 px-2 py-0.5 text-xs font-medium text-cyan-400 backdrop-blur-sm"
+                    >
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Hover overlay */}
+                <div className="absolute inset-0 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="rounded-full bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950">
+                    {locale === "es" ? "Ver detalles" : "View details"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-5">
+                <h3 className="mb-2 text-lg font-semibold text-slate-50 transition-colors group-hover:text-cyan-300">
+                  {project.title}
+                </h3>
+
+                <p className="mb-4 line-clamp-2 text-sm text-slate-400">
+                  {project.description}
+                </p>
+
+                {/* Impact metrics */}
+                {project.metrics && project.metrics.length > 0 && (
+                  <div className="mb-4 flex flex-wrap gap-3">
+                    {project.metrics.slice(0, 2).map((metric, mIndex) => (
+                      <div key={mIndex} className="text-center">
+                        <div className="text-lg font-bold text-cyan-400">{metric.value}</div>
+                        <div className="text-xs text-slate-500">{metric.label}</div>
+                      </div>
                     ))}
                   </div>
+                )}
 
-                  {/* Hover overlay */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: hoveredProject === project.id ? 1 : 0 }}
-                    className="absolute inset-0 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm"
-                  >
-                    <span className="rounded-full bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950">
-                      {locale === "es" ? "Ver detalles" : "View details"}
-                    </span>
-                  </motion.div>
-                </div>
-
-                {/* Content */}
-                <div className="p-5">
-                  <h3 className="mb-2 text-lg font-semibold text-slate-50 transition-colors group-hover:text-cyan-300">
-                    {project.title}
-                  </h3>
-
-                  <p className="mb-4 line-clamp-2 text-sm text-slate-400">
-                    {project.description}
-                  </p>
-
-                  {/* Impact metrics */}
-                  {project.metrics && project.metrics.length > 0 && (
-                    <div className="mb-4 flex flex-wrap gap-3">
-                      {project.metrics.slice(0, 2).map((metric, mIndex) => (
-                        <div key={mIndex} className="text-center">
-                          <div className="text-lg font-bold text-cyan-400">{metric.value}</div>
-                          <div className="text-xs text-slate-500">{metric.label}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Tech stack */}
-                  {project.technologies && project.technologies.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.technologies.slice(0, 4).map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded bg-slate-800 px-2 py-0.5 text-xs text-slate-400"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {project.technologies.length > 4 && (
-                        <span className="rounded bg-slate-800/50 px-2 py-0.5 text-xs text-slate-500">
-                          +{project.technologies.length - 4}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </motion.article>
-            ))}
-          </AnimatePresence>
+                {/* Tech stack */}
+                {project.technologies && project.technologies.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.technologies.slice(0, 4).map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded bg-slate-800 px-2 py-0.5 text-xs text-slate-400"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 4 && (
+                      <span className="rounded bg-slate-800/50 px-2 py-0.5 text-xs text-slate-500">
+                        +{project.technologies.length - 4}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            </motion.article>
+          ))}
         </motion.div>
 
         {/* View all link */}

@@ -12,7 +12,10 @@ const skillGroups = [
   {
     id: "cloud",
     title: { es: "Cloud & DevOps", en: "Cloud & DevOps" },
-    color: "cyan",
+    colorBg: "bg-cyan-500",
+    colorBgLight: "bg-cyan-500/20",
+    colorBorder: "border-cyan-500/30",
+    colorText: "text-cyan-400",
     skills: [
       { name: "Azure", level: 95 },
       { name: "Oracle Cloud", level: 85 },
@@ -25,7 +28,10 @@ const skillGroups = [
   {
     id: "data",
     title: { es: "Data & AI", en: "Data & AI" },
-    color: "purple",
+    colorBg: "bg-purple-500",
+    colorBgLight: "bg-purple-500/20",
+    colorBorder: "border-purple-500/30",
+    colorText: "text-purple-400",
     skills: [
       { name: "Python", level: 85 },
       { name: "SQL", level: 95 },
@@ -38,7 +44,10 @@ const skillGroups = [
   {
     id: "backend",
     title: { es: "Backend & APIs", en: "Backend & APIs" },
-    color: "emerald",
+    colorBg: "bg-emerald-500",
+    colorBgLight: "bg-emerald-500/20",
+    colorBorder: "border-emerald-500/30",
+    colorText: "text-emerald-400",
     skills: [
       { name: "Java", level: 90 },
       { name: "Spring Boot", level: 85 },
@@ -51,7 +60,10 @@ const skillGroups = [
   {
     id: "leadership",
     title: { es: "Liderazgo Técnico", en: "Technical Leadership" },
-    color: "amber",
+    colorBg: "bg-amber-500",
+    colorBgLight: "bg-amber-500/20",
+    colorBorder: "border-amber-500/30",
+    colorText: "text-amber-400",
     skills: [
       { name: "Architecture", level: 95 },
       { name: "Team Lead", level: 90 },
@@ -62,37 +74,6 @@ const skillGroups = [
     ]
   }
 ]
-
-const colorClasses = {
-  cyan: {
-    bg: "bg-cyan-500",
-    bgLight: "bg-cyan-500/20",
-    border: "border-cyan-500/30",
-    text: "text-cyan-400",
-    glow: "shadow-cyan-500/20"
-  },
-  purple: {
-    bg: "bg-purple-500",
-    bgLight: "bg-purple-500/20",
-    border: "border-purple-500/30",
-    text: "text-purple-400",
-    glow: "shadow-purple-500/20"
-  },
-  emerald: {
-    bg: "bg-emerald-500",
-    bgLight: "bg-emerald-500/20",
-    border: "border-emerald-500/30",
-    text: "text-emerald-400",
-    glow: "shadow-emerald-500/20"
-  },
-  amber: {
-    bg: "bg-amber-500",
-    bgLight: "bg-amber-500/20",
-    border: "border-amber-500/30",
-    text: "text-amber-400",
-    glow: "shadow-amber-500/20"
-  }
-}
 
 export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
   const [activeGroup, setActiveGroup] = useState<string | null>(null)
@@ -122,75 +103,6 @@ export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
           </p>
         </motion.div>
 
-        {/* Orbit visualization */}
-        <div className="relative mx-auto mb-16 h-[400px] w-full max-w-[400px] md:h-[500px] md:max-w-[500px]">
-          {/* Center core */}
-          <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-            <motion.div
-              animate={{
-                scale: [1, 1.1, 1],
-                boxShadow: [
-                  "0 0 20px rgba(6, 182, 212, 0.3)",
-                  "0 0 40px rgba(6, 182, 212, 0.5)",
-                  "0 0 20px rgba(6, 182, 212, 0.3)"
-                ]
-              }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-cyan-600 text-slate-950 md:h-24 md:w-24"
-            >
-              <span className="text-2xl font-bold md:text-3xl">JC</span>
-            </motion.div>
-          </div>
-
-          {/* Orbit rings */}
-          {[1, 2, 3].map((ring) => (
-            <div
-              key={ring}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-slate-800/50"
-              style={{
-                width: `${ring * 30 + 20}%`,
-                height: `${ring * 30 + 20}%`
-              }}
-            />
-          ))}
-
-          {/* Orbiting skill groups */}
-          {skillGroups.map((group, groupIndex) => {
-            const baseAngle = (groupIndex / skillGroups.length) * 360
-            const radius = 42
-            const colors = colorClasses[group.color as keyof typeof colorClasses]
-            const isActive = activeGroup === group.id
-            const orbitDuration = 60 + groupIndex * 10
-
-            // Calculate position on the circle
-            const x = Math.cos((baseAngle * Math.PI) / 180) * radius
-            const y = Math.sin((baseAngle * Math.PI) / 180) * radius
-
-            return (
-              <motion.button
-                key={group.id}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: groupIndex * 0.15, duration: 0.5 }}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setActiveGroup(isActive ? null : group.id)}
-                className={`absolute flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-2 transition-all md:h-16 md:w-16 ${colors.bgLight} ${colors.border} ${isActive ? `shadow-lg ${colors.glow}` : ""}`}
-                style={{
-                  left: `calc(50% + ${x}%)`,
-                  top: `calc(50% + ${y}%)`,
-                  transform: 'translate(-50%, -50%)'
-                }}
-              >
-                <span className={`text-xs font-bold ${colors.text} md:text-sm text-center px-1`}>
-                  {group.title[locale].split(" ")[0]}
-                </span>
-              </motion.button>
-            )
-          })}
-        </div>
-
         {/* Skill details grid */}
         <motion.div
           variants={staggerContainer}
@@ -200,16 +112,16 @@ export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
         >
           {skillGroups.map((group) => {
-            const colors = colorClasses[group.color as keyof typeof colorClasses]
             const isActive = activeGroup === group.id || activeGroup === null
 
             return (
               <motion.div
                 key={group.id}
                 variants={staggerItem}
-                className={`rounded-2xl border bg-slate-900/60 p-6 transition-all duration-300 ${colors.border} ${isActive ? "opacity-100" : "opacity-40"}`}
+                onClick={() => setActiveGroup(activeGroup === group.id ? null : group.id)}
+                className={`cursor-pointer rounded-2xl border bg-slate-900/60 p-6 transition-all duration-300 hover:shadow-lg ${group.colorBorder} ${isActive ? "opacity-100" : "opacity-40"}`}
               >
-                <h3 className={`mb-4 text-lg font-semibold ${colors.text}`}>
+                <h3 className={`mb-4 text-lg font-semibold ${group.colorText}`}>
                   {group.title[locale]}
                 </h3>
                 <div className="space-y-3">
@@ -219,7 +131,7 @@ export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
                         <span className="text-slate-300 transition-colors group-hover:text-slate-50">
                           {skill.name}
                         </span>
-                        <span className={`text-xs ${colors.text} opacity-0 transition-opacity group-hover:opacity-100`}>
+                        <span className={`text-xs ${group.colorText} opacity-0 transition-opacity group-hover:opacity-100`}>
                           {skill.level}%
                         </span>
                       </div>
@@ -229,7 +141,7 @@ export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
                           whileInView={{ width: `${skill.level}%` }}
                           viewport={{ once: true }}
                           transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-                          className={`h-full rounded-full ${colors.bg}`}
+                          className={`h-full rounded-full ${group.colorBg}`}
                         />
                       </div>
                     </div>

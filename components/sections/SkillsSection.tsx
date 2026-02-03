@@ -121,7 +121,7 @@ export function SkillsSection({ locale = 'es' }: SkillsSectionProps) {
           description={t.description}
         />
 
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2">
           {categories.map((category, catIndex) => (
             <motion.div
               key={category.name}

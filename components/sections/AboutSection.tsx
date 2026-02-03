@@ -4,7 +4,6 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { MagneticButton } from '@/components/ui/MagneticButton'
-import { GlassCard } from '@/components/ui/GlassCard'
 
 interface AboutSectionProps {
   locale?: 'es' | 'en'
@@ -97,20 +96,24 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
             </motion.div>
           </div>
 
-          {/* Right - Highlights grid */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Right - Highlights grid 2x2 */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {t.highlights.map((item, index) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
                 transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+                className="group relative overflow-hidden rounded-2xl border border-slate-700/50 bg-slate-900/60 p-6 backdrop-blur-sm transition-all duration-300 hover:border-slate-600/80 hover:bg-slate-800/60"
               >
-                <GlassCard className="h-full p-6" glowColor={index % 2 === 0 ? 'cyan' : 'purple'}>
+                {/* Hover glow */}
+                <div className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                
+                <div className="relative">
                   <span className="text-3xl">{item.icon}</span>
                   <h3 className="mt-4 font-semibold text-slate-50">{item.title}</h3>
                   <p className="mt-1 text-sm text-slate-400">{item.desc}</p>
-                </GlassCard>
+                </div>
               </motion.div>
             ))}
           </div>

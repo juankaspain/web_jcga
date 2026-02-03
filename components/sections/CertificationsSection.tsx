@@ -5,7 +5,6 @@ import { motion, useInView } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
-import { GlassCard } from '@/components/ui/GlassCard'
 
 interface CertificationsSectionProps {
   locale?: 'es' | 'en'
@@ -63,7 +62,7 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           transition={{ duration: 0.8 }}
           className="mb-16 text-center"
         >
-          <div className="text-8xl font-bold md:text-9xl">
+          <div className="text-7xl font-bold sm:text-8xl md:text-9xl">
             <span className="bg-gradient-to-r from-cyan-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
               <AnimatedCounter value={totalCerts} suffix="+" duration={3} />
             </span>
@@ -72,25 +71,24 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
         </motion.div>
 
         {/* Vendor grid */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+        <div className="mx-auto grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
           {vendors.map((vendor, index) => (
             <motion.div
               key={vendor.name}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.3 + index * 0.05, duration: 0.5 }}
+              className="group rounded-xl border border-slate-700/50 bg-slate-900/60 p-4 text-center backdrop-blur-sm transition-all duration-300 hover:border-slate-600/80 hover:bg-slate-800/60"
             >
-              <GlassCard className="p-4 text-center" hover>
-                <div
-                  className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl"
-                  style={{ backgroundColor: `${vendor.color}20` }}
-                >
-                  <span className="text-2xl font-bold" style={{ color: vendor.color }}>
-                    {vendor.count}
-                  </span>
-                </div>
-                <p className="text-xs font-medium text-slate-400 line-clamp-1">{vendor.name}</p>
-              </GlassCard>
+              <div
+                className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
+                style={{ backgroundColor: `${vendor.color}20` }}
+              >
+                <span className="text-xl font-bold" style={{ color: vendor.color }}>
+                  {vendor.count}
+                </span>
+              </div>
+              <p className="text-xs font-medium text-slate-400 line-clamp-1">{vendor.name}</p>
             </motion.div>
           ))}
         </div>

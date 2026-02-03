@@ -4,7 +4,6 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { MagneticButton } from '@/components/ui/MagneticButton'
-import { GlassCard } from '@/components/ui/GlassCard'
 
 interface ProjectsSectionProps {
   locale?: 'es' | 'en'
@@ -65,12 +64,14 @@ const copy = {
     title: 'Impacto a escala global',
     description: 'Soluciones que procesan millones de transacciones y mejoran la vida de los usuarios.',
     cta: 'Ver todos los proyectos',
+    viewDetails: 'Ver detalles',
   },
   en: {
     eyebrow: 'Featured projects',
     title: 'Impact at global scale',
     description: 'Solutions processing millions of transactions and improving users\' lives.',
     cta: 'View all projects',
+    viewDetails: 'View details',
   },
 }
 
@@ -92,15 +93,19 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
           description={t.description}
         />
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((project, index) => (
             <motion.div
               key={project.title}
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
+              className="group relative overflow-hidden rounded-2xl border border-slate-700/50 bg-slate-900/60 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-600/80 hover:bg-slate-800/60"
             >
-              <GlassCard className="group h-full cursor-pointer p-6" glowColor={index === 0 ? 'cyan' : index === 1 ? 'purple' : 'blue'}>
+              {/* Hover glow */}
+              <div className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+              <div className="relative">
                 {/* Gradient bar */}
                 <div className={`mb-6 h-1 w-16 rounded-full bg-gradient-to-r ${project.gradient}`} />
 
@@ -130,12 +135,12 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
 
                 {/* Arrow */}
                 <div className="mt-6 flex items-center text-sm font-medium text-cyan-400 opacity-0 transition-opacity group-hover:opacity-100">
-                  <span>Ver detalles</span>
+                  <span>{t.viewDetails}</span>
                   <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
-              </GlassCard>
+              </div>
             </motion.div>
           ))}
         </div>

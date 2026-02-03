@@ -2,9 +2,7 @@
 
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import Link from 'next/link'
 import { MagneticButton } from '@/components/ui/MagneticButton'
-import { GlassCard } from '@/components/ui/GlassCard'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 import { GradientOrbs } from '@/components/effects/GradientOrbs'
 import { GridPattern } from '@/components/effects/GridPattern'
@@ -37,6 +35,7 @@ const copy = {
     ],
     scroll: 'Scroll para explorar',
     available: 'Disponible para proyectos',
+    techStack: 'Tech Stack Principal',
   },
   en: {
     greeting: "Hi, I'm",
@@ -55,6 +54,7 @@ const copy = {
     ],
     scroll: 'Scroll to explore',
     available: 'Available for projects',
+    techStack: 'Main Tech Stack',
   },
 }
 
@@ -88,9 +88,9 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
         style={{ y, opacity }}
         className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-20 lg:px-8"
       >
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
           {/* Left column - Text */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Availability badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -117,12 +117,12 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
             </motion.p>
 
             {/* Name */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
-                className="text-5xl font-bold tracking-tight text-slate-50 md:text-6xl lg:text-7xl"
+                className="text-4xl font-bold tracking-tight text-slate-50 sm:text-5xl md:text-6xl"
               >
                 {t.name}
               </motion.h1>
@@ -130,7 +130,7 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
-                className="text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl"
+                className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
               >
                 <span className="bg-gradient-to-r from-cyan-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
                   {t.lastName}
@@ -164,7 +164,7 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-wrap gap-4 pt-4"
+              className="flex flex-wrap gap-4 pt-2"
             >
               <MagneticButton
                 href={locale === 'es' ? '/projects' : '/en/projects'}
@@ -193,45 +193,52 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="lg:justify-self-end"
           >
-            <GlassCard className="p-8 lg:p-10">
-              <div className="grid grid-cols-2 gap-8">
-                {t.stats.map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 + index * 0.1 }}
-                    className="text-center"
-                  >
-                    <div className="text-4xl font-bold text-cyan-400 lg:text-5xl">
-                      <AnimatedCounter
-                        value={stat.value}
-                        suffix={stat.suffix}
-                        duration={2.5}
-                      />
-                    </div>
-                    <p className="mt-2 text-sm text-slate-400">{stat.label}</p>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Tech stack preview */}
-              <div className="mt-8 border-t border-slate-700/50 pt-6">
-                <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Tech Stack Principal
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {['Azure', 'Kubernetes', 'Python', 'React', 'Node.js', 'Terraform'].map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-full bg-slate-800/80 px-3 py-1 text-xs font-medium text-slate-300"
+            {/* Glass Card */}
+            <div className="relative overflow-hidden rounded-3xl border border-slate-700/50 bg-slate-900/70 p-8 backdrop-blur-xl lg:p-10">
+              {/* Gradient border glow */}
+              <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-br from-cyan-500/20 via-transparent to-purple-500/20" />
+              
+              <div className="relative">
+                {/* Stats Grid - 2x2 */}
+                <div className="grid grid-cols-2 gap-8">
+                  {t.stats.map((stat, index) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.8 + index * 0.1 }}
+                      className="text-center"
                     >
-                      {tech}
-                    </span>
+                      <div className="text-3xl font-bold text-cyan-400 sm:text-4xl lg:text-5xl">
+                        <AnimatedCounter
+                          value={stat.value}
+                          suffix={stat.suffix}
+                          duration={2.5}
+                        />
+                      </div>
+                      <p className="mt-2 text-xs text-slate-400 sm:text-sm">{stat.label}</p>
+                    </motion.div>
                   ))}
                 </div>
+
+                {/* Tech stack preview */}
+                <div className="mt-8 border-t border-slate-700/50 pt-6">
+                  <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    {t.techStack}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Azure', 'Kubernetes', 'Python', 'React', 'Node.js', 'Terraform'].map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-full bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-slate-300"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </GlassCard>
+            </div>
           </motion.div>
         </div>
       </motion.div>

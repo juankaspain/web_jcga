@@ -4,7 +4,6 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { MagneticButton } from '@/components/ui/MagneticButton'
-import { GlassCard } from '@/components/ui/GlassCard'
 
 interface ExperienceSectionProps {
   locale?: 'es' | 'en'
@@ -93,9 +92,15 @@ export function ExperienceSection({ locale = 'es' }: ExperienceSectionProps) {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   const colorClasses = {
-    cyan: 'border-l-cyan-500 bg-cyan-500/10',
-    purple: 'border-l-purple-500 bg-purple-500/10',
-    blue: 'border-l-blue-500 bg-blue-500/10',
+    cyan: 'border-l-cyan-500',
+    purple: 'border-l-purple-500',
+    blue: 'border-l-blue-500',
+  }
+
+  const tagColors = {
+    cyan: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+    purple: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
+    blue: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
   }
 
   return (
@@ -111,46 +116,44 @@ export function ExperienceSection({ locale = 'es' }: ExperienceSectionProps) {
         />
 
         {/* Timeline */}
-        <div className="relative">
+        <div className="relative mx-auto max-w-3xl">
           {/* Vertical line */}
-          <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/50 via-purple-500/50 to-transparent lg:left-1/2" />
+          <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/50 via-purple-500/50 to-blue-500/30 md:left-8" />
 
-          <div className="space-y-12">
+          <div className="space-y-8">
             {items.map((item, index) => (
               <motion.div
                 key={item.period}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                initial={{ opacity: 0, x: -30 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: 0.2 + index * 0.15, duration: 0.6 }}
-                className={`relative flex flex-col lg:flex-row ${
-                  index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-                }`}
+                className="relative pl-8 md:pl-20"
               >
                 {/* Timeline dot */}
-                <div className="absolute left-8 top-6 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-4 border-slate-950 bg-cyan-500 lg:left-1/2" />
+                <div className="absolute left-0 top-0 z-10 flex h-4 w-4 -translate-x-1/2 items-center justify-center md:left-8">
+                  <span className="h-4 w-4 rounded-full border-4 border-slate-950 bg-cyan-500" />
+                </div>
 
-                {/* Content */}
-                <div className={`ml-16 lg:ml-0 lg:w-1/2 ${index % 2 === 0 ? 'lg:pr-16' : 'lg:pl-16'}`}>
-                  <GlassCard className="p-6">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400">
-                      {item.period}
-                    </span>
-                    <h3 className="mt-2 text-xl font-bold text-slate-50">{item.role}</h3>
-                    <p className="text-sm text-slate-300">
-                      {item.company} · {item.location}
-                    </p>
-                    <p className="mt-3 text-sm text-slate-400">{item.description}</p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {item.highlights.map((tag) => (
-                        <span
-                          key={tag}
-                          className={`rounded-full border-l-2 px-3 py-1 text-xs font-medium text-slate-300 ${colorClasses[item.color as keyof typeof colorClasses]}`}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </GlassCard>
+                {/* Card */}
+                <div className={`rounded-xl border border-slate-700/50 bg-slate-900/70 p-6 backdrop-blur-sm transition-all duration-300 hover:border-slate-600/80 border-l-4 ${colorClasses[item.color as keyof typeof colorClasses]}`}>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400">
+                    {item.period}
+                  </span>
+                  <h3 className="mt-2 text-xl font-bold text-slate-50">{item.role}</h3>
+                  <p className="text-sm text-slate-300">
+                    {item.company} · {item.location}
+                  </p>
+                  <p className="mt-3 text-sm text-slate-400">{item.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {item.highlights.map((tag) => (
+                      <span
+                        key={tag}
+                        className={`rounded-full border px-3 py-1 text-xs font-medium ${tagColors[item.color as keyof typeof tagColors]}`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             ))}

@@ -13,7 +13,10 @@ const certGroups = [
     id: "azure",
     provider: "Microsoft Azure",
     logo: "☁️",
-    color: "blue",
+    colorBg: "bg-blue-500",
+    colorBgLight: "bg-blue-500/20",
+    colorBorder: "border-blue-500/30",
+    colorText: "text-blue-400",
     count: 45,
     featured: [
       "Azure Solutions Architect Expert",
@@ -26,7 +29,10 @@ const certGroups = [
     id: "oracle",
     provider: "Oracle Cloud",
     logo: "🟠",
-    color: "red",
+    colorBg: "bg-red-500",
+    colorBgLight: "bg-red-500/20",
+    colorBorder: "border-red-500/30",
+    colorText: "text-red-400",
     count: 35,
     featured: [
       "OCI Architect Professional",
@@ -39,7 +45,10 @@ const certGroups = [
     id: "mongodb",
     provider: "MongoDB",
     logo: "🍃",
-    color: "green",
+    colorBg: "bg-green-500",
+    colorBgLight: "bg-green-500/20",
+    colorBorder: "border-green-500/30",
+    colorText: "text-green-400",
     count: 12,
     featured: [
       "MongoDB Developer Associate",
@@ -52,7 +61,10 @@ const certGroups = [
     id: "devops",
     provider: "DevOps & Agile",
     logo: "♾️",
-    color: "purple",
+    colorBg: "bg-purple-500",
+    colorBgLight: "bg-purple-500/20",
+    colorBorder: "border-purple-500/30",
+    colorText: "text-purple-400",
     count: 25,
     featured: [
       "Kubernetes Administrator (CKA)",
@@ -65,7 +77,10 @@ const certGroups = [
     id: "ai",
     provider: "AI & Data Science",
     logo: "🧠",
-    color: "cyan",
+    colorBg: "bg-cyan-500",
+    colorBgLight: "bg-cyan-500/20",
+    colorBorder: "border-cyan-500/30",
+    colorText: "text-cyan-400",
     count: 20,
     featured: [
       "TensorFlow Developer",
@@ -75,39 +90,6 @@ const certGroups = [
     ]
   }
 ]
-
-const colorClasses = {
-  blue: {
-    bg: "bg-blue-500/20",
-    border: "border-blue-500/30",
-    text: "text-blue-400",
-    glow: "group-hover:shadow-blue-500/20"
-  },
-  red: {
-    bg: "bg-red-500/20",
-    border: "border-red-500/30",
-    text: "text-red-400",
-    glow: "group-hover:shadow-red-500/20"
-  },
-  green: {
-    bg: "bg-green-500/20",
-    border: "border-green-500/30",
-    text: "text-green-400",
-    glow: "group-hover:shadow-green-500/20"
-  },
-  purple: {
-    bg: "bg-purple-500/20",
-    border: "border-purple-500/30",
-    text: "text-purple-400",
-    glow: "group-hover:shadow-purple-500/20"
-  },
-  cyan: {
-    bg: "bg-cyan-500/20",
-    border: "border-cyan-500/30",
-    text: "text-cyan-400",
-    glow: "group-hover:shadow-cyan-500/20"
-  }
-}
 
 export function CertificationShowcase({ locale = "es" }: CertificationShowcaseProps) {
   const [expandedGroup, setExpandedGroup] = useState<string | null>(null)
@@ -171,15 +153,13 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
           {certGroups.map((group) => {
-            const colors = colorClasses[group.color as keyof typeof colorClasses]
             const isExpanded = expandedGroup === group.id
 
             return (
               <motion.div
                 key={group.id}
                 variants={staggerItem}
-                layout
-                className={`group cursor-pointer rounded-2xl border bg-slate-900/60 p-6 transition-all duration-300 hover:shadow-lg ${colors.border} ${colors.glow}`}
+                className={`group cursor-pointer rounded-2xl border bg-slate-900/60 p-6 transition-all duration-300 hover:shadow-lg ${group.colorBorder}`}
                 onClick={() => setExpandedGroup(isExpanded ? null : group.id)}
               >
                 <div className="mb-4 flex items-center justify-between">
@@ -187,7 +167,7 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
                     <span className="text-3xl">{group.logo}</span>
                     <div>
                       <h3 className="font-semibold text-slate-50">{group.provider}</h3>
-                      <p className={`text-sm ${colors.text}`}>{group.count} certs</p>
+                      <p className={`text-sm ${group.colorText}`}>{group.count} certs</p>
                     </div>
                   </div>
                   <motion.div
@@ -207,7 +187,7 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
                     whileInView={{ width: `${(group.count / 50) * 100}%` }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className={`h-full rounded-full ${colors.bg.replace("/20", "")}`}
+                    className={`h-full rounded-full ${group.colorBg}`}
                   />
                 </div>
 
@@ -230,7 +210,7 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
                         transition={{ delay: index * 0.1 }}
                         className="flex items-center gap-2 text-sm text-slate-300"
                       >
-                        <span className={`h-1.5 w-1.5 rounded-full ${colors.bg.replace("/20", "")}`} />
+                        <span className={`h-1.5 w-1.5 rounded-full ${group.colorBg}`} />
                         {cert}
                       </motion.div>
                     ))}

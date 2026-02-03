@@ -1,7 +1,6 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef } from "react"
+import { motion } from "framer-motion"
 import { experiences } from "@/lib/data/experience"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 
@@ -10,16 +9,8 @@ type ExperienceTimelineProps = {
 }
 
 export function ExperienceTimeline({ locale = "es" }: ExperienceTimelineProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  })
-
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
-
   return (
-    <section ref={containerRef} className="relative overflow-hidden bg-slate-950 py-20">
+    <section className="relative overflow-hidden bg-slate-950 py-20">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-transparent to-slate-900/50" />
 
@@ -43,13 +34,8 @@ export function ExperienceTimeline({ locale = "es" }: ExperienceTimelineProps) {
 
         {/* Timeline */}
         <div className="relative">
-          {/* Animated line */}
-          <div className="absolute left-8 top-0 hidden h-full w-px bg-slate-800 md:left-1/2 md:block">
-            <motion.div
-              style={{ height: lineHeight }}
-              className="w-full bg-gradient-to-b from-cyan-500 via-cyan-400 to-cyan-500"
-            />
-          </div>
+          {/* Static line */}
+          <div className="absolute left-8 top-0 hidden h-full w-px bg-gradient-to-b from-cyan-500 via-cyan-400 to-cyan-500 md:left-1/2 md:block" />
 
           {/* Experience items */}
           <motion.div
@@ -72,15 +58,9 @@ export function ExperienceTimeline({ locale = "es" }: ExperienceTimelineProps) {
                 >
                   {/* Timeline dot */}
                   <div className="absolute left-8 top-0 z-10 hidden -translate-x-1/2 md:left-1/2 md:block">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                      className="flex h-4 w-4 items-center justify-center rounded-full border-4 border-slate-950 bg-cyan-500"
-                    >
+                    <div className="flex h-4 w-4 items-center justify-center rounded-full border-4 border-slate-950 bg-cyan-500">
                       <div className="h-2 w-2 rounded-full bg-cyan-300" />
-                    </motion.div>
+                    </div>
                   </div>
 
                   {/* Content card */}
@@ -146,7 +126,7 @@ export function ExperienceTimeline({ locale = "es" }: ExperienceTimelineProps) {
                           </div>
                         )}
 
-                        {/* Impact badge - now handles string array */}
+                        {/* Impact badge */}
                         {exp.impact && exp.impact.length > 0 && (
                           <div className="mt-4 rounded-lg border border-cyan-500/20 bg-cyan-500/5 p-3">
                             <div className="text-xs font-medium uppercase tracking-wider text-cyan-400">

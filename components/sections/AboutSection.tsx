@@ -52,70 +52,99 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-slate-950 py-24 lg:py-32">
+    <section ref={ref} className="relative overflow-hidden bg-slate-950 py-24">
       {/* Background accent */}
-      <div className="pointer-events-none absolute right-0 top-0 h-[600px] w-[600px] -translate-y-1/2 translate-x-1/2 rounded-full bg-cyan-500/5 blur-3xl" />
+      <div 
+        style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          height: '600px',
+          width: '600px',
+          transform: 'translate(50%, -50%)',
+          borderRadius: '50%',
+          background: 'rgba(6, 182, 212, 0.05)',
+          filter: 'blur(60px)',
+          pointerEvents: 'none',
+        }}
+      />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow={t.eyebrow}
           title={t.title}
           description={t.description}
         />
 
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        {/* Two column layout */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem' }}>
           {/* Left - Bio */}
-          <div className="space-y-6">
-            {t.bio.map((paragraph, index) => (
-              <motion.p
-                key={index}
+          <div style={{ flex: '1 1 400px', minWidth: '300px' }}>
+            <div className="space-y-6">
+              {t.bio.map((paragraph, index) => (
+                <motion.p
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
+                  className="text-base leading-relaxed text-slate-400"
+                >
+                  {paragraph}
+                </motion.p>
+              ))}
+
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
-                className="text-base leading-relaxed text-slate-400"
+                transition={{ delay: 0.6, duration: 0.6 }}
+                style={{ paddingTop: '1rem' }}
               >
-                {paragraph}
-              </motion.p>
-            ))}
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className="pt-4"
-            >
-              <MagneticButton
-                href={locale === 'es' ? '/about' : '/en/about'}
-                variant="secondary"
-              >
-                {t.cta}
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </MagneticButton>
-            </motion.div>
+                <MagneticButton
+                  href={locale === 'es' ? '/about' : '/en/about'}
+                  variant="secondary"
+                >
+                  {t.cta}
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </MagneticButton>
+              </motion.div>
+            </div>
           </div>
 
-          {/* Right - Highlights grid 2x2 */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {t.highlights.map((item, index) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-                className="group relative overflow-hidden rounded-2xl border border-slate-700/50 bg-slate-900/60 p-6 backdrop-blur-sm transition-all duration-300 hover:border-slate-600/80 hover:bg-slate-800/60"
-              >
-                {/* Hover glow */}
-                <div className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                
-                <div className="relative">
-                  <span className="text-3xl">{item.icon}</span>
-                  <h3 className="mt-4 font-semibold text-slate-50">{item.title}</h3>
-                  <p className="mt-1 text-sm text-slate-400">{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+          {/* Right - Highlights grid 2x2 using CSS Grid */}
+          <div style={{ flex: '1 1 400px', minWidth: '300px' }}>
+            <div 
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '1rem',
+              }}
+            >
+              {t.highlights.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                  transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+                  style={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    borderRadius: '1rem',
+                    border: '1px solid rgba(51, 65, 85, 0.5)',
+                    background: 'rgba(15, 23, 42, 0.6)',
+                    backdropFilter: 'blur(8px)',
+                    padding: '1.5rem',
+                    transition: 'all 0.3s ease',
+                  }}
+                  className="group hover:border-slate-600 hover:bg-slate-800/60"
+                >
+                  <span style={{ fontSize: '2rem' }}>{item.icon}</span>
+                  <h3 style={{ marginTop: '1rem', fontWeight: 600, color: '#f8fafc' }}>{item.title}</h3>
+                  <p style={{ marginTop: '0.25rem', fontSize: '0.875rem', color: '#94a3b8' }}>{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

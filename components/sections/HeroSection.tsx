@@ -86,104 +86,104 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
       {/* Main content */}
       <motion.div
         style={{ y, opacity }}
-        className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-20 lg:px-8"
+        className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-20"
       >
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
+        {/* Two column layout using flexbox */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center' }}>
           {/* Left column - Text */}
-          <div className="space-y-6">
-            {/* Availability badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-medium text-emerald-400">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          <div style={{ flex: '1 1 400px', minWidth: '300px' }}>
+            <div className="space-y-6">
+              {/* Availability badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-medium text-emerald-400">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+                  {t.available}
                 </span>
-                {t.available}
-              </span>
-            </motion.div>
+              </motion.div>
 
-            {/* Greeting */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-lg text-slate-400"
-            >
-              {t.greeting}
-            </motion.p>
+              {/* Greeting */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-lg text-slate-400"
+              >
+                {t.greeting}
+              </motion.p>
 
-            {/* Name */}
-            <div className="space-y-1">
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-                className="text-4xl font-bold tracking-tight text-slate-50 sm:text-5xl md:text-6xl"
-              >
-                {t.name}
-              </motion.h1>
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
-                className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
-              >
-                <span className="bg-gradient-to-r from-cyan-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
+              {/* Name */}
+              <div>
+                <motion.h1
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 700, lineHeight: 1.1, color: '#f8fafc' }}
+                >
+                  {t.name}
+                </motion.h1>
+                <motion.h1
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.6 }}
+                  style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 700, lineHeight: 1.1, background: 'linear-gradient(90deg, #22d3ee, #67e8f9, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+                >
                   {t.lastName}
-                </span>
-              </motion.h1>
+                </motion.h1>
+              </div>
+
+              {/* Role */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <p className="text-xl font-semibold text-slate-200">{t.role}</p>
+                <p className="text-lg text-cyan-400">{t.specialization}</p>
+              </motion.div>
+
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="max-w-lg text-base leading-relaxed text-slate-400"
+              >
+                {t.description}
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', paddingTop: '0.5rem' }}
+              >
+                <MagneticButton
+                  href={locale === 'es' ? '/projects' : '/en/projects'}
+                  variant="primary"
+                  size="lg"
+                >
+                  {t.cta}
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </MagneticButton>
+                <MagneticButton
+                  href={locale === 'es' ? '/contact' : '/en/contact'}
+                  variant="secondary"
+                  size="lg"
+                >
+                  {t.ctaSecondary}
+                </MagneticButton>
+              </motion.div>
             </div>
-
-            {/* Role */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="space-y-1"
-            >
-              <p className="text-xl font-semibold text-slate-200">{t.role}</p>
-              <p className="text-lg text-cyan-400">{t.specialization}</p>
-            </motion.div>
-
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 }}
-              className="max-w-lg text-base leading-relaxed text-slate-400"
-            >
-              {t.description}
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="flex flex-wrap gap-4 pt-2"
-            >
-              <MagneticButton
-                href={locale === 'es' ? '/projects' : '/en/projects'}
-                variant="primary"
-                size="lg"
-              >
-                {t.cta}
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </MagneticButton>
-              <MagneticButton
-                href={locale === 'es' ? '/contact' : '/en/contact'}
-                variant="secondary"
-                size="lg"
-              >
-                {t.ctaSecondary}
-              </MagneticButton>
-            </motion.div>
           </div>
 
           {/* Right column - Stats card */}
@@ -191,46 +191,77 @@ export function HeroSection({ locale = 'es' }: HeroSectionProps) {
             initial={{ opacity: 0, scale: 0.9, x: 50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="lg:justify-self-end"
+            style={{ flex: '1 1 350px', minWidth: '300px', maxWidth: '450px' }}
           >
             {/* Glass Card */}
-            <div className="relative overflow-hidden rounded-3xl border border-slate-700/50 bg-slate-900/70 p-8 backdrop-blur-xl lg:p-10">
+            <div 
+              style={{
+                position: 'relative',
+                overflow: 'hidden',
+                borderRadius: '1.5rem',
+                border: '1px solid rgba(51, 65, 85, 0.5)',
+                background: 'rgba(15, 23, 42, 0.7)',
+                backdropFilter: 'blur(16px)',
+                padding: '2rem',
+              }}
+            >
               {/* Gradient border glow */}
-              <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-br from-cyan-500/20 via-transparent to-purple-500/20" />
+              <div 
+                style={{
+                  position: 'absolute',
+                  inset: '-1px',
+                  borderRadius: '1.5rem',
+                  background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.2), transparent 50%, rgba(139, 92, 246, 0.2))',
+                  pointerEvents: 'none',
+                }}
+              />
               
-              <div className="relative">
-                {/* Stats Grid - 2x2 */}
-                <div className="grid grid-cols-2 gap-8">
+              <div style={{ position: 'relative' }}>
+                {/* Stats Grid - 2x2 using CSS Grid */}
+                <div 
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: '2rem',
+                  }}
+                >
                   {t.stats.map((stat, index) => (
                     <motion.div
                       key={stat.label}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.8 + index * 0.1 }}
-                      className="text-center"
+                      style={{ textAlign: 'center' }}
                     >
-                      <div className="text-3xl font-bold text-cyan-400 sm:text-4xl lg:text-5xl">
+                      <div style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, color: '#22d3ee' }}>
                         <AnimatedCounter
                           value={stat.value}
                           suffix={stat.suffix}
                           duration={2.5}
                         />
                       </div>
-                      <p className="mt-2 text-xs text-slate-400 sm:text-sm">{stat.label}</p>
+                      <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#94a3b8' }}>{stat.label}</p>
                     </motion.div>
                   ))}
                 </div>
 
                 {/* Tech stack preview */}
-                <div className="mt-8 border-t border-slate-700/50 pt-6">
-                  <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <div style={{ marginTop: '2rem', borderTop: '1px solid rgba(51, 65, 85, 0.5)', paddingTop: '1.5rem' }}>
+                  <p style={{ marginBottom: '1rem', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#64748b' }}>
                     {t.techStack}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                     {['Azure', 'Kubernetes', 'Python', 'React', 'Node.js', 'Terraform'].map((tech) => (
                       <span
                         key={tech}
-                        className="rounded-full bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-slate-300"
+                        style={{
+                          borderRadius: '9999px',
+                          background: 'rgba(30, 41, 59, 0.8)',
+                          padding: '0.375rem 0.75rem',
+                          fontSize: '0.75rem',
+                          fontWeight: 500,
+                          color: '#cbd5e1',
+                        }}
                       >
                         {tech}
                       </span>

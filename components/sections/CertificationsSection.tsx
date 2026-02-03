@@ -44,11 +44,18 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
   const totalCerts = vendors.reduce((acc, v) => acc + v.count, 0)
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-slate-900/50 py-24 lg:py-32">
+    <section ref={ref} className="relative overflow-hidden bg-slate-900/50 py-24">
       {/* Background */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(6,182,212,0.03),transparent_70%)]" />
+      <div 
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.03), transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow={t.eyebrow}
           title={t.title}
@@ -60,35 +67,65 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           initial={{ opacity: 0, scale: 0.8 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8 }}
-          className="mb-16 text-center"
+          style={{ marginBottom: '4rem', textAlign: 'center' }}
         >
-          <div className="text-7xl font-bold sm:text-8xl md:text-9xl">
-            <span className="bg-gradient-to-r from-cyan-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
+          <div style={{ fontSize: 'clamp(4rem, 12vw, 8rem)', fontWeight: 700 }}>
+            <span style={{ background: 'linear-gradient(90deg, #22d3ee, #67e8f9, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               <AnimatedCounter value={totalCerts} suffix="+" duration={3} />
             </span>
           </div>
-          <p className="mt-4 text-lg text-slate-400">{t.totalLabel}</p>
+          <p style={{ marginTop: '1rem', fontSize: '1.125rem', color: '#94a3b8' }}>{t.totalLabel}</p>
         </motion.div>
 
-        {/* Vendor grid */}
-        <div className="mx-auto grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
+        {/* Vendor grid using flexbox */}
+        <div 
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '1rem',
+            maxWidth: '900px',
+            margin: '0 auto',
+          }}
+        >
           {vendors.map((vendor, index) => (
             <motion.div
               key={vendor.name}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.3 + index * 0.05, duration: 0.5 }}
-              className="group rounded-xl border border-slate-700/50 bg-slate-900/60 p-4 text-center backdrop-blur-sm transition-all duration-300 hover:border-slate-600/80 hover:bg-slate-800/60"
+              style={{
+                flex: '1 1 120px',
+                maxWidth: '140px',
+                borderRadius: '0.75rem',
+                border: '1px solid rgba(51, 65, 85, 0.5)',
+                background: 'rgba(15, 23, 42, 0.6)',
+                backdropFilter: 'blur(8px)',
+                padding: '1rem',
+                textAlign: 'center',
+                transition: 'all 0.3s ease',
+              }}
+              className="group hover:border-slate-600 hover:bg-slate-800/60"
             >
               <div
-                className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
-                style={{ backgroundColor: `${vendor.color}20` }}
+                style={{
+                  margin: '0 auto 0.75rem',
+                  display: 'flex',
+                  height: '3rem',
+                  width: '3rem',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '0.75rem',
+                  backgroundColor: `${vendor.color}20`,
+                  transition: 'transform 0.3s ease',
+                }}
+                className="group-hover:scale-110"
               >
-                <span className="text-xl font-bold" style={{ color: vendor.color }}>
+                <span style={{ fontSize: '1.25rem', fontWeight: 700, color: vendor.color }}>
                   {vendor.count}
                 </span>
               </div>
-              <p className="text-xs font-medium text-slate-400 line-clamp-1">{vendor.name}</p>
+              <p style={{ fontSize: '0.75rem', fontWeight: 500, color: '#94a3b8' }}>{vendor.name}</p>
             </motion.div>
           ))}
         </div>
@@ -98,7 +135,7 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.8 }}
-          className="mt-16 text-center"
+          style={{ marginTop: '4rem', textAlign: 'center' }}
         >
           <MagneticButton
             href={locale === 'es' ? '/certifications' : '/en/certifications'}

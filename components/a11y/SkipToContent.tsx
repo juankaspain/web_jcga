@@ -1,6 +1,12 @@
 "use client"
 
+import { usePathname } from 'next/navigation'
+
 export function SkipToContent() {
+  const pathname = usePathname()
+  const isEnglish = pathname?.startsWith('/en')
+  const text = isEnglish ? 'Skip to main content' : 'Saltar al contenido principal'
+
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
     const main = document.getElementById('main-content')
@@ -16,7 +22,7 @@ export function SkipToContent() {
       onClick={handleClick}
       className="skip-link"
     >
-      Saltar al contenido principal
+      {text}
     </a>
   )
 }

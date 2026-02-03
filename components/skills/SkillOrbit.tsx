@@ -96,7 +96,6 @@ const colorClasses = {
 
 export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
   const [activeGroup, setActiveGroup] = useState<string | null>(null)
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null)
 
   return (
     <section className="relative overflow-hidden border-b border-slate-800 bg-gradient-to-b from-slate-950 to-slate-900 py-20">
@@ -157,59 +156,37 @@ export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
 
           {/* Orbiting skill groups */}
           {skillGroups.map((group, groupIndex) => {
-            const angle = (groupIndex / skillGroups.length) * 360
-            const radius = 42 // percentage from center
+            const baseAngle = (groupIndex / skillGroups.length) * 360
+            const radius = 42
             const colors = colorClasses[group.color as keyof typeof colorClasses]
             const isActive = activeGroup === group.id
+            const orbitDuration = 60 + groupIndex * 10
+
+            // Calculate position on the circle
+            const x = Math.cos((baseAngle * Math.PI) / 180) * radius
+            const y = Math.sin((baseAngle * Math.PI) / 180) * radius
 
             return (
-              <motion.div
+              <motion.button
                 key={group.id}
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: groupIndex * 0.15, duration: 0.5 }}
-                animate={{
-                  rotate: [angle, angle + 360]
-                }}
-                transition={{
-                  rotate: {
-                    duration: 60 + groupIndex * 10,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }
-                }}
-                className="absolute left-1/2 top-1/2"
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveGroup(isActive ? null : group.id)}
+                className={`absolute flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-2 transition-all md:h-16 md:w-16 ${colors.bgLight} ${colors.border} ${isActive ? `shadow-lg ${colors.glow}` : ""}`}
                 style={{
-                  width: `${radius * 2}%`,
-                  height: `${radius * 2}%`,
-                  marginLeft: `-${radius}%`,
-                  marginTop: `-${radius}%`
+                  left: `calc(50% + ${x}%)`,
+                  top: `calc(50% + ${y}%)`,
+                  transform: 'translate(-50%, -50%)'
                 }}
               >
-                <motion.button
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setActiveGroup(isActive ? null : group.id)}
-                  className={`absolute right-0 top-1/2 flex h-14 w-14 -translate-y-1/2 translate-x-1/2 cursor-pointer items-center justify-center rounded-full border-2 transition-all md:h-16 md:w-16 ${colors.bgLight} ${colors.border} ${isActive ? `shadow-lg ${colors.glow}` : ""}`}
-                  style={{
-                    // Counter-rotate to keep text upright
-                    transform: `translateY(-50%) translateX(50%)`
-                  }}
-                >
-                  <motion.span
-                    animate={{ rotate: [0, -360] }}
-                    transition={{
-                      duration: 60 + groupIndex * 10,
-                      repeat: Infinity,
-                      ease: "linear"
-                    }}
-                    className={`text-xs font-bold ${colors.text} md:text-sm`}
-                  >
-                    {group.title[locale].split(" ")[0]}
-                  </motion.span>
-                </motion.button>
-              </motion.div>
+                <span className={`text-xs font-bold ${colors.text} md:text-sm text-center px-1`}>
+                  {group.title[locale].split(" ")[0]}
+                </span>
+              </motion.button>
             )
           })}
         </div>
@@ -237,12 +214,7 @@ export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
                 </h3>
                 <div className="space-y-3">
                   {group.skills.map((skill) => (
-                    <div
-                      key={skill.name}
-                      className="group"
-                      onMouseEnter={() => setHoveredSkill(skill.name)}
-                      onMouseLeave={() => setHoveredSkill(null)}
-                    >
+                    <div key={skill.name} className="group">
                       <div className="mb-1 flex items-center justify-between text-sm">
                         <span className="text-slate-300 transition-colors group-hover:text-slate-50">
                           {skill.name}

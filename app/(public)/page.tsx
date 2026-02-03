@@ -1,25 +1,27 @@
-import { Hero } from "@/components/home/Hero"
-import { ImpactStats } from "@/components/home/ImpactStats"
-import { ProjectsGrid } from "@/components/projects/ProjectsGrid"
-import { SkillOrbit } from "@/components/skills/SkillOrbit"
-import { ExperienceTimeline } from "@/components/experience/ExperienceTimeline"
-import { CertificationShowcase } from "@/components/certifications/CertificationShowcase"
+import { HeroSection } from '@/components/sections/HeroSection'
+import { AboutSection } from '@/components/sections/AboutSection'
+import { ExperienceSection } from '@/components/sections/ExperienceSection'
+import { ProjectsSection } from '@/components/sections/ProjectsSection'
+import { CertificationsSection } from '@/components/sections/CertificationsSection'
+import { SkillsSection } from '@/components/sections/SkillsSection'
+import { ContactSection } from '@/components/sections/ContactSection'
 
 export const metadata = {
-  title: "Inicio | Juan Carlos García Arriero",
+  title: 'Juan Carlos García Arriero | Cloud & Payments Architect',
   description:
-    "Senior Technical Lead & Cloud Solutions Architect en banca digital, especializado en pagos, cloud, datos y AI.",
+    'Senior Technical Lead & Cloud Solutions Architect en banca digital. +15 años de experiencia, +140 certificaciones. Especializado en pagos, cloud y AI.',
 }
 
 export default function HomePage() {
   return (
     <>
-      <Hero locale="es" />
-      <ImpactStats locale="es" />
-      <ProjectsGrid locale="es" limit={6} showFilters={false} />
-      <SkillOrbit locale="es" />
-      <ExperienceTimeline locale="es" />
-      <CertificationShowcase locale="es" />
+      <HeroSection locale="es" />
+      <AboutSection locale="es" />
+      <ExperienceSection locale="es" />
+      <ProjectsSection locale="es" />
+      <CertificationsSection locale="es" />
+      <SkillsSection locale="es" />
+      <ContactSection locale="es" />
     </>
   )
 }

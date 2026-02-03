@@ -1,18 +1,22 @@
-import type { ReactNode } from "react"
-import type { Metadata, Viewport } from "next"
-import "./globals.css"
-import { Header } from "@/components/layout/Header"
-import { Footer } from "@/components/layout/Footer"
-import { SkipToContent } from "@/components/a11y/SkipToContent"
+import type { ReactNode } from 'react'
+import type { Metadata, Viewport } from 'next'
+import './globals.css'
+import { Header } from '@/components/layout/Header'
+import { Footer } from '@/components/layout/Footer'
+import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider'
+import { ScrollProgress } from '@/components/effects/ScrollProgress'
+import { MouseGlow } from '@/components/effects/MouseGlow'
+import { SkipToContent } from '@/components/a11y/SkipToContent'
 
 // SEO Metadata
 export const metadata: Metadata = {
   metadataBase: new URL('https://jcga.dev'),
   title: {
     default: 'Juan Carlos García Arriero | Cloud & Payments Architect',
-    template: '%s | Juan Carlos García Arriero'
+    template: '%s | Juan Carlos García Arriero',
   },
-  description: 'Senior Technical Lead & Cloud Solutions Architect en banca digital, especializado en pagos, cloud, datos y AI. +15 años de experiencia, +140 certificaciones.',
+  description:
+    'Senior Technical Lead & Cloud Solutions Architect en banca digital, especializado en pagos, cloud, datos y AI. +15 años de experiencia, +140 certificaciones.',
   keywords: [
     'Cloud Architect',
     'Technical Lead',
@@ -23,7 +27,7 @@ export const metadata: Metadata = {
     'Data & AI',
     'Software Architecture',
     'Santander',
-    'FinTech'
+    'FinTech',
   ],
   authors: [{ name: 'Juan Carlos García Arriero' }],
   creator: 'Juan Carlos García Arriero',
@@ -42,8 +46,27 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.svg', sizes: '32x32', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.svg', sizes: '180x180', type: 'image/svg+xml' },
+    ],
+    other: [
+      {
+        rel: 'icon',
+        url: '/icon-192.svg',
+        sizes: '192x192',
+        type: 'image/svg+xml',
+      },
+      {
+        rel: 'icon',
+        url: '/icon-512.svg',
+        sizes: '512x512',
+        type: 'image/svg+xml',
+      },
     ],
   },
+  manifest: '/manifest.json',
   openGraph: {
     type: 'website',
     locale: 'es_ES',
@@ -51,12 +74,24 @@ export const metadata: Metadata = {
     url: 'https://jcga.dev',
     siteName: 'Juan Carlos García Arriero',
     title: 'Juan Carlos García Arriero | Cloud & Payments Architect',
-    description: 'Senior Technical Lead & Cloud Solutions Architect en banca digital, especializado en pagos, cloud, datos y AI.',
+    description:
+      'Senior Technical Lead & Cloud Solutions Architect en banca digital, especializado en pagos, cloud, datos y AI.',
+    images: [
+      {
+        url: '/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Juan Carlos García Arriero - Cloud & Payments Architect',
+        type: 'image/svg+xml',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Juan Carlos García Arriero | Cloud & Payments Architect',
-    description: 'Senior Technical Lead & Cloud Solutions Architect en banca digital.',
+    description:
+      'Senior Technical Lead & Cloud Solutions Architect en banca digital.',
+    images: ['/og-image.svg'],
   },
   alternates: {
     canonical: 'https://jcga.dev',
@@ -85,8 +120,10 @@ function JsonLd() {
     '@type': 'Person',
     name: 'Juan Carlos García Arriero',
     jobTitle: 'Senior Technical Lead & Cloud Solutions Architect',
-    description: 'Especializado en banca digital, pagos, cloud, datos y AI',
+    description:
+      'Especializado en banca digital, pagos, cloud, datos y AI',
     url: 'https://jcga.dev',
+    image: 'https://jcga.dev/og-image.svg',
     sameAs: [
       'https://linkedin.com/in/juancarlosgarciarriero',
       'https://github.com/juankaspain',
@@ -117,8 +154,8 @@ function JsonLd() {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html 
-      lang="es" 
+    <html
+      lang="es"
       className="scroll-smooth"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
@@ -126,18 +163,30 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <JsonLd />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="bg-slate-950 text-slate-50 antialiased">
-        <SkipToContent />
-        
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <main id="main-content" className="flex-1 focus:outline-none" tabIndex={-1}>
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <SmoothScrollProvider>
+          <SkipToContent />
+          <ScrollProgress />
+          <MouseGlow />
+
+          <div className="relative min-h-screen flex flex-col">
+            <Header />
+            <main
+              id="main-content"
+              className="flex-1 focus:outline-none"
+              tabIndex={-1}
+            >
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </SmoothScrollProvider>
       </body>
     </html>
   )

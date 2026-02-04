@@ -83,11 +83,11 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
           viewport={{ once: true }}
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
-          {displayedProjects.map((project) => (
+          {displayedProjects.map((project) => {
                   const translated = getTranslatedProject(project.id, locale) || {}
                   return (
             <motion.article
-              key={project.id{
+              key={project.i}{
               variants={staggerItem}
               className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/10"
             >
@@ -166,6 +166,7 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
               </div>
             </motion.article>
           )
+                      }
                 })
         </motion.div>
 

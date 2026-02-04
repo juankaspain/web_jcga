@@ -172,17 +172,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="bg-slate-950 text-slate-50 antialiased">
         <SmoothScrollProvider>
           <SkipToContent />
-          <ScrollProgress />
-          <MouseGlow />
 
-          {/* Added position:relative to fix Framer Motion scroll warning */}
-          <div className="relative min-h-screen flex flex-col" style={{ position: 'relative' }}>
+          {/* Container with position:relative for Framer Motion scroll tracking */}
+          <div className="relative min-h-screen flex flex-col">
+            {/* ScrollProgress and MouseGlow inside positioned container to fix warning */}
+            <ScrollProgress />
+            <MouseGlow />
+            
             <Header />
             <main
               id="main-content"
               className="flex-1 focus:outline-none"
               tabIndex={-1}
-              style={{ position: 'relative' }}
             >
               {children}
             </main>

@@ -1,6 +1,8 @@
 "use client"
 
-import { useRef, useState, useEffect } from 'react'import { motion, useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+  import { motion, useInView } from 'framer-motion'
+
 import { MagneticButton } from '@/components/ui/MagneticButton'
 
 interface ContactSectionProps {

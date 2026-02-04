@@ -87,7 +87,7 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
                   const translated = getTranslatedProject(project.id, locale) || {}
                   return (
             <motion.article
-              key={project.id}
+              key={project.id{
               variants={staggerItem}
               className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/10"
             >

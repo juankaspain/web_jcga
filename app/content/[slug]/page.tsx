@@ -52,19 +52,19 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-slate-400">
             <span className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
-              {post.date}
+              {post.publishedAt}
             </span>
             <span className="flex items-center gap-1">
               <Clock className="h-4 w-4" />
-              {post.readTime}
+              {post.readTime} min
             </span>
           </div>
 
           <h1 className="mb-4 text-5xl font-bold tracking-tight text-slate-50">
-            {post.title}
+            {post.title.es}
           </h1>
 
-          <p className="text-xl text-slate-300">{post.excerpt}</p>
+          <p className="text-xl text-slate-300">{post.excerpt.es}</p>
 
           <div className="mt-6 flex flex-wrap gap-2">
             {post.tags.map((tag) => (
@@ -82,7 +82,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         <div className="prose prose-invert prose-cyan max-w-none">
           <div
             className="text-slate-300 leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: post.content.es }}
           />
         </div>
 

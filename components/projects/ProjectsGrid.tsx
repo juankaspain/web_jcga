@@ -92,7 +92,6 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
               className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/10"
             >
               {/* Project image/preview area */}
-              slate-800 to-slate-900">
                 {/* Gradient background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 transition-opacity duration-300 group-hover:opacity-70" />
 

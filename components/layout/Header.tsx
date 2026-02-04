@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -31,6 +31,37 @@ function localizePath(path: string, locale: Locale) {
   if (locale === "es") return path
   if (path === "/") return `/${locale}`
   return `/${locale}${path}`
+}
+
+// Throttle utility function
+function useThrottle<T extends (...args: unknown[]) => void>(
+  callback: T,
+  delay: number
+): T {
+  const lastCall = useRef<number>(0)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  return useCallback(
+    ((...args: unknown[]) => {
+      const now = Date.now()
+      const timeSinceLastCall = now - lastCall.current
+
+      if (timeSinceLastCall >= delay) {
+        lastCall.current = now
+        callback(...args)
+      } else {
+        // Schedule a call at the end of the throttle period
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current)
+        }
+        timeoutRef.current = setTimeout(() => {
+          lastCall.current = Date.now()
+          callback(...args)
+        }, delay - timeSinceLastCall)
+      }
+    }) as T,
+    [callback, delay]
+  )
 }
 
 // Hamburger Icon Component
@@ -73,14 +104,21 @@ export function Header() {
 
   const basePath = currentLocale === "es" ? pathname : pathname.replace(/^\/en/, "") || "/"
 
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+  // Throttled scroll handler for better performance
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 20)
   }, [])
+
+  const throttledHandleScroll = useThrottle(handleScroll, 100)
+
+  // Handle scroll effect with throttle
+  useEffect(() => {
+    // Set initial state
+    handleScroll()
+    
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', throttledHandleScroll)
+  }, [handleScroll, throttledHandleScroll])
 
   // Close menu on route change
   useEffect(() => {

@@ -1,9 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Link from "next/link"
 import dynamic from "next/dynamic"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
+import { MagneticButton } from "@/components/ui/MagneticButton"
+import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
 
 // Dynamic import para ParticleNetwork (no SSR, es Canvas)
 const ParticleNetwork = dynamic(
@@ -65,23 +66,33 @@ export function Hero({ locale = "es" }: HeroProps) {
   const t = copy[locale]
   const projectsLink = locale === "en" ? "/en/projects" : "/projects"
   const contactLink = locale === "en" ? "/en/contact" : "/contact"
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion
+  const animationProps = prefersReducedMotion 
+    ? { initial: { opacity: 1 }, animate: { opacity: 1 } }
+    : {}
 
   return (
     <section className="relative min-h-screen overflow-hidden">
       {/* Premium gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
       
-      {/* Animated gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse animation-delay-1000" />
-        <div className="absolute -bottom-40 right-1/4 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
-      </div>
+      {/* Animated gradient orbs - respects reduced motion */}
+      {!prefersReducedMotion && (
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute top-1/2 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse animation-delay-1000" />
+          <div className="absolute -bottom-40 right-1/4 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
+        </div>
+      )}
 
-      {/* Neural Network Background */}
-      <div className="absolute inset-0 opacity-40">
-        <ParticleNetwork />
-      </div>
+      {/* Neural Network Background - respects reduced motion */}
+      {!prefersReducedMotion && (
+        <div className="absolute inset-0 opacity-40">
+          <ParticleNetwork />
+        </div>
+      )}
 
       {/* Subtle grid overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
@@ -91,16 +102,18 @@ export function Hero({ locale = "es" }: HeroProps) {
         
         {/* Left: Main content */}
         <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
+          initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
+          animate={prefersReducedMotion ? { opacity: 1 } : "visible"}
+          variants={prefersReducedMotion ? undefined : staggerContainer}
           className="flex-1 max-w-2xl"
         >
           {/* Availability badge */}
-          <motion.div variants={staggerItem} className="mb-8">
+          <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="mb-8">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                {!prefersReducedMotion && (
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                )}
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
               <span className="text-sm font-medium text-slate-300">{t.available}</span>
@@ -109,14 +122,14 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* Greeting */}
           <motion.p 
-            variants={staggerItem}
+            variants={prefersReducedMotion ? undefined : staggerItem}
             className="text-lg text-slate-400 mb-2"
           >
             {t.greeting}
           </motion.p>
 
           {/* Name with gradient */}
-          <motion.h1 variants={staggerItem} className="mb-4">
+          <motion.h1 variants={prefersReducedMotion ? undefined : staggerItem} className="mb-4">
             <span className="block text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
               {t.name}
             </span>
@@ -126,41 +139,43 @@ export function Hero({ locale = "es" }: HeroProps) {
           </motion.h1>
 
           {/* Role */}
-          <motion.div variants={staggerItem} className="mb-6">
+          <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="mb-6">
             <p className="text-xl md:text-2xl font-semibold text-slate-200">{t.role}</p>
             <p className="text-xl md:text-2xl font-light text-cyan-400">{t.specialty}</p>
           </motion.div>
 
           {/* Description */}
           <motion.p 
-            variants={staggerItem}
+            variants={prefersReducedMotion ? undefined : staggerItem}
             className="text-lg text-slate-400 leading-relaxed mb-8 max-w-xl"
           >
             {t.description}
           </motion.p>
 
-          {/* CTAs */}
-          <motion.div variants={staggerItem} className="flex flex-wrap gap-4 mb-12">
-            <Link
+          {/* CTAs - Using MagneticButton */}
+          <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="flex flex-wrap gap-4 mb-12">
+            <MagneticButton
               href={projectsLink}
-              className="group relative inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl text-white font-semibold overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 hover:scale-105"
+              variant="primary"
+              size="lg"
+              className="shadow-lg shadow-cyan-500/25"
             >
-              <span className="relative z-10">{t.cta}</span>
-              <svg className="relative z-10 w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {t.cta}
+              <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </Link>
-            <Link
+            </MagneticButton>
+            <MagneticButton
               href={contactLink}
-              className="inline-flex items-center gap-2 px-8 py-4 border border-slate-700 rounded-xl text-slate-300 font-semibold hover:border-cyan-500/50 hover:text-white hover:bg-slate-800/50 transition-all duration-300"
+              variant="secondary"
+              size="lg"
             >
               {t.ctaSecondary}
-            </Link>
+            </MagneticButton>
           </motion.div>
 
           {/* Tech badges */}
-          <motion.div variants={staggerItem}>
+          <motion.div variants={prefersReducedMotion ? undefined : staggerItem}>
             <p className="text-xs font-semibold text-slate-500 tracking-wider mb-3">{t.techStack}</p>
             <div className="flex flex-wrap gap-2">
               {techBadges.map((tech) => (
@@ -177,9 +192,9 @@ export function Hero({ locale = "es" }: HeroProps) {
 
         {/* Right: Stats card */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
+          initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.5, duration: 0.6 }}
           className="w-full md:w-auto"
         >
           <div className="relative p-8 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-xl shadow-2xl">
@@ -190,9 +205,9 @@ export function Hero({ locale = "es" }: HeroProps) {
               {t.stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 + index * 0.1 }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.7 + index * 0.1 }}
                   className="text-center"
                 >
                   <div className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-cyan-400 to-blue-400 bg-clip-text text-transparent">
@@ -206,17 +221,17 @@ export function Hero({ locale = "es" }: HeroProps) {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - respects reduced motion */}
       <motion.div 
-        initial={{ opacity: 0 }}
+        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-xs font-medium text-slate-500 tracking-widest">{t.scroll}</span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          animate={prefersReducedMotion ? {} : { y: [0, 8, 0] }}
+          transition={prefersReducedMotion ? {} : { duration: 2, repeat: Infinity }}
           className="w-6 h-10 rounded-full border-2 border-slate-700 flex items-start justify-center p-2"
         >
           <motion.div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />

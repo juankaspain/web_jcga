@@ -1,11 +1,35 @@
 import { Metadata } from "next"
 import Link from "next/link"
 import { blogPosts } from "@/lib/data/blog-posts"
-import { Calendar, Clock, Tag } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Blog | Juan Carlos García Arriero",
   description: "Articles about AI, Cloud, DevOps, architecture and development best practices.",
+}
+
+// SVG Icons as components to replace lucide-react
+function CalendarIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+  )
+}
+
+function ClockIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  )
+}
+
+function TagIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+    </svg>
+  )
 }
 
 export default function BlogPage() {
@@ -29,11 +53,11 @@ export default function BlogPage() {
           >
             <div className="mb-3 flex flex-wrap items-center gap-3 text-sm text-slate-400">
               <span className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
+                <CalendarIcon className="h-4 w-4" />
                 {post.publishedAt}
               </span>
               <span className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
+                <ClockIcon className="h-4 w-4" />
                 {post.readTime} min read
               </span>
             </div>
@@ -50,7 +74,7 @@ export default function BlogPage() {
                   key={tag}
                   className="flex items-center gap-1 rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-400"
                 >
-                  <Tag className="h-3 w-3" />
+                  <TagIcon className="h-3 w-3" />
                   {tag}
                 </span>
               ))}

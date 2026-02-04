@@ -8,7 +8,10 @@ import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 // Dynamic import para ParticleNetwork (no SSR, es Canvas)
 const ParticleNetwork = dynamic(
   () => import("@/components/effects/ParticleNetwork").then(mod => mod.ParticleNetwork),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => <div className="absolute inset-0 bg-transparent" />
+  }
 )
 
 type HeroProps = {
@@ -71,8 +74,8 @@ export function Hero({ locale = "es" }: HeroProps) {
       {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute -bottom-40 right-1/4 w-72 h-72 bg-purple-500/8 rounded-full blur-3xl animate-pulse delay-2000" />
+        <div className="absolute top-1/2 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse animation-delay-1000" />
+        <div className="absolute -bottom-40 right-1/4 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
       </div>
 
       {/* Neural Network Background */}

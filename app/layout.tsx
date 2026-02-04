@@ -159,6 +159,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className="scroll-smooth"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
+      style={{ position: 'relative' }}
     >
       <head>
         <JsonLd />
@@ -169,16 +170,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           crossOrigin="anonymous"
         />
       </head>
-      <body className="bg-slate-950 text-slate-50 antialiased">
+      <body 
+        className="bg-slate-950 text-slate-50 antialiased"
+        style={{ position: 'relative' }}
+      >
         <SmoothScrollProvider>
           <SkipToContent />
-
-          {/* Container with position:relative for Framer Motion scroll tracking */}
+          <ScrollProgress />
+          <MouseGlow />
+          
           <div className="relative min-h-screen flex flex-col">
-            {/* ScrollProgress and MouseGlow inside positioned container to fix warning */}
-            <ScrollProgress />
-            <MouseGlow />
-            
             <Header />
             <main
               id="main-content"

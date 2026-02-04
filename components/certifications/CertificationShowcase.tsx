@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 
@@ -91,6 +91,26 @@ const certGroups = [
   }
 ]
 
+// Expandable content animation variants
+const expandableVariants = {
+  hidden: {
+    opacity: 0,
+    height: 0,
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut"
+    }
+  },
+  visible: {
+    opacity: 1,
+    height: "auto",
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut"
+    }
+  }
+}
+
 export function CertificationShowcase({ locale = "es" }: CertificationShowcaseProps) {
   const [expandedGroup, setExpandedGroup] = useState<string | null>(null)
   const totalCerts = certGroups.reduce((sum, g) => sum + g.count, 0)
@@ -172,6 +192,7 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
                   </div>
                   <motion.div
                     animate={{ rotate: isExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
                     className="text-slate-400"
                   >
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -191,38 +212,48 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
                   />
                 </div>
 
-                {/* Featured certs (expandable) */}
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: isExpanded ? "auto" : 0,
-                    opacity: isExpanded ? 1 : 0
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
-                >
-                  <div className="space-y-2 pt-2">
-                    {group.featured.map((cert, index) => (
-                      <motion.div
-                        key={cert}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 0 : -10 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="flex items-center gap-2 text-sm text-slate-300"
-                      >
-                        <span className={`h-1.5 w-1.5 rounded-full ${group.colorBg}`} />
-                        {cert}
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
+                {/* Featured certs (expandable) - Using AnimatePresence for better performance */}
+                <AnimatePresence initial={false}>
+                  {isExpanded && (
+                    <motion.div
+                      key={`${group.id}-content`}
+                      variants={expandableVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      className="overflow-hidden"
+                    >
+                      <div className="space-y-2 pt-2">
+                        {group.featured.map((cert, index) => (
+                          <motion.div
+                            key={cert}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                            className="flex items-center gap-2 text-sm text-slate-300"
+                          >
+                            <span className={`h-1.5 w-1.5 rounded-full ${group.colorBg}`} />
+                            {cert}
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {/* Hover hint */}
-                {!isExpanded && (
-                  <p className="mt-2 text-xs text-slate-500">
-                    {locale === "es" ? "Click para ver destacadas" : "Click to see featured"}
-                  </p>
-                )}
+                <AnimatePresence>
+                  {!isExpanded && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="mt-2 text-xs text-slate-500"
+                    >
+                      {locale === "es" ? "Click para ver destacadas" : "Click to see featured"}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </motion.div>
             )
           })}

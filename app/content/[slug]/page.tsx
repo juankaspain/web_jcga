@@ -6,13 +6,45 @@ import Link from "next/link"
 import { blogPosts } from "@/lib/data/blog-posts"
 import { LikeButton } from "@/components/blog/LikeButton"
 import { CommentForm } from "@/components/blog/CommentForm"
-import { Calendar, Clock, Tag, ArrowLeft } from "lucide-react"
 
 interface Comment {
   id: string
   author: string
   content: string
   date: string
+}
+
+// SVG Icons as components to replace lucide-react
+function CalendarIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+  )
+}
+
+function ClockIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  )
+}
+
+function TagIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+    </svg>
+  )
+}
+
+function ArrowLeftIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+  )
 }
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
@@ -43,7 +75,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         href="/content"
         className="mb-8 inline-flex items-center gap-2 text-cyan-400 transition-colors hover:text-cyan-300"
       >
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeftIcon className="h-4 w-4" />
         Volver al blog
       </Link>
 
@@ -51,11 +83,11 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         <header className="mb-8">
           <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-slate-400">
             <span className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
+              <CalendarIcon className="h-4 w-4" />
               {post.publishedAt}
             </span>
             <span className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
+              <ClockIcon className="h-4 w-4" />
               {post.readTime} min
             </span>
           </div>
@@ -72,7 +104,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 key={tag}
                 className="flex items-center gap-1 rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-400"
               >
-                <Tag className="h-3 w-3" />
+                <TagIcon className="h-3 w-3" />
                 {tag}
               </span>
             ))}

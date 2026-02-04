@@ -1,7 +1,7 @@
 "use client"
 
 import { notFound } from "next/navigation"
-import { useState } from "react"
+import { useState, use } from "react"
 import Link from "next/link"
 import { blogPosts } from "@/lib/data/blog-posts"
 import { LikeButton } from "@/components/blog/LikeButton"
@@ -47,8 +47,10 @@ function ArrowLeftIcon({ className }: { className?: string }) {
   )
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = blogPosts.find((p) => p.slug === params.slug)
+export default function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  // Next.js 16: params is a Promise, unwrap with React.use()
+  const { slug } = use(params)
+  const post = blogPosts.find((p) => p.slug === slug)
   
   if (!post) {
     notFound()

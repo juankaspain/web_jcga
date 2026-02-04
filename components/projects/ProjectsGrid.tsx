@@ -85,6 +85,7 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
         >
           {displayedProjects.map((project) => (
                   const translated = getTranslatedProject(project.id, locale) || {}
+                  return (
             <motion.article
               key={project.id}
               variants={staggerItem}
@@ -164,10 +165,12 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
                 )}
               </div>
             </motion.article>
-          ))}
+          )
+                })
         </motion.div>
 
         {/* View all link */}
+                  )
         {limit && filteredProjects.length > limit && (
           <motion.div
             initial={{ opacity: 0 }}

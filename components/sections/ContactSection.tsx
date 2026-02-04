@@ -1,7 +1,6 @@
 "use client"
 
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'import { motion, useInView } from 'framer-motion'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 
 interface ContactSectionProps {
@@ -71,6 +70,17 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
+    // Generate particle positions only on client to avoid hydration mismatch
+  const [particles, setParticles] = useState<Array<{ left: string; top: string }>>([])
+  
+  useEffect(() => {
+    const newParticles = Array.from({ length: 20 }, () => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+    }))
+    setParticles(newParticles)
+  }, [])
+
   return (
     <section ref={ref} className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950 py-24 lg:py-32">
       {/* Animated background particles */}
@@ -80,8 +90,8 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
         <div className="absolute bottom-1/4 right-1/4 h-[500px] w-[500px] animate-pulse rounded-full bg-purple-500/10 blur-3xl animation-delay-2000" />
         <div className="absolute bottom-0 left-1/2 h-[600px] w-[900px] -translate-x-1/2 bg-gradient-to-t from-cyan-500/10 via-transparent to-transparent blur-3xl" />
         
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
+        {/* Partículas flotantes */}
+              {particles.map((particle, i) => (
           <motion.div
             key={i}
             className="absolute h-1 w-1 rounded-full bg-cyan-400/30"
@@ -90,8 +100,7 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-              y: [0, -30, 0],
-              opacity: [0.3, 1, 0.3],
+Partículas flotantes              opacity: [0.3, 1, 0.3],
             }}
             transition={{
               duration: 3 + Math.random() * 2,

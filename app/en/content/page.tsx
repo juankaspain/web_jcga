@@ -30,19 +30,19 @@ export default function BlogPage() {
             <div className="mb-3 flex flex-wrap items-center gap-3 text-sm text-slate-400">
               <span className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                {post.date}
+                {post.publishedAt}
               </span>
               <span className="flex items-center gap-1">
                 <Clock className="h-4 w-4" />
-                {post.readTime}
+                {post.readTime} min read
               </span>
             </div>
 
             <h2 className="mb-3 text-2xl font-bold text-slate-50 transition-colors group-hover:text-cyan-400">
-              {post.title}
+              {post.title.en}
             </h2>
 
-            <p className="mb-4 text-slate-300">{post.excerpt}</p>
+            <p className="mb-4 text-slate-300">{post.excerpt.en}</p>
 
             <div className="flex flex-wrap gap-2">
               {post.tags.map((tag) => (

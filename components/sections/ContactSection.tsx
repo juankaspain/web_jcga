@@ -102,7 +102,8 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-Partículas flotantes              opacity: [0.3, 1, 0.3],
+                            y: [0, -30, 0],
+                            opacity: [0.3, 1, 0.3],
             }}
             transition={{
               duration: 3 + Math.random() * 2,

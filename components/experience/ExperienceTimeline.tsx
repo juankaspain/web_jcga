@@ -52,7 +52,7 @@ export function ExperienceTimeline({ locale = "es" }: ExperienceTimelineProps) {
                 <motion.div
                   key={exp.id}
                   variants={staggerItem}
-                  className={`relative flex flex-col md:flex-row ${
+                  className={`relative flex flex-col ${
                     isEven ? "md:flex-row" : "md:flex-row-reverse"
                   }`}
                 >

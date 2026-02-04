@@ -1,30 +1,62 @@
 import { Metadata } from "next"
+import Link from "next/link"
+import { blogPosts } from "@/lib/data/blog-posts"
+import { Calendar, Clock, Tag } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Content | Juan Carlos García Arriero",
-  description: "Articles, talks, and insights on cloud architecture, digital banking, and AI."
+  title: "Blog | Juan Carlos García Arriero",
+  description: "Articles about AI, Cloud, DevOps, architecture and development best practices.",
 }
 
-export default function ContentPage() {
+export default function BlogPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16">
-      <h1 className="mb-8 text-4xl font-semibold tracking-tight text-slate-50">
-        Content & Insights
-      </h1>
-
-      <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-8 text-center">
+      <div className="mb-12 text-center">
+        <h1 className="mb-4 text-5xl font-bold tracking-tight text-slate-50">
+          Blog
+        </h1>
         <p className="text-lg text-slate-300">
-          This section will showcase articles, talks, and insights on:
+          Articles, insights, and tutorials about technology
         </p>
-        <ul className="mt-6 space-y-2 text-slate-400">
-          <li>• Cloud architecture best practices</li>
-          <li>• Digital banking and payment systems</li>
-          <li>• AI and data-driven solutions</li>
-          <li>• DevOps and engineering excellence</li>
-        </ul>
-        <p className="mt-8 text-sm text-slate-500">
-          Content coming soon...
-        </p>
+      </div>
+
+      <div className="space-y-8">
+        {blogPosts.map((post) => (
+          <Link
+            key={post.id}
+            href={`/en/content/${post.slug}`}
+            className="group block rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900/50 to-slate-800/30 p-6 transition-all hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10"
+          >
+            <div className="mb-3 flex flex-wrap items-center gap-3 text-sm text-slate-400">
+              <span className="flex items-center gap-1">
+                <Calendar className="h-4 w-4" />
+                {post.date}
+              </span>
+              <span className="flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                {post.readTime}
+              </span>
+            </div>
+
+            <h2 className="mb-3 text-2xl font-bold text-slate-50 transition-colors group-hover:text-cyan-400">
+              {post.title}
+            </h2>
+
+            <p className="mb-4 text-slate-300">{post.excerpt}</p>
+
+            <div className="flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="flex items-center gap-1 rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-400"
+                >
+                  <Tag className="h-3 w-3" />
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   )

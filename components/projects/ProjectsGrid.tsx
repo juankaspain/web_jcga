@@ -5,6 +5,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { projects } from "@/lib/data/projects"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
+import { getTranslatedProject } from "@/lib/i18n/projects"
 
 type ProjectsGridProps = {
   locale?: "es" | "en"
@@ -86,6 +87,7 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
             <motion.article
               key={project.id}
               variants={staggerItem}
+                        const translated = getTranslatedProject(project.id, locale) || {}
               className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/10"
             >
               {/* Project image/preview area */}
@@ -123,17 +125,17 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
               {/* Content */}
               <div className="p-5">
                 <h3 className="mb-2 text-lg font-semibold text-slate-50 transition-colors group-hover:text-cyan-300">
-                  {project.title}
+                  {translated.title || project.title}
                 </h3>
 
                 <p className="mb-4 line-clamp-2 text-sm text-slate-400">
-                  {project.description}
+                  {translated.description || project.description}
                 </p>
 
                 {/* Impact metrics */}
-                {project.metrics && project.metrics.length > 0 && (
+                {translated.metrics || project.metrics && translated.metrics || project.metrics.length > 0 && (
                   <div className="mb-4 flex flex-wrap gap-3">
-                    {project.metrics.slice(0, 2).map((metric, mIndex) => (
+                    {translated.metrics || project.metrics.slice(0, 2).map((metric, mIndex) => (
                       <div key={mIndex} className="text-center">
                         <div className="text-lg font-bold text-cyan-400">{metric.value}</div>
                         <div className="text-xs text-slate-500">{metric.label}</div>

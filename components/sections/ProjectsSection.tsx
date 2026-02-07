@@ -1,5 +1,7 @@
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ProjectShowcaseCard } from '@/components/projects/ProjectShowcaseCard'
+import Link from 'next/link'
+import { ArrowRight } from '@phosphor-icons/react'
 
 interface ProjectsSectionProps {
   locale?: 'es' | 'en'
@@ -7,12 +9,18 @@ interface ProjectsSectionProps {
 
 const copy = {
   es: {
-    title: 'Proyectos Destacados',
-    subtitle: 'Casos de estudio reales con impacto medible en producción'
+    eyebrow: 'Portfolio',
+    title: 'Casos de éxito que procesaron 500M€/año',
+    subtitle: 'Proyectos reales con impacto medible en producción bancaria. Desde plataformas SEPA hasta sistemas anti-fraude ML.',
+    ctaText: 'Ver todos los casos de estudio',
+    ctaLink: '/projects'
   },
   en: {
-    title: 'Featured Projects',
-    subtitle: 'Real case studies with measurable production impact'
+    eyebrow: 'Portfolio',
+    title: 'Success cases that processed €500M/year',
+    subtitle: 'Real projects with measurable impact in banking production. From SEPA platforms to ML anti-fraud systems.',
+    ctaText: 'View all case studies',
+    ctaLink: '/en/projects'
   }
 }
 
@@ -71,60 +79,6 @@ const mockProjects = {
         { value: '60%', label: '↓ Falsos +' },
         { value: '<100ms', label: 'Scoring' }
       ]
-    },
-    {
-      slug: 'open-banking-api',
-      title: 'API Gateway Open Banking',
-      problem: 'Desarrollo de API Gateway PSD2-compliant para exposición segura de datos bancarios a TPPs, con rate limiting y OAuth 2.0.',
-      thumbnail: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop',
-      thumbnailAlt: 'Open Banking API Gateway',
-      highlightMetric: {
-        icon: '🔐',
-        label: 'Compliance',
-        value: 'PSD2'
-      },
-      tags: ['Kong', 'OAuth 2.0', 'Redis', 'Grafana', 'Prometheus'],
-      metrics: [
-        { value: '50K', label: 'Req/min' },
-        { value: '150+', label: 'TPPs' },
-        { value: '<50ms', label: 'Latencia' }
-      ]
-    },
-    {
-      slug: 'cloud-migration',
-      title: 'Migración Cloud On-Prem → Azure',
-      problem: 'Liderazgo técnico de migración de monolito legacy on-premise a microservicios en Azure Kubernetes Service con zero downtime.',
-      thumbnail: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop',
-      thumbnailAlt: 'Cloud Migration Architecture',
-      highlightMetric: {
-        icon: '☁️',
-        label: 'Downtime',
-        value: '0min'
-      },
-      tags: ['Azure', 'AKS', 'Terraform', 'Helm', 'ArgoCD', 'Istio'],
-      metrics: [
-        { value: '0', label: 'Downtime' },
-        { value: '35%', label: '↓ Costes' },
-        { value: '18', label: 'Microservicios' }
-      ]
-    },
-    {
-      slug: 'realtime-analytics',
-      title: 'Analytics Real-Time',
-      problem: 'Construcción de pipeline de datos en tiempo real para dashboards ejecutivos con métricas de negocio actualizadas cada 5 segundos.',
-      thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&hue=200',
-      thumbnailAlt: 'Real-Time Analytics Dashboard',
-      highlightMetric: {
-        icon: '📊',
-        label: 'Actualización',
-        value: '5seg'
-      },
-      tags: ['Kafka', 'Flink', 'ClickHouse', 'Grafana', 'Python'],
-      metrics: [
-        { value: '5s', label: 'Refresh' },
-        { value: '10M', label: 'Eventos/día' },
-        { value: '50+', label: 'Dashboards' }
-      ]
     }
   ],
   en: [
@@ -181,60 +135,6 @@ const mockProjects = {
         { value: '60%', label: '↓ False +' },
         { value: '<100ms', label: 'Scoring' }
       ]
-    },
-    {
-      slug: 'open-banking-api',
-      title: 'Open Banking API Gateway',
-      problem: 'Developed PSD2-compliant API Gateway for secure exposure of banking data to TPPs, with rate limiting and OAuth 2.0.',
-      thumbnail: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop',
-      thumbnailAlt: 'Open Banking API Gateway',
-      highlightMetric: {
-        icon: '🔐',
-        label: 'Compliance',
-        value: 'PSD2'
-      },
-      tags: ['Kong', 'OAuth 2.0', 'Redis', 'Grafana', 'Prometheus'],
-      metrics: [
-        { value: '50K', label: 'Req/min' },
-        { value: '150+', label: 'TPPs' },
-        { value: '<50ms', label: 'Latency' }
-      ]
-    },
-    {
-      slug: 'cloud-migration',
-      title: 'Cloud Migration On-Prem → Azure',
-      problem: 'Led technical migration of legacy on-premise monolith to microservices on Azure Kubernetes Service with zero downtime.',
-      thumbnail: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop',
-      thumbnailAlt: 'Cloud Migration Architecture',
-      highlightMetric: {
-        icon: '☁️',
-        label: 'Downtime',
-        value: '0min'
-      },
-      tags: ['Azure', 'AKS', 'Terraform', 'Helm', 'ArgoCD', 'Istio'],
-      metrics: [
-        { value: '0', label: 'Downtime' },
-        { value: '35%', label: '↓ Costs' },
-        { value: '18', label: 'Microservices' }
-      ]
-    },
-    {
-      slug: 'realtime-analytics',
-      title: 'Real-Time Analytics',
-      problem: 'Built real-time data pipeline for executive dashboards with business metrics updated every 5 seconds.',
-      thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&hue=200',
-      thumbnailAlt: 'Real-Time Analytics Dashboard',
-      highlightMetric: {
-        icon: '📊',
-        label: 'Update',
-        value: '5sec'
-      },
-      tags: ['Kafka', 'Flink', 'ClickHouse', 'Grafana', 'Python'],
-      metrics: [
-        { value: '5s', label: 'Refresh' },
-        { value: '10M', label: 'Events/day' },
-        { value: '50+', label: 'Dashboards' }
-      ]
     }
   ]
 }
@@ -251,11 +151,13 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
       
       <div className="relative container-professional">
         <SectionHeading
+          eyebrow={t.eyebrow}
           title={t.title}
           subtitle={t.subtitle}
           align="center"
         />
         
+        {/* Featured Projects - Top 3 */}
         <div className="projects-grid mt-16">
           {projects.map((project) => (
             <ProjectShowcaseCard
@@ -264,6 +166,21 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
               locale={locale}
             />
           ))}
+        </div>
+
+        {/* CTA to all projects */}
+        <div className="flex justify-center mt-12">
+          <Link
+            href={t.ctaLink}
+            className="group inline-flex items-center gap-2 px-8 py-4 glass-card border-2 border-slate-700 text-slate-300 rounded-lg font-semibold hover:border-electric-500/50 hover:text-electric-400 transition-all duration-300"
+          >
+            {t.ctaText}
+            <ArrowRight 
+              size={20} 
+              weight="bold" 
+              className="group-hover:translate-x-1 transition-transform" 
+            />
+          </Link>
         </div>
       </div>
     </section>

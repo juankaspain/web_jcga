@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <circle cx="32" cy="32" r="30" fill="#326CE5" stroke="#2558C7" stroke-width="2"/>
+  <path d="M32 18l-2 1.5v7l-6 3.5v7l6 3.5v7l2 1.5 2-1.5v-7l6-3.5v-7l-6-3.5v-7L32 18z" fill="#fff" opacity="0.3"/>
+  <circle cx="32" cy="32" r="8" stroke="#fff" stroke-width="1.5" fill="none"/>
+  <text x="32" y="35" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#fff">CKA</text>
+  <text x="32" y="50" text-anchor="middle" font-family="system-ui,sans-serif" font-size="4" font-weight="600" fill="#93C5FD">CNCF</text>
+</svg>

@@ -1,135 +1,324 @@
-# Dependencies
+# ============================================================================
+# .gitignore - web_jcga (Next.js + TypeScript + Vercel)
+# Professional configuration for full-stack web application
+# Last updated: 2026-02-07
+# ============================================================================
+
+# ============================================================================
+# DEPENDENCIES & PACKAGE MANAGERS
+# ============================================================================
 node_modules/
 .pnp
 .pnp.js
+.pnp.cjs
+.pnp.loader.mjs
+
+# Yarn v2+ (Berry)
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
 .yarn/install-state.gz
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# pnpm
 .pnpm-store/
+.pnpm-debug.log
 
-# Testing
-coverage/
-*.lcov
-.nyc_output/
+# npm
+.npm
+package-lock.json.bak
 
-# Next.js
+# Bun
+bun.lockb
+.bun/
+
+# ============================================================================
+# NEXT.JS BUILD & FRAMEWORK
+# ============================================================================
 .next/
 out/
 build/
 dist/
-.vercel
 .turbo/
+.swc/
 
-# Production
-build
+# Next.js TypeScript declarations (auto-generated)
+next-env.d.ts
 
-# Debug
+# Vercel
+.vercel
+
+# ============================================================================
+# ENVIRONMENT VARIABLES & SECRETS
+# ============================================================================
+.env
+.env.*
+!.env.example
+!.env.template
+.env.local
+.env.development.local
+.env.test.local
+.env.staging.local
+.env.production.local
+
+# Secret keys & tokens
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+.secret
+.secrets/
+serviceAccountKey.json
+firebase-adminsdk*.json
+
+# ============================================================================
+# TYPESCRIPT & BUILD ARTIFACTS
+# ============================================================================
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+*.js.map
+*.d.ts.map
+
+# ============================================================================
+# TESTING & CODE QUALITY
+# ============================================================================
+coverage/
+*.lcov
+.nyc_output/
+junit.xml
+test-results/
+playwright-report/
+playwright/.cache/
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+.vitest-results/
+
+# ============================================================================
+# LINTING & FORMATTING CACHES
+# ============================================================================
+.eslintcache
+.stylelintcache
+.prettiercache
+.cache/
+
+# ============================================================================
+# DEBUG & LOGS
+# ============================================================================
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+logs/
+*.log
+*.log.*
 
-# Local env files
-.env
-.env*.local
-.env.development.local
-.env.test.local
-.env.production.local
+# ============================================================================
+# IDE & EDITOR CONFIGURATION
+# ============================================================================
 
-# Vercel
-.vercel
-
-# TypeScript
-*.tsbuildinfo
-next-env.d.ts
-*.tsbuildinfo
-
-# IDE - VSCode
+# VSCode - ignore all except shared config
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/snippets/
 *.code-workspace
 
-# IDE - IntelliJ IDEA / WebStorm
+# JetBrains (IntelliJ IDEA / WebStorm / PhpStorm)
 .idea/
 *.iml
 *.ipr
 *.iws
-out/
 
-# IDE - Eclipse
+# Vim / Neovim
+*.swp
+*.swo
+*~
+*.vim
+Session.vim
+.netrwhist
+tags
+
+# Emacs
+\#*\#
+.#*
+*~
+auto-save-list/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Eclipse
 .project
 .classpath
 .c9/
 *.launch
 .settings/
-*.sublime-workspace
 
-# OS Files
+# Cursor / Windsurf / AI Editors
+.cursor/
+.cursorignore
+.windsurf/
+
+# ============================================================================
+# OPERATING SYSTEM FILES
+# ============================================================================
+
+# macOS
 .DS_Store
 .DS_Store?
+.AppleDouble
+.LSOverride
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
+Icon\r
+
+# Windows
 Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
 Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.stackdump
 
-# Temporary files
-*.tmp
-*.temp
-*.swp
-*.swo
+# Linux
 *~
-.cache/
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
 
-# Logs
-logs/
-*.log
+# ============================================================================
+# DOCKER & CONTAINERIZATION
+# ============================================================================
+.docker/
+docker-compose.override.yml
+*.env.docker
 
-# Optional npm cache directory
-.npm
+# ============================================================================
+# CI/CD & DEPLOYMENT
+# ============================================================================
+.netlify/
+.serverless/
+.amplify/
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+.terraform/
+*.tfstate
+*.tfstate.backup
+.pulumi/
+cdk.out/
 
-# Optional eslint cache
-.eslintcache
+# ============================================================================
+# MONITORING & ERROR TRACKING
+# ============================================================================
+.sentryclirc
+sentry.properties
 
-# Optional stylelint cache
-.stylelintcache
-
-# Microbundle cache
+# ============================================================================
+# BUNDLER & COMPILER CACHES
+# ============================================================================
+.parcel-cache/
 .rpt2_cache/
 .rts2_cache_cjs/
 .rts2_cache_es/
 .rts2_cache_umd/
+.fusebox/
+.dynamodb/
+.webpack/
+.serverless/
 
-# Optional REPL history
+# ============================================================================
+# STORYBOOK
+# ============================================================================
+storybook-static/
+.storybook-out/
+build-storybook.log
+
+# ============================================================================
+# PACKAGE OUTPUTS
+# ============================================================================
+*.tgz
+*.tar.gz
+*.zip
+
+# ============================================================================
+# MISCELLANEOUS
+# ============================================================================
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+
+# REPL history
 .node_repl_history
 
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
+# Yarn integrity
 .yarn-integrity
 
-# parcel-bundler cache
-.parcel-cache
+# Contentlayer
+.contentlayer/
 
-# Storybook build outputs
-.out
-.storybook-out
-storybook-static
+# Prisma
+prisma/generated/
 
-# Sentry
-.sentryclirc
+# GraphQL codegen
+src/gql/
 
-# Certificates
-*.pem
-*.key
-*.cert
+# Playwright state
+playwright/.auth/
 
-# Local Netlify folder
-.netlify
+# Chromatic
+.chromatic/
+
+# Analyze bundle
+.analyze/
+analyze/
+
+# PWA generated files
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
+public/swe-worker-*.js
+
+# Sitemap generator output (if dynamically generated)
+public/sitemap*.xml
+!public/sitemap.xml
+public/robots.txt.bak
+
+# ============================================================================
+# MEDIA & LARGE FILES (use Git LFS for these if needed)
+# ============================================================================
+# *.mp4
+# *.mov
+# *.avi
+# *.wmv
+# *.flv
+# *.webm
+# *.mp3
+# *.wav
+# *.flac
+# *.psd
+# *.ai
+# *.sketch
+# *.fig

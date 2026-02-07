@@ -189,7 +189,126 @@ const projectsES: Project[] = [
 ]
 
 const projectsEN: Project[] = [
-  // English versions...
+  {
+    slug: 'sepa-platform',
+    title: 'SEPA Instant Payments Platform',
+    subtitle: 'Cloud-native architecture for 24/7 instant transfer processing',
+    problem: 'Building from scratch a platform to process SEPA Instant transfers 24/7 with high availability and PSD2 regulatory compliance.',
+    thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=800&fit=crop',
+    thumbnailAlt: 'SEPA Platform Dashboard',
+    highlightMetric: {
+      icon: '🎯',
+      label: 'SLA',
+      value: '99.95%'
+    },
+    tags: ['Azure', 'Kubernetes', 'Spring Boot', 'PostgreSQL', 'Redis', 'Kafka', 'Terraform'],
+    metrics: [
+      { value: '2M', label: 'Trans/day' },
+      { value: '5M+', label: 'Users' },
+      { value: '<2s', label: 'Latency P95' }
+    ],
+    challenge: {
+      title: 'The Challenge',
+      content: [
+        'Santander needed a completely new platform to process SEPA Instant Payments complying with the PSD2 directive and European Payments Council (EPC) standards.',
+        'The solution had to handle 2 million daily transactions with 24/7/365 availability, latencies under 2 seconds (P95), and guarantee 99.95% SLA.',
+        'Critical requirements: ISO 20022 validation, atomic processing of pain.001/pacs.008 messages, real-time bank reconciliation, and complete audit trail for regulatory compliance.'
+      ]
+    },
+    solution: {
+      title: 'The Solution',
+      content: [
+        'Designed a cloud-native architecture on Azure with 12 microservices deployed on AKS (Azure Kubernetes Service) using Istio as service mesh for observability and circuit breaking.',
+        'Implemented event-driven architecture with Kafka for asynchronous processing, PostgreSQL with date-based partitioning for historical data, and Redis Cluster for distributed validation caching.',
+        'Infrastructure as code with Terraform + Bicep, CI/CD pipelines with Azure DevOps and ArgoCD for GitOps, and 24/7 monitoring with Grafana + Prometheus + Azure Application Insights.'
+      ]
+    },
+    impact: {
+      title: 'The Impact',
+      content: [
+        'Successful production launch processing 2M transactions/day with 99.95% SLA, exceeding the 99.9% target.',
+        'P95 latency of 1.8 seconds (target: <2s), with P99 of 3.2s. Zero downtime during migration from 500K pilot users to 5M users in production.',
+        '35% reduction in operational costs vs legacy on-premise solution, and capacity to scale to 5M transactions/day without architectural changes.'
+      ]
+    },
+    techStack: [
+      { category: 'Backend', technologies: ['Java 17', 'Spring Boot 3', 'Spring Cloud', 'Spring Data JPA', 'Resilience4j'] },
+      { category: 'Cloud & Infrastructure', technologies: ['Azure AKS', 'Azure Service Bus', 'Azure Functions', 'Istio', 'Terraform', 'Helm'] },
+      { category: 'Data', technologies: ['PostgreSQL 15', 'Redis Cluster', 'Apache Kafka', 'Azure SQL'] },
+      { category: 'DevOps', technologies: ['Azure DevOps', 'ArgoCD', 'Grafana', 'Prometheus', 'SonarQube', 'Trivy'] }
+    ],
+    results: [
+      { metric: '99.95% SLA', description: 'Production availability, exceeding 99.9% target' },
+      { metric: '2M trans/day', description: 'Daily processing with capacity for 5M' },
+      { metric: '<2s latency P95', description: 'End-to-end response time including validations' },
+      { metric: '-35% costs', description: 'Reduction vs legacy on-premise solution' },
+      { metric: '0 downtime', description: 'During migration from 500K to 5M users' },
+      { metric: 'PSD2 compliant', description: 'EPC certification for SEPA Instant Payments' }
+    ],
+    timeline: '18 months (design, development, testing, production)',
+    team: '12 people (4 backend, 2 frontend, 2 QA, 2 DevOps, 1 PO, 1 Architect)',
+    role: 'Senior Technical Lead - Architecture, technical design, backend team leadership'
+  },
+  {
+    slug: 'payment-orchestrator',
+    title: 'Multi-PSP Orchestrator',
+    subtitle: 'Event-driven architecture for intelligent payment routing',
+    problem: 'Design of event-driven architecture to route payments to 8+ providers (Redsys, Stripe, PayPal) with automatic failover and cost optimization.',
+    thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=800&fit=crop',
+    thumbnailAlt: 'Payment Orchestrator Architecture',
+    highlightMetric: {
+            icon: '⚡',
+      label: 'Savings',
+      value: '30% costs'
+    },
+    tags: ['Node.js', 'TypeScript', 'RabbitMQ', 'MongoDB', 'Docker', 'Kong'],
+    metrics: [
+      { value: '500K', label: 'Trans/day' },
+      { value: '8', label: 'PSPs' },
+      { value: '99.9%', label: 'Uptime' }
+    ],
+    challenge: {
+      title: 'The Challenge',
+      content: [
+        'The bank needed to centralize integration with 8 different payment providers (PSPs), each with their own APIs, commission rates, and availability levels.',
+        'Goal: reduce processing costs through intelligent routing based on transaction type, amount, and real-time availability of each PSP.',
+        'Requirements: automatic failover if a PSP goes down, configurable retry logic, complete audit trail, and ability to add new PSPs without downtime.'
+      ]
+    },
+    solution: {
+      title: 'The Solution',
+      content: [
+        'Event-driven architecture with RabbitMQ to decouple publishers (checkout APIs) from consumers (PSP adapters). Saga Pattern for distributed orchestration.',
+        'Rule-based routing engine with dynamic scoring: commission rates, average latency, approval rate, and historical availability of each PSP.',
+        'Standardized PSP adapters with circuit breakers, Retry Pattern implementation with exponential backoff, and OAuth token caching in Redis.'
+      ]
+    },
+    impact: {
+      title: 'The Impact',
+      content: [
+        '30% reduction in processing costs through intelligent routing to PSPs with lower commissions based on transaction type.',
+        '99.9% uptime thanks to automatic failover: when a PSP goes down, transactions are rerouted to backup in <500ms without manual intervention.',
+        'Time-to-market for new PSPs reduced from 2 months to 1 week thanks to standardized adapters and zero-downtime deployments.'
+      ]
+    },
+    techStack: [
+      { category: 'Backend', technologies: ['Node.js 18', 'TypeScript', 'Express', 'Nest.js', 'Joi'] },
+      { category: 'Messaging & Data', technologies: ['RabbitMQ', 'MongoDB', 'Redis', 'Elasticsearch'] },
+      { category: 'Infrastructure', technologies: ['Docker', 'AWS ECS', 'Kong API Gateway', 'Terraform'] },
+      { category: 'Monitoring', technologies: ['Grafana', 'Prometheus', 'Sentry', 'CloudWatch'] }
+    ],
+    results: [
+      { metric: '-30% costs', description: 'Commission reduction through intelligent routing' },
+      { metric: '99.9% uptime', description: 'Thanks to automatic failover between PSPs' },
+      { metric: '<500ms failover', description: 'Rerouting time when a PSP goes down' },
+      { metric: '500K trans/day', description: 'Volume processed with 8 different PSPs' },
+      { metric: '1 week', description: 'Time-to-market to add a new PSP' },
+      { metric: '8 PSPs', description: 'Redsys, Stripe, PayPal, Bizum, and 4 more' }
+    ],
+    timeline: '9 months (MVP in 3 months, 6 months integrating all PSPs)',
+    team: '8 people (3 backend, 1 frontend, 2 QA, 1 DevOps, 1 PO)',
+    role: 'Solutions Architect - Architecture design, pattern definition, technical review'
+  }
 ]
 
 export function getProject(slug: string, locale: 'es' | 'en' = 'es'): Project | undefined {

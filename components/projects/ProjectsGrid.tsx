@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import Link from "next/link"
-import { projects } from "@/lib/data/projects"
+import { getAllProjects } from "@/lib/data/projects"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 import { getTranslatedProject } from "@/lib/i18n/projects"
 import { GlassCard } from "@/components/ui/GlassCard"
@@ -26,10 +26,11 @@ const categories = [
 export function ProjectsGrid({ locale = "es", limit, showFilters = true }: ProjectsGridProps) {
   const [activeFilter, setActiveFilter] = useState("all")
   const prefersReducedMotion = useReducedMotion()
+  const projects = getAllProjects(locale)
 
   const filteredProjects = projects.filter((project) => {
     if (activeFilter === "all") return true
-    return project.categories?.includes(activeFilter)
+    return project.tags?.some(tag => tag.toLowerCase().includes(activeFilter))
   })
 
   const displayedProjects = limit ? filteredProjects.slice(0, limit) : filteredProjects
@@ -60,8 +61,8 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
             initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={prefersReducedMotion ? { duration: 0 } : undefined}
-            className="mb-10 flex flex-wrap justify-center gap-3"
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: 0.2 }}
+            className="mb-8 flex flex-wrap justify-center gap-3"
           >
             {categories.map((cat) => (
               <button
@@ -81,53 +82,44 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
 
         {/* Projects grid with GlassCard */}
         <motion.div
-          variants={prefersReducedMotion ? undefined : staggerContainer}
-          initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
-          whileInView={prefersReducedMotion ? { opacity: 1 } : "visible"}
-          viewport={{ once: true }}
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="grid gap-6 md:grid-cols-2"
         >
           {displayedProjects.map((project) => {
-            const translated = getTranslatedProject(project.id, locale) || {}
-            const metrics = translated.metrics || project.metrics
-            
+            const translated = getTranslatedProject(project.slug, locale) || {}
+            const projectMetrics = translated.metrics || project.metrics
+            const allTechnologies = project.techStack?.flatMap(ts => ts.technologies) || project.tags || []
+
             return (
-              <motion.div
-                key={project.id}
-                variants={prefersReducedMotion ? undefined : staggerItem}
-              >
-                <GlassCard 
-                  glowColor="cyan" 
-                  hover={!prefersReducedMotion}
-                  className="h-full"
-                >
-                  <article className="group h-full">
+              <motion.div key={project.slug} variants={staggerItem}>
+                <Link href={`/projects/${project.slug}`}>
+                  <GlassCard className="group relative overflow-hidden p-0 transition-all hover:scale-[1.02]">
                     {/* Project image/preview area */}
-                    <div className="relative h-40 overflow-hidden rounded-t-2xl">
+                    <div className="relative h-48 overflow-hidden">
                       {/* Gradient background */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 transition-opacity duration-300 group-hover:opacity-70" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20" />
 
                       {/* Project icon/visual */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-6xl opacity-30 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                          {project.icon || "💼"}
-                        </div>
+                      <div className="flex h-full items-center justify-center">
+                        <span className="text-5xl">
+                          {project.highlightMetric?.icon || "\uD83D\uDCBC"}
+                        </span>
                       </div>
 
                       {/* Category badges */}
-                      <div className="absolute left-3 top-3 flex flex-wrap gap-1">
-                        {project.categories?.slice(0, 2).map((cat) => (
-                          <span
-                            key={cat}
-                            className="rounded-full bg-slate-950/80 px-2 py-0.5 text-xs font-medium text-cyan-400 backdrop-blur-sm"
-                          >
-                            {cat}
+                      <div className="absolute bottom-3 left-3 flex gap-2">
+                        {project.tags?.slice(0, 2).map((tag) => (
+                          <span key={tag} className="rounded-full bg-slate-900/80 px-2 py-1 text-xs text-cyan-300">
+                            {tag}
                           </span>
                         ))}
                       </div>
 
                       {/* Hover overlay */}
-                      <div className="absolute inset-0 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="absolute inset-0 flex items-center justify-center bg-slate-950/60 opacity-0 transition-opacity group-hover:opacity-100">
                         <span className="rounded-full bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950">
                           {locale === "es" ? "Ver detalles" : "View details"}
                         </span>
@@ -135,48 +127,48 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
                     </div>
 
                     {/* Content */}
-                    <div className="p-5">
-                      <h3 className="mb-2 text-lg font-semibold text-slate-50 transition-colors group-hover:text-cyan-300">
+                    <div className="p-6">
+                      <h3 className="mb-2 text-lg font-semibold text-slate-50">
                         {translated.title || project.title}
                       </h3>
-
-                      <p className="mb-4 line-clamp-2 text-sm text-slate-400">
-                        {translated.description || project.description}
+                      <p className="mb-4 text-sm text-slate-400 line-clamp-2">
+                        {translated.description || translated.subtitle || project.subtitle}
                       </p>
 
                       {/* Impact metrics */}
-                      {metrics && metrics.length > 0 && (
-                        <div className="mb-4 flex flex-wrap gap-3">
-                          {metrics.slice(0, 2).map((metric, mIndex) => (
-                            <div key={mIndex} className="text-center">
-                              <div className="text-lg font-bold text-cyan-400">{metric.value}</div>
-                              <div className="text-xs text-slate-500">{metric.label}</div>
+                      {projectMetrics && projectMetrics.length > 0 && (
+                        <div className="mb-4 flex gap-6">
+                          {projectMetrics.slice(0, 2).map((metric: { value: string; label: string }, mIndex: number) => (
+                            <div key={mIndex}>
+                              <div className="text-lg font-bold text-cyan-400">
+                                {metric.value}
+                              </div>
+                              <div className="text-xs text-slate-500">
+                                {metric.label}
+                              </div>
                             </div>
                           ))}
                         </div>
                       )}
 
                       {/* Tech stack */}
-                      {project.technologies && project.technologies.length > 0 && (
+                      {allTechnologies.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
-                          {project.technologies.slice(0, 4).map((tech) => (
-                            <span
-                              key={tech}
-                              className="rounded bg-slate-800 px-2 py-0.5 text-xs text-slate-400"
-                            >
+                          {allTechnologies.slice(0, 4).map((tech) => (
+                            <span key={tech} className="rounded bg-slate-800 px-2 py-0.5 text-xs text-slate-400">
                               {tech}
                             </span>
                           ))}
-                          {project.technologies.length > 4 && (
-                            <span className="rounded bg-slate-800/50 px-2 py-0.5 text-xs text-slate-500">
-                              +{project.technologies.length - 4}
+                          {allTechnologies.length > 4 && (
+                            <span className="rounded bg-slate-800 px-2 py-0.5 text-xs text-slate-500">
+                              +{allTechnologies.length - 4}
                             </span>
                           )}
                         </div>
                       )}
                     </div>
-                  </article>
-                </GlassCard>
+                  </GlassCard>
+                </Link>
               </motion.div>
             )
           })}
@@ -184,22 +176,14 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
 
         {/* View all link */}
         {limit && filteredProjects.length > limit && (
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="mt-12 text-center"
-          >
+          <div className="mt-12 text-center">
             <Link
-              href={locale === "es" ? "/projects" : "/en/projects"}
-              className="inline-flex items-center gap-2 rounded-full border border-cyan-500/50 bg-cyan-500/10 px-6 py-3 text-sm font-medium text-cyan-400 transition-all hover:bg-cyan-500/20"
+              href="/projects"
+              className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
             >
               {locale === "es" ? "Ver todos los proyectos" : "View all projects"}
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
             </Link>
-          </motion.div>
+          </div>
         )}
       </div>
     </section>

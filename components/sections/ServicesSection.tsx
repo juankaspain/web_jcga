@@ -103,7 +103,7 @@ export function ServicesSection({ locale = 'es' }: ServicesSectionProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-navy-950 to-slate-950" />
       <div className="absolute inset-0 bg-grid opacity-30" />
 
-      <div className="relative container-professional">
+      <div className="relative mx-auto max-w-7xl px-6">
 
         {/* Header */}
         <div className="max-w-4xl mx-auto text-center mb-16">

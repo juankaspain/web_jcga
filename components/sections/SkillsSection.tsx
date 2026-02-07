@@ -54,8 +54,8 @@ const mockSkillCategories = {
         }
       ],
       certBadges: [
-        { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.png' },
-        { name: 'Kubernetes Administrator', icon: '/certs/cka.png' }
+        { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.svg' },
+        { name: 'Kubernetes Administrator', icon: '/certs/cka.svg' }
       ]
     },
     {
@@ -84,7 +84,7 @@ const mockSkillCategories = {
         }
       ],
       certBadges: [
-        { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.png' }
+        { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.svg' }
       ]
     },
     {
@@ -113,8 +113,8 @@ const mockSkillCategories = {
         }
       ],
       certBadges: [
-        { name: 'Azure Data Engineer', icon: '/certs/azure-data.png' },
-        { name: 'Databricks Certified', icon: '/certs/databricks.png' }
+        { name: 'Azure Data Engineer', icon: '/certs/azure-data.svg' },
+        { name: 'Databricks Certified', icon: '/certs/databricks.svg' }
       ]
     },
     {
@@ -143,7 +143,7 @@ const mockSkillCategories = {
         }
       ],
       certBadges: [
-        { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.png' }
+        { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.svg' }
       ]
     }
   ],
@@ -174,8 +174,8 @@ const mockSkillCategories = {
         }
       ],
       certBadges: [
-        { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.png' },
-        { name: 'Kubernetes Administrator', icon: '/certs/cka.png' }
+        { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.svg' },
+        { name: 'Kubernetes Administrator', icon: '/certs/cka.svg' }
       ]
     },
     {
@@ -204,7 +204,7 @@ const mockSkillCategories = {
         }
       ],
       certBadges: [
-        { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.png' }
+        { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.svg' }
       ]
     },
     {
@@ -233,8 +233,8 @@ const mockSkillCategories = {
         }
       ],
       certBadges: [
-        { name: 'Azure Data Engineer', icon: '/certs/azure-data.png' },
-        { name: 'Databricks Certified', icon: '/certs/databricks.png' }
+        { name: 'Azure Data Engineer', icon: '/certs/azure-data.svg' },
+        { name: 'Databricks Certified', icon: '/certs/databricks.svg' }
       ]
     },
     {
@@ -263,7 +263,7 @@ const mockSkillCategories = {
         }
       ],
       certBadges: [
-        { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.png' }
+        { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.svg' }
       ]
     }
   ]

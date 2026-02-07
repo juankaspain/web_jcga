@@ -7,12 +7,14 @@ interface ExperienceSectionProps {
 
 const copy = {
   es: {
-    title: 'Trayectoria Profesional',
-    subtitle: 'Liderazgo técnico en proyectos críticos de banca digital'
+    eyebrow: 'Trayectoria',
+    title: 'Dónde he creado impacto',
+    subtitle: 'Liderazgo técnico en proyectos críticos de transformación digital bancaria'
   },
   en: {
-    title: 'Professional Experience',
-    subtitle: 'Technical leadership in critical digital banking projects'
+    eyebrow: 'Career',
+    title: 'Where I\'ve created impact',
+    subtitle: 'Technical leadership in critical digital banking transformation projects'
   }
 }
 
@@ -265,6 +267,7 @@ export function ExperienceSection({ locale = 'es' }: ExperienceSectionProps) {
       
       <div className="relative container-professional">
         <SectionHeading
+          eyebrow={t.eyebrow}
           title={t.title}
           subtitle={t.subtitle}
           align="center"

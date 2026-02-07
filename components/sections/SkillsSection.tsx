@@ -13,12 +13,14 @@ interface SkillsSectionProps {
 
 const copy = {
   es: {
-    title: 'Stack Técnico',
-    subtitle: 'Tecnologías probadas en producción bancaria con millones de usuarios'
+    eyebrow: 'Expertise',
+    title: 'Stack tecnológico validado en producción',
+    subtitle: 'Tecnologías probadas en entornos bancarios reales con millones de usuarios activos'
   },
   en: {
-    title: 'Tech Stack',
-    subtitle: 'Technologies proven in banking production with millions of users'
+    eyebrow: 'Expertise',
+    title: 'Tech stack validated in production',
+    subtitle: 'Technologies proven in real banking environments with millions of active users'
   }
 }
 
@@ -277,6 +279,7 @@ export function SkillsSection({ locale = 'es' }: SkillsSectionProps) {
       
       <div className="relative container-professional">
         <SectionHeading
+          eyebrow={t.eyebrow}
           title={t.title}
           subtitle={t.subtitle}
           align="center"

@@ -61,7 +61,7 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           className="text-center mb-12"
         >
           <div className="inline-flex items-baseline gap-2">
-            <AnimatedCounter target={totalCerts} className="text-7xl font-black bg-gradient-to-r from-cyan-400 to-electric-400 bg-clip-text text-transparent" />
+            <AnimatedCounter value={totalCerts} className="text-7xl font-black bg-gradient-to-r from-cyan-400 to-electric-400 bg-clip-text text-transparent" />
             <span className="text-xl text-slate-400">+</span>
           </div>
           <motion.p

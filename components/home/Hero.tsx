@@ -86,7 +86,7 @@ export function Hero({ locale = "es" }: HeroProps) {
       <div className="absolute inset-0 bg-gradient-radial" />
 
       {/* Content */}
-      <div className="relative container-professional py-32">
+      <div className="relative mx-auto max-w-7xl px-6 py-32">
         <motion.div
           key={mounted ? "animating" : "static"}
           initial={mounted ? (prefersReducedMotion ? { opacity: 1 } : "hidden") : { opacity: 1 }}

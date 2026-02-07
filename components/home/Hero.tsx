@@ -1,10 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
-import { 
+import {
   ArrowRight,
   Briefcase,
   ChartLine,
@@ -67,30 +68,36 @@ export function Hero({ locale = "es" }: HeroProps) {
   const projectsLink = locale === "en" ? "/en/projects/sepa-platform" : "/projects/sepa-platform"
   const expertiseLink = locale === "en" ? "/en/skills" : "/skills"
   const prefersReducedMotion = useReducedMotion()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
-    <section className="relative min-h-[90vh] flex items-center">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-navy-950">
       {/* Simplified premium background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-slate-950 to-navy-900" />
-      
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950" />
+
       {/* Professional grid pattern overlay */}
       <div className="absolute inset-0 bg-grid opacity-50" />
-      
+
       {/* Subtle radial gradient for depth */}
       <div className="absolute inset-0 bg-gradient-radial" />
 
       {/* Content */}
       <div className="relative container-professional py-32">
         <motion.div
-          initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
-          animate={prefersReducedMotion ? { opacity: 1 } : "visible"}
-          variants={prefersReducedMotion ? undefined : staggerContainer}
+          key={mounted ? "animating" : "static"}
+          initial={mounted ? (prefersReducedMotion ? { opacity: 1 } : "hidden") : { opacity: 1 }}
+          animate={mounted ? (prefersReducedMotion ? { opacity: 1 } : "visible") : { opacity: 1 }}
+          variants={mounted && !prefersReducedMotion ? staggerContainer : undefined}
           className="max-w-5xl"
         >
-          
+
           {/* Professional Kicker - Authority signal */}
-          <motion.div 
-            variants={prefersReducedMotion ? undefined : staggerItem}
+          <motion.div
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="flex items-center gap-2 mb-4"
           >
             <Briefcase size={16} weight="duotone" className="text-gold-500" />
@@ -98,63 +105,67 @@ export function Hero({ locale = "es" }: HeroProps) {
               {t.kicker}
             </p>
           </motion.div>
-          
+
           {/* H1: Value proposition (problem/solution) */}
-          <motion.h1 
-            variants={prefersReducedMotion ? undefined : staggerItem}
+          <motion.h1
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
           >
             <span className="block text-white mb-2">{t.h1Line1}</span>
             <span className="block text-gradient-fintech">{t.h1Line2}</span>
           </motion.h1>
-          
+
           {/* Description with concrete quantifiable data */}
-          <motion.p 
-            variants={prefersReducedMotion ? undefined : staggerItem}
+          <motion.p
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="text-xl text-slate-300 max-w-3xl mb-8 leading-relaxed"
           >
             {t.description}
           </motion.p>
-          
+
           {/* Specific outcome-oriented CTAs */}
-          <motion.div 
-            variants={prefersReducedMotion ? undefined : staggerItem}
+          <motion.div
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="flex flex-wrap gap-4 mb-16"
           >
-            <Link 
+            <Link
               href={projectsLink}
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-electric-500 to-electric-600 text-white rounded-lg font-semibold hover:from-electric-400 hover:to-electric-500 transition-all duration-300 shadow-lg glow-electric-sm hover:glow-electric"
+              className="group inline-flex items-center gap-2 bg-electric-500 hover:bg-electric-600 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-electric-500/25 hover:shadow-electric-500/40"
             >
               {t.ctaPrimary}
-              <ArrowRight size={20} weight="bold" className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight
+                size={20}
+                weight="bold"
+                className="group-hover:translate-x-1 transition-transform duration-200"
+              />
             </Link>
-            <Link 
+            <Link
               href={expertiseLink}
-              className="group inline-flex items-center gap-2 px-8 py-4 border-2 border-slate-700 glass text-slate-300 rounded-lg font-semibold hover:border-electric-500/50 hover:text-electric-400 transition-all duration-300"
+              className="inline-flex items-center gap-2 border-2 border-slate-700 hover:border-electric-500/50 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300"
             >
               {t.ctaSecondary}
             </Link>
           </motion.div>
-          
+
           {/* Stats inline - integrated, not competing */}
-          <motion.div 
-            variants={prefersReducedMotion ? undefined : staggerItem}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-16 border-t border-slate-800/50"
+          <motion.div
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl"
           >
             {t.stats.map((stat, index) => {
               const IconComponent = stat.icon
               return (
                 <motion.div
                   key={stat.label}
-                  initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.8 + index * 0.1 }}
+                  initial={mounted ? (prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }) : { opacity: 1 }}
+                  animate={mounted ? { opacity: 1, y: 0 } : { opacity: 1 }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.8 + index * 0.1, duration: 0.5 }}
                   className="group"
                 >
-                  <div className="flex items-center gap-2 mb-2">
-                    <IconComponent 
-                      size={20} 
-                      weight="duotone" 
+                  <div className="flex items-center gap-2 mb-1">
+                    <IconComponent
+                      size={16}
+                      weight="duotone"
                       className="text-electric-500 group-hover:text-electric-400 transition-colors duration-300"
                     />
                     <div className="text-3xl md:text-4xl font-bold text-gradient-electric">
@@ -172,9 +183,9 @@ export function Hero({ locale = "es" }: HeroProps) {
       </div>
 
       {/* Scroll indicator - minimal */}
-      <motion.div 
-        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-        animate={{ opacity: 1 }}
+      <motion.div
+        initial={mounted ? (prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }) : { opacity: 1 }}
+        animate={mounted ? { opacity: 1 } : { opacity: 1 }}
         transition={prefersReducedMotion ? { duration: 0 } : { delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >

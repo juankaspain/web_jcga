@@ -1,3 +1,5 @@
+"use client"
+
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { SkillMatrix } from '@/components/skills/SkillMatrix'
 import { 

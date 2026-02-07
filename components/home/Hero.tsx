@@ -5,6 +5,14 @@ import dynamic from "next/dynamic"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 import { MagneticButton } from "@/components/ui/MagneticButton"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
+import { 
+  Rocket, 
+  Trophy, 
+  Users, 
+  TrendUp,
+  ArrowRight,
+  Envelope 
+} from "@phosphor-icons/react"
 
 // Dynamic import para ParticleNetwork (no SSR, es Canvas)
 const ParticleNetwork = dynamic(
@@ -31,10 +39,10 @@ const copy = {
     cta: "Ver proyectos",
     ctaSecondary: "Contactar",
     stats: [
-      { value: "15+", label: "Años experiencia" },
-      { value: "140+", label: "Certificaciones" },
-      { value: "12", label: "Equipo actual" },
-      { value: "5M+", label: "Usuarios impactados" }
+      { value: "15+", label: "Años experiencia", icon: Rocket },
+      { value: "140+", label: "Certificaciones", icon: Trophy },
+      { value: "12", label: "Equipo actual", icon: Users },
+      { value: "5M+", label: "Usuarios impactados", icon: TrendUp }
     ],
     techStack: "TECH STACK",
     scroll: "SCROLL PARA EXPLORAR"
@@ -50,17 +58,24 @@ const copy = {
     cta: "View projects",
     ctaSecondary: "Contact me",
     stats: [
-      { value: "15+", label: "Years experience" },
-      { value: "140+", label: "Certifications" },
-      { value: "12", label: "Current team" },
-      { value: "5M+", label: "Users impacted" }
+      { value: "15+", label: "Years experience", icon: Rocket },
+      { value: "140+", label: "Certifications", icon: Trophy },
+      { value: "12", label: "Current team", icon: Users },
+      { value: "5M+", label: "Users impacted", icon: TrendUp }
     ],
     techStack: "TECH STACK",
     scroll: "SCROLL TO EXPLORE"
   }
 }
 
-const techBadges = ["Azure", "Kubernetes", "Python", "React", "Node.js", "Terraform"]
+const techBadges = [
+  { name: "Azure", color: "electric" },
+  { name: "Kubernetes", color: "electric" },
+  { name: "Python", color: "electric" },
+  { name: "React", color: "electric" },
+  { name: "Node.js", color: "electric" },
+  { name: "Terraform", color: "electric" }
+]
 
 export function Hero({ locale = "es" }: HeroProps) {
   const t = copy[locale]
@@ -68,160 +83,169 @@ export function Hero({ locale = "es" }: HeroProps) {
   const contactLink = locale === "en" ? "/en/contact" : "/contact"
   const prefersReducedMotion = useReducedMotion()
 
-  // Disable animations if user prefers reduced motion
-  const animationProps = prefersReducedMotion 
-    ? { initial: { opacity: 1 }, animate: { opacity: 1 } }
-    : {}
-
   return (
     <section className="relative min-h-screen overflow-hidden">
-      {/* Premium gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
+      {/* Premium Financial gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-slate-950 to-navy-950" />
       
-      {/* Animated gradient orbs - respects reduced motion */}
+      {/* Animated gradient orbs - Electric Blue + Gold palette */}
       {!prefersReducedMotion && (
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-1/2 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse animation-delay-1000" />
-          <div className="absolute -bottom-40 right-1/4 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-electric-500/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute top-1/2 -left-40 w-80 h-80 bg-gold-500/10 rounded-full blur-3xl animate-pulse animation-delay-1000" />
+          <div className="absolute -bottom-40 right-1/4 w-72 h-72 bg-electric-600/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
         </div>
       )}
 
-      {/* Neural Network Background - respects reduced motion */}
+      {/* Neural Network Background */}
       {!prefersReducedMotion && (
-        <div className="absolute inset-0 opacity-40">
+        <div className="absolute inset-0 opacity-30">
           <ParticleNetwork />
         </div>
       )}
 
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
+      {/* Professional grid overlay */}
+      <div className="absolute inset-0 bg-grid opacity-50" />
 
       {/* Content */}
-      <div className="relative mx-auto flex max-w-7xl flex-col gap-12 px-6 py-24 md:flex-row md:items-center md:py-32 lg:px-8">
-        
-        {/* Left: Main content */}
-        <motion.div
-          initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
-          animate={prefersReducedMotion ? { opacity: 1 } : "visible"}
-          variants={prefersReducedMotion ? undefined : staggerContainer}
-          className="flex-1 max-w-2xl"
-        >
-          {/* Availability badge */}
-          <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="mb-8">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
-                {!prefersReducedMotion && (
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                )}
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span className="text-sm font-medium text-slate-300">{t.available}</span>
-            </span>
-          </motion.div>
-
-          {/* Greeting */}
-          <motion.p 
-            variants={prefersReducedMotion ? undefined : staggerItem}
-            className="text-lg text-slate-400 mb-2"
+      <div className="relative container-professional flex min-h-screen flex-col justify-center py-24 md:py-32">
+        <div className="hero-layout">
+          
+          {/* Left: Main content */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
+            animate={prefersReducedMotion ? { opacity: 1 } : "visible"}
+            variants={prefersReducedMotion ? undefined : staggerContainer}
+            className="hero-left"
           >
-            {t.greeting}
-          </motion.p>
-
-          {/* Name with gradient */}
-          <motion.h1 variants={prefersReducedMotion ? undefined : staggerItem} className="mb-4">
-            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
-              {t.name}
-            </span>
-            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent tracking-tight">
-              {t.surname}
-            </span>
-          </motion.h1>
-
-          {/* Role */}
-          <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="mb-6">
-            <p className="text-xl md:text-2xl font-semibold text-slate-200">{t.role}</p>
-            <p className="text-xl md:text-2xl font-light text-cyan-400">{t.specialty}</p>
-          </motion.div>
-
-          {/* Description */}
-          <motion.p 
-            variants={prefersReducedMotion ? undefined : staggerItem}
-            className="text-lg text-slate-400 leading-relaxed mb-8 max-w-xl"
-          >
-            {t.description}
-          </motion.p>
-
-          {/* CTAs - Using MagneticButton */}
-          <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="flex flex-wrap gap-4 mb-12">
-            <MagneticButton
-              href={projectsLink}
-              variant="primary"
-              size="lg"
-              className="shadow-lg shadow-cyan-500/25"
-            >
-              {t.cta}
-              <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </MagneticButton>
-            <MagneticButton
-              href={contactLink}
-              variant="secondary"
-              size="lg"
-            >
-              {t.ctaSecondary}
-            </MagneticButton>
-          </motion.div>
-
-          {/* Tech badges */}
-          <motion.div variants={prefersReducedMotion ? undefined : staggerItem}>
-            <p className="text-xs font-semibold text-slate-500 tracking-wider mb-3">{t.techStack}</p>
-            <div className="flex flex-wrap gap-2">
-              {techBadges.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1.5 text-sm font-medium text-slate-400 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-cyan-500/30 hover:text-cyan-400 transition-all duration-200"
-                >
-                  {tech}
+            {/* Availability badge with gold accent */}
+            <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="mb-8">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-electric-500/20">
+                <span className="relative flex h-2 w-2">
+                  {!prefersReducedMotion && (
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success-500 opacity-75" />
+                  )}
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-success-500" />
                 </span>
-              ))}
+                <span className="text-sm font-medium text-slate-300">{t.available}</span>
+              </span>
+            </motion.div>
+
+            {/* Greeting */}
+            <motion.p 
+              variants={prefersReducedMotion ? undefined : staggerItem}
+              className="text-lg text-slate-400 mb-2"
+            >
+              {t.greeting}
+            </motion.p>
+
+            {/* Name with premium fintech gradient */}
+            <motion.h1 variants={prefersReducedMotion ? undefined : staggerItem} className="mb-6">
+              <span className="block text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-2">
+                {t.name}
+              </span>
+              <span className="block text-5xl md:text-6xl lg:text-7xl font-bold text-gradient-fintech tracking-tight">
+                {t.surname}
+              </span>
+            </motion.h1>
+
+            {/* Role with Electric Blue */}
+            <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="mb-6">
+              <p className="text-xl md:text-2xl font-semibold text-slate-200">{t.role}</p>
+              <p className="text-xl md:text-2xl font-light text-electric-400">{t.specialty}</p>
+            </motion.div>
+
+            {/* Description */}
+            <motion.p 
+              variants={prefersReducedMotion ? undefined : staggerItem}
+              className="text-lg text-slate-400 leading-relaxed mb-8 max-w-xl"
+            >
+              {t.description}
+            </motion.p>
+
+            {/* CTAs with Phosphor Icons */}
+            <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="flex flex-wrap gap-4 mb-12">
+              <MagneticButton
+                href={projectsLink}
+                variant="primary"
+                size="lg"
+                className="shadow-lg glow-electric-sm hover:glow-electric transition-shadow duration-300"
+              >
+                {t.cta}
+                <ArrowRight size={20} weight="bold" />
+              </MagneticButton>
+              <MagneticButton
+                href={contactLink}
+                variant="secondary"
+                size="lg"
+                className="hover-lift"
+              >
+                <Envelope size={20} weight="duotone" />
+                {t.ctaSecondary}
+              </MagneticButton>
+            </motion.div>
+
+            {/* Tech badges with hover effects */}
+            <motion.div variants={prefersReducedMotion ? undefined : staggerItem}>
+              <p className="text-xs font-semibold text-slate-500 tracking-wider mb-3">{t.techStack}</p>
+              <div className="flex flex-wrap gap-2">
+                {techBadges.map((tech) => (
+                  <span
+                    key={tech.name}
+                    className="px-3 py-1.5 text-sm font-medium text-slate-400 glass rounded-lg border border-slate-700/50 hover:border-electric-500/50 hover:text-electric-400 hover:shadow-glow-sm transition-all duration-300 cursor-default"
+                  >
+                    {tech.name}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Right: Interactive stats card with premium fintech styling */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.5, duration: 0.6 }}
+            className="hero-right"
+          >
+            <div className="card-interactive glass-strong p-8 relative">
+              {/* Gold accent corner */}
+              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-gold-500/20 to-transparent rounded-bl-3xl" />
+              
+              <div className="relative stats-grid">
+                {t.stats.map((stat, index) => {
+                  const IconComponent = stat.icon
+                  return (
+                    <motion.div
+                      key={stat.label}
+                      initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.7 + index * 0.1 }}
+                      className="group text-center p-4 rounded-xl hover:bg-slate-800/30 transition-colors duration-300"
+                    >
+                      <div className="flex flex-col items-center gap-2">
+                        <IconComponent 
+                          size={24} 
+                          weight="duotone" 
+                          className="text-gold-500 group-hover:text-gold-400 transition-colors duration-300"
+                        />
+                        <div className="text-4xl md:text-5xl font-bold text-gradient-electric">
+                          {stat.value}
+                        </div>
+                        <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
+                          {stat.label}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </div>
             </div>
           </motion.div>
-        </motion.div>
-
-        {/* Right: Stats card */}
-        <motion.div
-          initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.5, duration: 0.6 }}
-          className="w-full md:w-auto"
-        >
-          <div className="relative p-8 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-xl shadow-2xl">
-            {/* Glow effect */}
-            <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-cyan-500/20 via-transparent to-blue-500/20 opacity-0 hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative grid grid-cols-2 gap-8">
-              {t.stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.7 + index * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-slate-400 mt-1">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Scroll indicator - respects reduced motion */}
+      {/* Scroll indicator */}
       <motion.div 
         initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -232,9 +256,9 @@ export function Hero({ locale = "es" }: HeroProps) {
         <motion.div
           animate={prefersReducedMotion ? {} : { y: [0, 8, 0] }}
           transition={prefersReducedMotion ? {} : { duration: 2, repeat: Infinity }}
-          className="w-6 h-10 rounded-full border-2 border-slate-700 flex items-start justify-center p-2"
+          className="w-6 h-10 rounded-full border-2 border-slate-700 flex items-start justify-center p-2 hover:border-electric-500/50 transition-colors duration-300"
         >
-          <motion.div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+          <motion.div className="w-1.5 h-1.5 rounded-full bg-electric-400" />
         </motion.div>
       </motion.div>
     </section>

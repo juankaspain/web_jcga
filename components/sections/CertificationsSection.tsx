@@ -112,7 +112,7 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           transition={{ delay: 0.6 }}
           className="text-center"
         >
-          <MagneticButton href={locale === 'en' ? '/en/certifications' : '/certificaciones'}>
+          <MagneticButton href={locale === 'en' ? '/en/certifications' : '/certifications'}>
             {t.cta}
           </MagneticButton>
         </motion.div>

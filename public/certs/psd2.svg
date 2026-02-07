@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <circle cx="32" cy="32" r="30" fill="#1B5E20" stroke="#145218" stroke-width="2"/>
+  <rect x="18" y="22" width="28" height="20" rx="3" stroke="#A5D6A7" stroke-width="1.5" fill="none"/>
+  <path d="M22 30h8M22 34h12" stroke="#A5D6A7" stroke-width="1" opacity="0.6"/>
+  <circle cx="40" cy="32" r="4" stroke="#A5D6A7" stroke-width="1" fill="none"/>
+  <text x="32" y="52" text-anchor="middle" font-family="system-ui,sans-serif" font-size="6" font-weight="700" fill="#A5D6A7">PSD2</text>
+</svg>

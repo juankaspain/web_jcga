@@ -1,182 +1,278 @@
-"use client"
-
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { MagneticButton } from '@/components/ui/MagneticButton'
+import { ExperienceAccordion } from '@/components/experience/ExperienceAccordion'
 
 interface ExperienceSectionProps {
   locale?: 'es' | 'en'
 }
 
-const experiences = {
+const copy = {
+  es: {
+    title: 'Trayectoria Profesional',
+    subtitle: 'Liderazgo técnico en proyectos críticos de banca digital'
+  },
+  en: {
+    title: 'Professional Experience',
+    subtitle: 'Technical leadership in critical digital banking projects'
+  }
+}
+
+const mockExperiences = {
   es: [
     {
-      period: '2022 - Presente',
-      role: 'Senior Technical Lead',
+      role: 'Senior Technical Lead - Cloud & Payments',
       company: 'Santander Digital Services',
-      location: 'Madrid, España',
-      description: 'Liderando arquitectura de canales digitales para millones de clientes en múltiples países.',
-      highlights: ['Arquitectura Cloud', 'Equipos de 12+ personas', 'Multi-país'],
-      color: 'cyan',
+      period: '2020 - Presente',
+      teamSize: '12 personas',
+      budget: '€2.5M',
+      impact: '5M usuarios',
+      achievements: [
+        {
+          description: 'Lideré diseño e implementación de plataforma SEPA Instant Payments desde cero, alcanzando SLA 99.95% en producción',
+          metric: '2M trans/día'
+        },
+        {
+          description: 'Migración completa de monolito on-premise a microservicios en Azure AKS con zero downtime, reduciendo costes operacionales',
+          metric: '-35% costes'
+        },
+        {
+          description: 'Implementación de sistema anti-fraude ML en tiempo real, reduciendo fraude y falsos positivos significativamente',
+          metric: '-45% fraude'
+        },
+        {
+          description: 'Desarrollo de API Gateway PSD2-compliant para Open Banking, conectando más de 150 TPPs con OAuth 2.0',
+          metric: '150+ TPPs'
+        }
+      ],
+      techStack: [
+        'Azure', 'Kubernetes', 'Spring Boot', 'Java 17', 'PostgreSQL', 'Redis', 'Kafka',
+        'Terraform', 'Helm', 'ArgoCD', 'Grafana', 'Prometheus', 'Azure ML', 'Python'
+      ]
     },
     {
-      period: '2019 - 2022',
-      role: 'Cloud Solutions Architect',
-      company: 'Santander',
-      location: 'Madrid, España',
-      description: 'Diseño e implementación de soluciones cloud para sistemas de pagos críticos.',
-      highlights: ['Azure', 'Microservicios', 'Pagos'],
-      color: 'purple',
+      role: 'Solutions Architect - Payments',
+      company: 'BBVA',
+      period: '2017 - 2020',
+      teamSize: '8 personas',
+      budget: '€1.2M',
+      impact: '3M usuarios',
+      achievements: [
+        {
+          description: 'Diseñé arquitectura event-driven para orquestador multi-PSP, enrutando pagos a 8+ proveedores con failover automático',
+          metric: '99.9% uptime'
+        },
+        {
+          description: 'Optimización de costes de procesamiento mediante routing inteligente basado en tasas y disponibilidad de PSPs',
+          metric: '-30% costes'
+        },
+        {
+          description: 'Implementación de pipeline real-time analytics para dashboards ejecutivos con actualización cada 5 segundos',
+          metric: '50+ dashboards'
+        },
+        {
+          description: 'Liderazgo técnico en integración de Bizum para pagos instantáneos móviles, alcanzando 500K transacciones diarias',
+          metric: '500K trans/día'
+        }
+      ],
+      techStack: [
+        'Node.js', 'TypeScript', 'RabbitMQ', 'MongoDB', 'Docker', 'AWS ECS',
+        'Kafka', 'Flink', 'ClickHouse', 'Grafana', 'Kong', 'OAuth 2.0'
+      ]
     },
     {
-      period: '2015 - 2019',
-      role: 'Senior Software Engineer',
-      company: 'Accenture',
-      location: 'Madrid, España',
-      description: 'Desarrollo de aplicaciones empresariales para clientes del sector financiero.',
-      highlights: ['Java', 'Spring', 'Oracle'],
-      color: 'blue',
+      role: 'Lead Backend Developer',
+      company: 'CaixaBank Tech',
+      period: '2014 - 2017',
+      teamSize: '6 personas',
+      budget: '€800K',
+      impact: '2M usuarios',
+      achievements: [
+        {
+          description: 'Desarrollo de microservicio core para procesamiento de transferencias SEPA, manejando validaciones ISO 20022',
+          metric: '1M trans/día'
+        },
+        {
+          description: 'Implementación de caching distribuido con Redis Cluster, reduciendo latencia de APIs críticas',
+          metric: '-70% latencia'
+        },
+        {
+          description: 'Migración de base de datos legacy Oracle a PostgreSQL con estrategia dual-write, sin downtime para usuarios',
+          metric: '0min downtime'
+        },
+        {
+          description: 'Establecimiento de pipelines CI/CD con Jenkins y Docker, automatizando deployments a 4 entornos',
+          metric: '100% automatizado'
+        }
+      ],
+      techStack: [
+        'Java 8', 'Spring Framework', 'PostgreSQL', 'Redis', 'Oracle DB',
+        'Jenkins', 'Docker', 'SonarQube', 'JUnit', 'Mockito', 'Maven'
+      ]
     },
+    {
+      role: 'Backend Developer',
+      company: 'Indra Sistemas',
+      period: '2011 - 2014',
+      teamSize: '4 personas',
+      impact: '500K usuarios',
+      achievements: [
+        {
+          description: 'Desarrollo de APIs REST para plataforma de banca online, implementando autenticación multifactor',
+          metric: '200+ endpoints'
+        },
+        {
+          description: 'Integración de pasarelas de pago (Redsys, PayPal) para e-commerce bancario, cumpliendo PCI-DSS',
+          metric: 'PCI-DSS compliant'
+        },
+        {
+          description: 'Optimización de queries SQL complejas, reduciendo tiempos de respuesta en reportes de auditoría',
+          metric: '-80% tiempo'
+        }
+      ],
+      techStack: [
+        'Java 6/7', 'Struts', 'Hibernate', 'Oracle DB', 'SQL Server',
+        'SOAP', 'XML', 'JBoss', 'SVN', 'Ant'
+      ]
+    }
   ],
   en: [
     {
-      period: '2022 - Present',
-      role: 'Senior Technical Lead',
+      role: 'Senior Technical Lead - Cloud & Payments',
       company: 'Santander Digital Services',
-      location: 'Madrid, Spain',
-      description: 'Leading digital channels architecture for millions of customers across multiple countries.',
-      highlights: ['Cloud Architecture', '12+ person teams', 'Multi-country'],
-      color: 'cyan',
+      period: '2020 - Present',
+      teamSize: '12 people',
+      budget: '€2.5M',
+      impact: '5M users',
+      achievements: [
+        {
+          description: 'Led design and implementation of SEPA Instant Payments platform from scratch, achieving 99.95% SLA in production',
+          metric: '2M trans/day'
+        },
+        {
+          description: 'Complete migration of on-premise monolith to microservices on Azure AKS with zero downtime, reducing operational costs',
+          metric: '-35% costs'
+        },
+        {
+          description: 'Implementation of real-time ML anti-fraud system, significantly reducing fraud and false positives',
+          metric: '-45% fraud'
+        },
+        {
+          description: 'Development of PSD2-compliant API Gateway for Open Banking, connecting 150+ TPPs with OAuth 2.0',
+          metric: '150+ TPPs'
+        }
+      ],
+      techStack: [
+        'Azure', 'Kubernetes', 'Spring Boot', 'Java 17', 'PostgreSQL', 'Redis', 'Kafka',
+        'Terraform', 'Helm', 'ArgoCD', 'Grafana', 'Prometheus', 'Azure ML', 'Python'
+      ]
     },
     {
-      period: '2019 - 2022',
-      role: 'Cloud Solutions Architect',
-      company: 'Santander',
-      location: 'Madrid, Spain',
-      description: 'Design and implementation of cloud solutions for critical payment systems.',
-      highlights: ['Azure', 'Microservices', 'Payments'],
-      color: 'purple',
+      role: 'Solutions Architect - Payments',
+      company: 'BBVA',
+      period: '2017 - 2020',
+      teamSize: '8 people',
+      budget: '€1.2M',
+      impact: '3M users',
+      achievements: [
+        {
+          description: 'Designed event-driven architecture for multi-PSP orchestrator, routing payments to 8+ providers with automatic failover',
+          metric: '99.9% uptime'
+        },
+        {
+          description: 'Processing cost optimization through intelligent routing based on PSP rates and availability',
+          metric: '-30% costs'
+        },
+        {
+          description: 'Implementation of real-time analytics pipeline for executive dashboards with 5-second updates',
+          metric: '50+ dashboards'
+        },
+        {
+          description: 'Technical leadership in Bizum integration for mobile instant payments, reaching 500K daily transactions',
+          metric: '500K trans/day'
+        }
+      ],
+      techStack: [
+        'Node.js', 'TypeScript', 'RabbitMQ', 'MongoDB', 'Docker', 'AWS ECS',
+        'Kafka', 'Flink', 'ClickHouse', 'Grafana', 'Kong', 'OAuth 2.0'
+      ]
     },
     {
-      period: '2015 - 2019',
-      role: 'Senior Software Engineer',
-      company: 'Accenture',
-      location: 'Madrid, Spain',
-      description: 'Development of enterprise applications for financial sector clients.',
-      highlights: ['Java', 'Spring', 'Oracle'],
-      color: 'blue',
+      role: 'Lead Backend Developer',
+      company: 'CaixaBank Tech',
+      period: '2014 - 2017',
+      teamSize: '6 people',
+      budget: '€800K',
+      impact: '2M users',
+      achievements: [
+        {
+          description: 'Development of core microservice for SEPA transfer processing, handling ISO 20022 validations',
+          metric: '1M trans/day'
+        },
+        {
+          description: 'Implementation of distributed caching with Redis Cluster, reducing latency of critical APIs',
+          metric: '-70% latency'
+        },
+        {
+          description: 'Migration of legacy Oracle database to PostgreSQL with dual-write strategy, no user downtime',
+          metric: '0min downtime'
+        },
+        {
+          description: 'Establishment of CI/CD pipelines with Jenkins and Docker, automating deployments to 4 environments',
+          metric: '100% automated'
+        }
+      ],
+      techStack: [
+        'Java 8', 'Spring Framework', 'PostgreSQL', 'Redis', 'Oracle DB',
+        'Jenkins', 'Docker', 'SonarQube', 'JUnit', 'Mockito', 'Maven'
+      ]
     },
-  ],
-}
-
-const copy = {
-  es: {
-    eyebrow: 'Trayectoria',
-    title: '+15 años construyendo el futuro',
-    description: 'De desarrollador a arquitecto, liderando equipos que transforman la banca digital.',
-    cta: 'Ver experiencia completa',
-  },
-  en: {
-    eyebrow: 'Experience',
-    title: '+15 years building the future',
-    description: 'From developer to architect, leading teams that transform digital banking.',
-    cta: 'View full experience',
-  },
+    {
+      role: 'Backend Developer',
+      company: 'Indra Sistemas',
+      period: '2011 - 2014',
+      teamSize: '4 people',
+      impact: '500K users',
+      achievements: [
+        {
+          description: 'Development of REST APIs for online banking platform, implementing multi-factor authentication',
+          metric: '200+ endpoints'
+        },
+        {
+          description: 'Integration of payment gateways (Redsys, PayPal) for banking e-commerce, PCI-DSS compliant',
+          metric: 'PCI-DSS compliant'
+        },
+        {
+          description: 'Optimization of complex SQL queries, reducing response times in audit reports',
+          metric: '-80% time'
+        }
+      ],
+      techStack: [
+        'Java 6/7', 'Struts', 'Hibernate', 'Oracle DB', 'SQL Server',
+        'SOAP', 'XML', 'JBoss', 'SVN', 'Ant'
+      ]
+    }
+  ]
 }
 
 export function ExperienceSection({ locale = 'es' }: ExperienceSectionProps) {
   const t = copy[locale]
-  const items = experiences[locale]
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
-
-  const colorClasses = {
-    cyan: 'border-l-cyan-500',
-    purple: 'border-l-purple-500',
-    blue: 'border-l-blue-500',
-  }
-
-  const tagColors = {
-    cyan: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
-    purple: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
-    blue: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
-  }
+  const experiences = mockExperiences[locale]
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-slate-900/50 py-24 lg:py-32">
+    <section id="experience" className="relative py-24 overflow-hidden">
       {/* Background */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.05),transparent_50%)]" />
-
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-navy-950 to-slate-950" />
+      <div className="absolute inset-0 bg-grid opacity-30" />
+      
+      <div className="relative container-professional">
         <SectionHeading
-          eyebrow={t.eyebrow}
           title={t.title}
-          description={t.description}
+          subtitle={t.subtitle}
+          align="center"
         />
-
-        {/* Timeline */}
-        <div className="relative mx-auto max-w-3xl">
-          {/* Vertical line */}
-          <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/50 via-purple-500/50 to-blue-500/30 md:left-8" />
-
-          <div className="space-y-8">
-            {items.map((item, index) => (
-              <motion.div
-                key={item.period}
-                initial={{ opacity: 0, x: -30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.2 + index * 0.15, duration: 0.6 }}
-                className="relative pl-8 md:pl-20"
-              >
-                {/* Timeline dot */}
-                <div className="absolute left-0 top-0 z-10 flex h-4 w-4 -translate-x-1/2 items-center justify-center md:left-8">
-                  <span className="h-4 w-4 rounded-full border-4 border-slate-950 bg-cyan-500" />
-                </div>
-
-                {/* Card */}
-                <div className={`rounded-xl border border-slate-700/50 bg-slate-900/70 p-6 backdrop-blur-sm transition-all duration-300 hover:border-slate-600/80 border-l-4 ${colorClasses[item.color as keyof typeof colorClasses]}`}>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400">
-                    {item.period}
-                  </span>
-                  <h3 className="mt-2 text-xl font-bold text-slate-50">{item.role}</h3>
-                  <p className="text-sm text-slate-300">
-                    {item.company} · {item.location}
-                  </p>
-                  <p className="mt-3 text-sm text-slate-400">{item.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {item.highlights.map((tag) => (
-                      <span
-                        key={tag}
-                        className={`rounded-full border px-3 py-1 text-xs font-medium ${tagColors[item.color as keyof typeof tagColors]}`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+        
+        <div className="mt-16 max-w-5xl mx-auto">
+          <ExperienceAccordion experiences={experiences} locale={locale} />
         </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8 }}
-          className="mt-16 text-center"
-        >
-          <MagneticButton
-            href={locale === 'es' ? '/experience' : '/en/experience'}
-            variant="secondary"
-          >
-            {t.cta}
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </MagneticButton>
-        </motion.div>
       </div>
     </section>
   )

@@ -81,7 +81,7 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-slate-950 to-navy-950" />
       <div className="absolute inset-0 bg-grid opacity-20" />
 
-      <div className="relative container-professional">
+      <div className="relative mx-auto max-w-7xl px-6">
 
         {/* Header */}
         <div className="max-w-4xl mx-auto text-center mb-16">

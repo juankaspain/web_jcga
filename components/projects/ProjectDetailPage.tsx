@@ -50,7 +50,7 @@ export function ProjectDetailPage({ project, locale = "es" }: ProjectDetailPageP
         <div className="absolute inset-0 bg-grid opacity-30" />
         <div className="absolute inset-0 bg-gradient-radial" />
         
-        <div className="relative container-professional">
+        <div className="relative mx-auto max-w-7xl px-6">
           {/* Breadcrumb */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
@@ -128,7 +128,7 @@ export function ProjectDetailPage({ project, locale = "es" }: ProjectDetailPageP
 
       {/* Content Sections */}
       <section className="relative py-16">
-        <div className="container-professional">
+        <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-4xl mx-auto space-y-16">
             
             {/* Challenge */}
@@ -202,7 +202,7 @@ export function ProjectDetailPage({ project, locale = "es" }: ProjectDetailPageP
 
       {/* Key Results Grid */}
       <section className="relative py-16 bg-gradient-to-b from-transparent via-navy-950/50 to-transparent">
-        <div className="container-professional">
+        <div className="mx-auto max-w-7xl px-6">
           <motion.h2
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -237,7 +237,7 @@ export function ProjectDetailPage({ project, locale = "es" }: ProjectDetailPageP
 
       {/* Tech Stack */}
       <section className="relative py-16">
-        <div className="container-professional">
+        <div className="mx-auto max-w-7xl px-6">
           <motion.h2
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -277,7 +277,7 @@ export function ProjectDetailPage({ project, locale = "es" }: ProjectDetailPageP
 
       {/* Project Metadata */}
       <section className="relative py-16">
-        <div className="container-professional">
+        <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6">
             <motion.div
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}

@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 
@@ -23,8 +23,22 @@ export function RevealText({
 }: RevealTextProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once, margin: '-100px' })
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const words = children.split(' ')
+
+  // Before mount, render visible text (no animation) for SSR
+  if (!mounted) {
+    return (
+      <Component className={cn('inline', className)}>
+        {children}
+      </Component>
+    )
+  }
 
   return (
     <Component ref={ref} className={cn('inline', className)}>

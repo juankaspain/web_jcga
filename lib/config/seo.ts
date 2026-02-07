@@ -8,7 +8,7 @@ export const siteConfig = {
   locale: 'es_ES',
   author: {
     name: 'Juan Carlos García Arriero',
-    email: 'juanca755@hotmail.com',
+        email: 'contact@jcga.dev',
     linkedin: 'https://linkedin.com/in/juancarlosgarciarriero',
     github: 'https://github.com/juankaspain',
   },
@@ -27,8 +27,8 @@ export const siteConfig = {
     'Technical Leadership',
     'Solutions Architect',
     'Santander',
-    'BBVA',
-    'CaixaBank'
+        'Panel Sistemas',
+        'AVERTIA'
   ],
 }
 

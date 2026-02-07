@@ -1,7 +1,6 @@
 "use client"
 
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
@@ -39,12 +38,10 @@ const copy = {
 
 export function CertificationsSection({ locale = 'es' }: CertificationsSectionProps) {
   const t = copy[locale]
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
   const totalCerts = vendors.reduce((acc, v) => acc + v.count, 0)
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-slate-900/50 py-24" style={{ position: 'relative' }}>
+    <section id="certifications" className="relative overflow-hidden bg-slate-900/50 py-24" style={{ position: 'relative' }}>
       {/* Background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(6,182,212,0.03),transparent_70%)]" />
 
@@ -58,37 +55,51 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
         {/* Big number */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.8 }}
-          className="mb-16 text-center"
+          className="text-center mb-12"
         >
-          <div className="text-6xl font-bold sm:text-7xl lg:text-8xl">
-            <span className="text-gradient">
-              <AnimatedCounter value={totalCerts} suffix="+" duration={3} />
-            </span>
+          <div className="inline-flex items-baseline gap-2">
+            <AnimatedCounter target={totalCerts} className="text-7xl font-black bg-gradient-to-r from-cyan-400 to-electric-400 bg-clip-text text-transparent" />
+            <span className="text-xl text-slate-400">+</span>
           </div>
-          <p className="mt-4 text-lg text-slate-400">{t.totalLabel}</p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-slate-400 mt-2"
+          >
+            {t.totalLabel}
+          </motion.p>
         </motion.div>
 
-        {/* Vendor grid - uses CSS class */}
-        <div className="certifications-grid">
+        {/* Vendor bars */}
+        <div className="max-w-3xl mx-auto space-y-4 mb-12">
           {vendors.map((vendor, index) => (
             <motion.div
               key={vendor.name}
               initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
               transition={{ delay: 0.3 + index * 0.05, duration: 0.5 }}
-              className="certification-card group rounded-xl border border-slate-700/50 bg-slate-900/60 p-4 text-center backdrop-blur-sm transition-all hover:border-slate-600 hover:bg-slate-800/60"
+              className="group"
             >
-              <div
-                className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
-                style={{ backgroundColor: `${vendor.color}20` }}
-              >
-                <span className="text-xl font-bold" style={{ color: vendor.color }}>
-                  {vendor.count}
-                </span>
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-sm font-medium text-slate-300">{vendor.name}</span>
+                <span className="text-sm text-slate-500">{vendor.count}</span>
               </div>
-              <p className="text-xs font-medium text-slate-400">{vendor.name}</p>
+              <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${(vendor.count / totalCerts) * 100}%` }}
+                  viewport={{ once: true, margin: '-100px' }}
+                  transition={{ duration: 1, delay: 0.5 + index * 0.1, ease: 'easeOut' }}
+                  className="h-full rounded-full"
+                  style={{ backgroundColor: vendor.color }}
+                />
+              </div>
             </motion.div>
           ))}
         </div>
@@ -96,18 +107,13 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8 }}
-          className="mt-16 text-center"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ delay: 0.6 }}
+          className="text-center"
         >
-          <MagneticButton
-            href={locale === 'es' ? '/certifications' : '/en/certifications'}
-            variant="secondary"
-          >
+          <MagneticButton href={locale === 'en' ? '/en/certifications' : '/certificaciones'}>
             {t.cta}
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
           </MagneticButton>
         </motion.div>
       </div>

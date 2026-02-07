@@ -1,27 +1,17 @@
 "use client"
 
 import { motion } from "framer-motion"
-import dynamic from "next/dynamic"
+import Link from "next/link"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
-import { MagneticButton } from "@/components/ui/MagneticButton"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
 import { 
-  Rocket, 
-  Trophy, 
-  Users, 
-  TrendUp,
   ArrowRight,
-  Envelope 
+  Briefcase,
+  ChartLine,
+  Users,
+  Trophy,
+  Clock
 } from "@phosphor-icons/react"
-
-// Dynamic import para ParticleNetwork (no SSR, es Canvas)
-const ParticleNetwork = dynamic(
-  () => import("@/components/effects/ParticleNetwork").then(mod => mod.ParticleNetwork),
-  { 
-    ssr: false,
-    loading: () => <div className="absolute inset-0 bg-transparent" />
-  }
-)
 
 type HeroProps = {
   locale?: "es" | "en"
@@ -29,230 +19,165 @@ type HeroProps = {
 
 const copy = {
   es: {
-    available: "Disponible para nuevos retos",
-    greeting: "Hola, soy",
-    name: "Juan Carlos",
-    surname: "García Arriero",
-    role: "Senior Technical Lead",
-    specialty: "Cloud & Payments Architect",
-    description: "Diseño arquitecturas cloud que procesan millones de transacciones en banca digital. Especializado en sistemas de pagos, microservicios y soluciones Data & AI.",
-    cta: "Ver proyectos",
-    ctaSecondary: "Contactar",
+    kicker: "Senior Technical Lead @ Santander Digital Services",
+    h1Line1: "Arquitecto soluciones de pago",
+    h1Line2: "que escalan a millones de usuarios",
+    description: (
+      <>
+        Diseño y lidero arquitecturas cloud (Azure/Oracle) para{" "}
+        <strong className="text-white font-semibold">sistemas de pago SEPA e internacionales</strong> en banca digital.
+        Mi trabajo impacta a <strong className="text-gold-400 font-semibold">5M+ usuarios</strong> procesando{" "}
+        <strong className="text-gold-400 font-semibold">2M transacciones/día</strong> con SLA 99.95%.
+      </>
+    ),
+    ctaPrimary: "Caso de estudio: Plataforma SEPA",
+    ctaSecondary: "Mi expertise técnico",
     stats: [
-      { value: "15+", label: "Años experiencia", icon: Rocket },
+      { value: "15+", label: "Años experiencia", icon: Clock },
       { value: "140+", label: "Certificaciones", icon: Trophy },
       { value: "12", label: "Equipo actual", icon: Users },
-      { value: "5M+", label: "Usuarios impactados", icon: TrendUp }
-    ],
-    techStack: "TECH STACK",
-    scroll: "SCROLL PARA EXPLORAR"
+      { value: "99.95%", label: "SLA Achieved", icon: ChartLine }
+    ]
   },
   en: {
-    available: "Available for new challenges",
-    greeting: "Hi, I'm",
-    name: "Juan Carlos",
-    surname: "García Arriero",
-    role: "Senior Technical Lead",
-    specialty: "Cloud & Payments Architect",
-    description: "I design cloud architectures processing millions of transactions in digital banking. Specialized in payment systems, microservices, and Data & AI solutions.",
-    cta: "View projects",
-    ctaSecondary: "Contact me",
+    kicker: "Senior Technical Lead @ Santander Digital Services",
+    h1Line1: "I architect payment solutions",
+    h1Line2: "that scale to millions of users",
+    description: (
+      <>
+        I design and lead cloud architectures (Azure/Oracle) for{" "}
+        <strong className="text-white font-semibold">SEPA and international payment systems</strong> in digital banking.
+        My work impacts <strong className="text-gold-400 font-semibold">5M+ users</strong> processing{" "}
+        <strong className="text-gold-400 font-semibold">2M transactions/day</strong> with 99.95% SLA.
+      </>
+    ),
+    ctaPrimary: "Case study: SEPA Platform",
+    ctaSecondary: "My technical expertise",
     stats: [
-      { value: "15+", label: "Years experience", icon: Rocket },
+      { value: "15+", label: "Years experience", icon: Clock },
       { value: "140+", label: "Certifications", icon: Trophy },
       { value: "12", label: "Current team", icon: Users },
-      { value: "5M+", label: "Users impacted", icon: TrendUp }
-    ],
-    techStack: "TECH STACK",
-    scroll: "SCROLL TO EXPLORE"
+      { value: "99.95%", label: "SLA Achieved", icon: ChartLine }
+    ]
   }
 }
 
-const techBadges = [
-  { name: "Azure", color: "electric" },
-  { name: "Kubernetes", color: "electric" },
-  { name: "Python", color: "electric" },
-  { name: "React", color: "electric" },
-  { name: "Node.js", color: "electric" },
-  { name: "Terraform", color: "electric" }
-]
-
 export function Hero({ locale = "es" }: HeroProps) {
   const t = copy[locale]
-  const projectsLink = locale === "en" ? "/en/projects" : "/projects"
-  const contactLink = locale === "en" ? "/en/contact" : "/contact"
+  const projectsLink = locale === "en" ? "/en/projects/sepa-platform" : "/projects/sepa-platform"
+  const expertiseLink = locale === "en" ? "/en/skills" : "/skills"
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <section className="relative min-h-screen overflow-hidden">
-      {/* Premium Financial gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-slate-950 to-navy-950" />
+    <section className="relative min-h-[90vh] flex items-center">
+      {/* Simplified premium background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-slate-950 to-navy-900" />
       
-      {/* Animated gradient orbs - Electric Blue + Gold palette */}
-      {!prefersReducedMotion && (
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-electric-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-1/2 -left-40 w-80 h-80 bg-gold-500/10 rounded-full blur-3xl animate-pulse animation-delay-1000" />
-          <div className="absolute -bottom-40 right-1/4 w-72 h-72 bg-electric-600/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
-        </div>
-      )}
-
-      {/* Neural Network Background */}
-      {!prefersReducedMotion && (
-        <div className="absolute inset-0 opacity-30">
-          <ParticleNetwork />
-        </div>
-      )}
-
-      {/* Professional grid overlay */}
+      {/* Professional grid pattern overlay */}
       <div className="absolute inset-0 bg-grid opacity-50" />
+      
+      {/* Subtle radial gradient for depth */}
+      <div className="absolute inset-0 bg-gradient-radial" />
 
       {/* Content */}
-      <div className="relative container-professional flex min-h-screen flex-col justify-center py-24 md:py-32">
-        <div className="hero-layout">
+      <div className="relative container-professional py-32">
+        <motion.div
+          initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
+          animate={prefersReducedMotion ? { opacity: 1 } : "visible"}
+          variants={prefersReducedMotion ? undefined : staggerContainer}
+          className="max-w-5xl"
+        >
           
-          {/* Left: Main content */}
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
-            animate={prefersReducedMotion ? { opacity: 1 } : "visible"}
-            variants={prefersReducedMotion ? undefined : staggerContainer}
-            className="hero-left"
+          {/* Professional Kicker - Authority signal */}
+          <motion.div 
+            variants={prefersReducedMotion ? undefined : staggerItem}
+            className="flex items-center gap-2 mb-4"
           >
-            {/* Availability badge with gold accent */}
-            <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="mb-8">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-electric-500/20">
-                <span className="relative flex h-2 w-2">
-                  {!prefersReducedMotion && (
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success-500 opacity-75" />
-                  )}
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-success-500" />
-                </span>
-                <span className="text-sm font-medium text-slate-300">{t.available}</span>
-              </span>
-            </motion.div>
-
-            {/* Greeting */}
-            <motion.p 
-              variants={prefersReducedMotion ? undefined : staggerItem}
-              className="text-lg text-slate-400 mb-2"
-            >
-              {t.greeting}
-            </motion.p>
-
-            {/* Name with premium fintech gradient */}
-            <motion.h1 variants={prefersReducedMotion ? undefined : staggerItem} className="mb-6">
-              <span className="block text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-2">
-                {t.name}
-              </span>
-              <span className="block text-5xl md:text-6xl lg:text-7xl font-bold text-gradient-fintech tracking-tight">
-                {t.surname}
-              </span>
-            </motion.h1>
-
-            {/* Role with Electric Blue */}
-            <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="mb-6">
-              <p className="text-xl md:text-2xl font-semibold text-slate-200">{t.role}</p>
-              <p className="text-xl md:text-2xl font-light text-electric-400">{t.specialty}</p>
-            </motion.div>
-
-            {/* Description */}
-            <motion.p 
-              variants={prefersReducedMotion ? undefined : staggerItem}
-              className="text-lg text-slate-400 leading-relaxed mb-8 max-w-xl"
-            >
-              {t.description}
-            </motion.p>
-
-            {/* CTAs with Phosphor Icons */}
-            <motion.div variants={prefersReducedMotion ? undefined : staggerItem} className="flex flex-wrap gap-4 mb-12">
-              <MagneticButton
-                href={projectsLink}
-                variant="primary"
-                size="lg"
-                className="shadow-lg glow-electric-sm hover:glow-electric transition-shadow duration-300"
-              >
-                {t.cta}
-                <ArrowRight size={20} weight="bold" />
-              </MagneticButton>
-              <MagneticButton
-                href={contactLink}
-                variant="secondary"
-                size="lg"
-                className="hover-lift"
-              >
-                <Envelope size={20} weight="duotone" />
-                {t.ctaSecondary}
-              </MagneticButton>
-            </motion.div>
-
-            {/* Tech badges with hover effects */}
-            <motion.div variants={prefersReducedMotion ? undefined : staggerItem}>
-              <p className="text-xs font-semibold text-slate-500 tracking-wider mb-3">{t.techStack}</p>
-              <div className="flex flex-wrap gap-2">
-                {techBadges.map((tech) => (
-                  <span
-                    key={tech.name}
-                    className="px-3 py-1.5 text-sm font-medium text-slate-400 glass rounded-lg border border-slate-700/50 hover:border-electric-500/50 hover:text-electric-400 hover:shadow-glow-sm transition-all duration-300 cursor-default"
-                  >
-                    {tech.name}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+            <Briefcase size={16} weight="duotone" className="text-gold-500" />
+            <p className="text-sm uppercase tracking-wider text-gold-400 font-semibold">
+              {t.kicker}
+            </p>
           </motion.div>
-
-          {/* Right: Interactive stats card with premium fintech styling */}
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.5, duration: 0.6 }}
-            className="hero-right"
+          
+          {/* H1: Value proposition (problem/solution) */}
+          <motion.h1 
+            variants={prefersReducedMotion ? undefined : staggerItem}
+            className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
           >
-            <div className="card-interactive glass-strong p-8 relative">
-              {/* Gold accent corner */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-gold-500/20 to-transparent rounded-bl-3xl" />
-              
-              <div className="relative stats-grid">
-                {t.stats.map((stat, index) => {
-                  const IconComponent = stat.icon
-                  return (
-                    <motion.div
-                      key={stat.label}
-                      initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.7 + index * 0.1 }}
-                      className="group text-center p-4 rounded-xl hover:bg-slate-800/30 transition-colors duration-300"
-                    >
-                      <div className="flex flex-col items-center gap-2">
-                        <IconComponent 
-                          size={24} 
-                          weight="duotone" 
-                          className="text-gold-500 group-hover:text-gold-400 transition-colors duration-300"
-                        />
-                        <div className="text-4xl md:text-5xl font-bold text-gradient-electric">
-                          {stat.value}
-                        </div>
-                        <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
-                          {stat.label}
-                        </div>
-                      </div>
-                    </motion.div>
-                  )
-                })}
-              </div>
-            </div>
+            <span className="block text-white mb-2">{t.h1Line1}</span>
+            <span className="block text-gradient-fintech">{t.h1Line2}</span>
+          </motion.h1>
+          
+          {/* Description with concrete quantifiable data */}
+          <motion.p 
+            variants={prefersReducedMotion ? undefined : staggerItem}
+            className="text-xl text-slate-300 max-w-3xl mb-8 leading-relaxed"
+          >
+            {t.description}
+          </motion.p>
+          
+          {/* Specific outcome-oriented CTAs */}
+          <motion.div 
+            variants={prefersReducedMotion ? undefined : staggerItem}
+            className="flex flex-wrap gap-4 mb-16"
+          >
+            <Link 
+              href={projectsLink}
+              className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-electric-500 to-electric-600 text-white rounded-lg font-semibold hover:from-electric-400 hover:to-electric-500 transition-all duration-300 shadow-lg glow-electric-sm hover:glow-electric"
+            >
+              {t.ctaPrimary}
+              <ArrowRight size={20} weight="bold" className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link 
+              href={expertiseLink}
+              className="group inline-flex items-center gap-2 px-8 py-4 border-2 border-slate-700 glass text-slate-300 rounded-lg font-semibold hover:border-electric-500/50 hover:text-electric-400 transition-all duration-300"
+            >
+              {t.ctaSecondary}
+            </Link>
           </motion.div>
-        </div>
+          
+          {/* Stats inline - integrated, not competing */}
+          <motion.div 
+            variants={prefersReducedMotion ? undefined : staggerItem}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-16 border-t border-slate-800/50"
+          >
+            {t.stats.map((stat, index) => {
+              const IconComponent = stat.icon
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.8 + index * 0.1 }}
+                  className="group"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <IconComponent 
+                      size={20} 
+                      weight="duotone" 
+                      className="text-electric-500 group-hover:text-electric-400 transition-colors duration-300"
+                    />
+                    <div className="text-3xl md:text-4xl font-bold text-gradient-electric">
+                      {stat.value}
+                    </div>
+                  </div>
+                  <div className="text-xs text-slate-500 uppercase tracking-wide">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+        </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - minimal */}
       <motion.div 
         initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={prefersReducedMotion ? { duration: 0 } : { delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
-        <span className="text-xs font-medium text-slate-500 tracking-widest">{t.scroll}</span>
         <motion.div
           animate={prefersReducedMotion ? {} : { y: [0, 8, 0] }}
           transition={prefersReducedMotion ? {} : { duration: 2, repeat: Infinity }}

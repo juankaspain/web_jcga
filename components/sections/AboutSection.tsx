@@ -1,7 +1,6 @@
 "use client"
 
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 
@@ -47,23 +46,22 @@ const copy = {
 }
 
 export function AboutSection({ locale = 'es' }: AboutSectionProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
   const t = copy[locale]
   const aboutLink = locale === 'en' ? '/en/about' : '/about'
 
   return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
+    <section id="about" className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.08),transparent_50%)]" />
-      
+
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* Left: Text content */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6 }}
           >
             <SectionHeading
@@ -78,7 +76,8 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
                 <motion.p
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-100px' }}
                   transition={{ delay: 0.2 + index * 0.1 }}
                   className="text-slate-400 leading-relaxed"
                 >
@@ -89,7 +88,8 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
               transition={{ delay: 0.5 }}
               className="mt-8"
             >
@@ -102,7 +102,8 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
           {/* Right: Highlights grid */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="grid grid-cols-2 gap-4"
           >
@@ -110,7 +111,8 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
                 transition={{ delay: 0.4 + index * 0.1 }}
                 className="group relative p-6 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700/50 backdrop-blur-sm hover:border-cyan-500/30 transition-all duration-300"
               >
@@ -118,13 +120,9 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
                 <div className="relative">
-                  <span className="text-3xl mb-4 block">{item.icon}</span>
-                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-slate-500">
-                    {item.desc}
-                  </p>
+                  <span className="text-3xl">{item.icon}</span>
+                  <h3 className="mt-3 text-sm font-semibold text-slate-200">{item.title}</h3>
+                  <p className="mt-1 text-xs text-slate-400">{item.desc}</p>
                 </div>
               </motion.div>
             ))}

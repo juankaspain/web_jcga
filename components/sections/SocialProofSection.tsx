@@ -45,10 +45,10 @@ const copy = {
       { name: 'Indra', logo: '/logos/indra.svg' }
     ],
     topCertifications: [
-      { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.png', issuer: 'Microsoft' },
-      { name: 'Kubernetes Administrator (CKA)', icon: '/certs/cka.png', issuer: 'CNCF' },
-      { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.png', issuer: 'Microsoft' },
-      { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.png', issuer: 'EBA' }
+      { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.svg', issuer: 'Microsoft' },
+      { name: 'Kubernetes Administrator (CKA)', icon: '/certs/cka.svg', issuer: 'CNCF' },
+      { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.svg', issuer: 'Microsoft' },
+      { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.svg', issuer: 'EBA' }
     ]
   },
   en: {
@@ -85,10 +85,10 @@ const copy = {
       { name: 'Indra', logo: '/logos/indra.svg' }
     ],
     topCertifications: [
-      { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.png', issuer: 'Microsoft' },
-      { name: 'Kubernetes Administrator (CKA)', icon: '/certs/cka.png', issuer: 'CNCF' },
-      { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.png', issuer: 'Microsoft' },
-      { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.png', issuer: 'EBA' }
+      { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.svg', issuer: 'Microsoft' },
+      { name: 'Kubernetes Administrator (CKA)', icon: '/certs/cka.svg', issuer: 'CNCF' },
+      { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.svg', issuer: 'Microsoft' },
+      { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.svg', issuer: 'EBA' }
     ]
   }
 }

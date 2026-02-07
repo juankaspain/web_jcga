@@ -1,5 +1,6 @@
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ProjectShowcaseCard } from '@/components/projects/ProjectShowcaseCard'
+import { getAllProjects } from '@/lib/data/projects'
 import Link from 'next/link'
 import { ArrowRight } from '@phosphor-icons/react'
 
@@ -24,124 +25,11 @@ const copy = {
   }
 }
 
-const mockProjects = {
-  es: [
-    {
-      slug: 'sepa-platform',
-      title: 'Plataforma SEPA Instant Payments',
-      problem: 'Construcción desde cero de plataforma para procesar transferencias SEPA instant 24/7 con alta disponibilidad y cumplimiento normativo PSD2.',
-      thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
-      thumbnailAlt: 'SEPA Platform Dashboard',
-      highlightMetric: {
-        icon: '🎯',
-        label: 'SLA',
-        value: '99.95%'
-      },
-      tags: ['Azure', 'Kubernetes', 'Spring Boot', 'PostgreSQL', 'Redis', 'Kafka'],
-      metrics: [
-        { value: '2M', label: 'Trans/día' },
-        { value: '5M+', label: 'Usuarios' },
-        { value: '<2s', label: 'Latencia P95' }
-      ]
-    },
-    {
-      slug: 'payment-orchestrator',
-      title: 'Orquestador Multi-PSP',
-      problem: 'Diseño de arquitectura event-driven para enrutar pagos a 8+ proveedores (Redsys, Stripe, PayPal) con failover automático y optimización de costes.',
-      thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
-      thumbnailAlt: 'Payment Orchestrator Architecture',
-      highlightMetric: {
-        icon: '⚡',
-        label: 'Ahorro',
-        value: '30% costes'
-      },
-      tags: ['Node.js', 'TypeScript', 'RabbitMQ', 'MongoDB', 'Docker'],
-      metrics: [
-        { value: '500K', label: 'Trans/día' },
-        { value: '8', label: 'PSPs' },
-        { value: '99.9%', label: 'Uptime' }
-      ]
-    },
-    {
-      slug: 'fraud-detection-ml',
-      title: 'Sistema Anti-Fraude ML',
-      problem: 'Implementación de motor ML en tiempo real para detección de fraude en transacciones, reduciendo falsos positivos y mejorando experiencia de usuario.',
-      thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&sat=-100',
-      thumbnailAlt: 'Fraud Detection ML Dashboard',
-      highlightMetric: {
-        icon: '🔒',
-        label: 'Reducción fraude',
-        value: '45%'
-      },
-      tags: ['Python', 'TensorFlow', 'Azure ML', 'Databricks', 'Spark'],
-      metrics: [
-        { value: '45%', label: '↓ Fraude' },
-        { value: '60%', label: '↓ Falsos +' },
-        { value: '<100ms', label: 'Scoring' }
-      ]
-    }
-  ],
-  en: [
-    {
-      slug: 'sepa-platform',
-      title: 'SEPA Instant Payments Platform',
-      problem: 'Built from scratch a platform to process SEPA instant transfers 24/7 with high availability and PSD2 regulatory compliance.',
-      thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
-      thumbnailAlt: 'SEPA Platform Dashboard',
-      highlightMetric: {
-        icon: '🎯',
-        label: 'SLA',
-        value: '99.95%'
-      },
-      tags: ['Azure', 'Kubernetes', 'Spring Boot', 'PostgreSQL', 'Redis', 'Kafka'],
-      metrics: [
-        { value: '2M', label: 'Trans/day' },
-        { value: '5M+', label: 'Users' },
-        { value: '<2s', label: 'P95 Latency' }
-      ]
-    },
-    {
-      slug: 'payment-orchestrator',
-      title: 'Multi-PSP Payment Orchestrator',
-      problem: 'Designed event-driven architecture to route payments across 8+ providers (Redsys, Stripe, PayPal) with automatic failover and cost optimization.',
-      thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
-      thumbnailAlt: 'Payment Orchestrator Architecture',
-      highlightMetric: {
-        icon: '⚡',
-        label: 'Savings',
-        value: '30% costs'
-      },
-      tags: ['Node.js', 'TypeScript', 'RabbitMQ', 'MongoDB', 'Docker'],
-      metrics: [
-        { value: '500K', label: 'Trans/day' },
-        { value: '8', label: 'PSPs' },
-        { value: '99.9%', label: 'Uptime' }
-      ]
-    },
-    {
-      slug: 'fraud-detection-ml',
-      title: 'ML Fraud Detection System',
-      problem: 'Implemented real-time ML engine for transaction fraud detection, reducing false positives and improving user experience.',
-      thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&sat=-100',
-      thumbnailAlt: 'Fraud Detection ML Dashboard',
-      highlightMetric: {
-        icon: '🔒',
-        label: 'Fraud reduction',
-        value: '45%'
-      },
-      tags: ['Python', 'TensorFlow', 'Azure ML', 'Databricks', 'Spark'],
-      metrics: [
-        { value: '45%', label: '↓ Fraud' },
-        { value: '60%', label: '↓ False +' },
-        { value: '<100ms', label: 'Scoring' }
-      ]
-    }
-  ]
-}
-
 export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
   const t = copy[locale]
-  const projects = mockProjects[locale]
+  const allProjects = getAllProjects(locale)
+  // Show only first 3 projects in homepage
+  const featuredProjects = allProjects.slice(0, 3)
 
   return (
     <section id="projects" className="relative py-24 overflow-hidden">
@@ -159,10 +47,17 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
         
         {/* Featured Projects - Top 3 */}
         <div className="projects-grid mt-16">
-          {projects.map((project) => (
+          {featuredProjects.map((project) => (
             <ProjectShowcaseCard
               key={project.slug}
-              {...project}
+              slug={project.slug}
+              title={project.title}
+              problem={project.problem}
+              thumbnail={project.thumbnail}
+              thumbnailAlt={project.thumbnailAlt}
+              highlightMetric={project.highlightMetric}
+              tags={project.tags}
+              metrics={project.metrics}
               locale={locale}
             />
           ))}

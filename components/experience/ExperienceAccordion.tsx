@@ -4,7 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
   CaretDown, 
-  TrendingUp, 
+  TrendUp, 
   Users, 
   CurrencyDollar, 
   ChartLine 
@@ -136,7 +136,7 @@ export function ExperienceAccordion({ experiences, locale = "es" }: ExperienceAc
                     
                     {/* Achievements with metrics */}
                     <h4 className="font-semibold text-white mb-3 flex items-center gap-2">
-                      <TrendingUp size={20} weight="duotone" className="text-gold-400" />
+                      <TrendUp size={20} weight="duotone" className="text-gold-400" />
                       {t.achievements}
                     </h4>
                     <ul className="space-y-3 mb-6">

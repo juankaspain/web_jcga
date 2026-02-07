@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
+  import { useState } from "react"
 import Link from "next/link"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
@@ -68,11 +68,7 @@ export function Hero({ locale = "es" }: HeroProps) {
   const projectsLink = locale === "en" ? "/en/projects/sepa-platform" : "/projects/sepa-platform"
   const expertiseLink = locale === "en" ? "/en/skills" : "/skills"
   const prefersReducedMotion = useReducedMotion()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-navy-950">
@@ -86,18 +82,18 @@ export function Hero({ locale = "es" }: HeroProps) {
       <div className="absolute inset-0 bg-gradient-radial" />
 
       {/* Content */}
-      <div className="relative mx-auto max-w-7xl px-6 py-32">
+              <div className="relative container-professional py-32">
         <motion.div
-          key={mounted ? "animating" : "static"}
-          initial={mounted ? (prefersReducedMotion ? { opacity: 1 } : "hidden") : { opacity: 1 }}
-          animate={mounted ? (prefersReducedMotion ? { opacity: 1 } : "visible") : { opacity: 1 }}
-          variants={mounted && !prefersReducedMotion ? staggerContainer : undefined}
+                      key="hero-content"
+                      initial={{ opacity: 1 }}
+                      animate={{ opacity: 1 }}
+                      variants={!prefersReducedMotion ? staggerContainer : undefined}
           className="max-w-5xl"
         >
 
           {/* Professional Kicker - Authority signal */}
           <motion.div
-            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
+                        variants={!prefersReducedMotion ? staggerItem : undefined}
             className="flex items-center gap-2 mb-4"
           >
             <Briefcase size={16} weight="duotone" className="text-gold-500" />
@@ -108,7 +104,7 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* H1: Value proposition (problem/solution) */}
           <motion.h1
-            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
+                        variants={!prefersReducedMotion ? staggerItem : undefined}
             className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
           >
             <span className="block text-white mb-2">{t.h1Line1}</span>
@@ -117,7 +113,7 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* Description with concrete quantifiable data */}
           <motion.p
-            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
+                        variants={!prefersReducedMotion ? staggerItem : undefined}
             className="text-xl text-slate-300 max-w-3xl mb-8 leading-relaxed"
           >
             {t.description}
@@ -125,7 +121,7 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* Specific outcome-oriented CTAs */}
           <motion.div
-            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
+                        variants={!prefersReducedMotion ? staggerItem : undefined}
             className="flex flex-wrap gap-4 mb-16"
           >
             <Link
@@ -149,7 +145,7 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* Stats inline - integrated, not competing */}
           <motion.div
-            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
+                        variants={!prefersReducedMotion ? staggerItem : undefined}
             className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl"
           >
             {t.stats.map((stat, index) => {

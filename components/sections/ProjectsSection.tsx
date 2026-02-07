@@ -1,3 +1,5 @@
+"use client"
+
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ProjectShowcaseCard } from '@/components/projects/ProjectShowcaseCard'
 import { getAllProjects } from '@/lib/data/projects'
@@ -28,7 +30,6 @@ const copy = {
 export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
   const t = copy[locale]
   const allProjects = getAllProjects(locale)
-  // Show only first 3 projects in homepage
   const featuredProjects = allProjects.slice(0, 3)
 
   return (

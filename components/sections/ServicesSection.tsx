@@ -1,10 +1,9 @@
 "use client"
 
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { 
-  Cloud, 
-  CreditCard, 
+import { motion } from 'framer-motion'
+import {
+  Cloud,
+  CreditCard,
   UsersThree,
   CheckCircle
 } from '@phosphor-icons/react'
@@ -93,47 +92,45 @@ const copy = {
 
 export function ServicesSection({ locale = 'es' }: ServicesSectionProps) {
   const t = copy[locale]
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <section 
-      ref={ref}
-      id="services" 
+    <section
+      id="services"
       className="relative py-24 overflow-hidden"
     >
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-navy-950 to-slate-950" />
       <div className="absolute inset-0 bg-grid opacity-30" />
-      
+
       <div className="relative container-professional">
-        
+
         {/* Header */}
         <div className="max-w-4xl mx-auto text-center mb-16">
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5 }}
-            className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-gold-400"
+            className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-cyan-400"
           >
             {t.eyebrow}
           </motion.p>
-
           <motion.h2
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-4xl font-bold tracking-tight text-white md:text-5xl mb-6"
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-3xl font-bold tracking-tight text-slate-50 md:text-4xl lg:text-5xl"
           >
             {t.title}
           </motion.h2>
-
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-lg leading-relaxed text-slate-300"
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-4 text-lg text-slate-400 mx-auto max-w-2xl"
           >
             {t.subtitle}
           </motion.p>
@@ -143,59 +140,38 @@ export function ServicesSection({ locale = 'es' }: ServicesSectionProps) {
         <div className="grid md:grid-cols-3 gap-8">
           {t.services.map((service, index) => {
             const IconComponent = service.icon
-            
             return (
               <motion.div
                 key={service.title}
-                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-                className="group relative p-8 rounded-2xl glass-card border border-slate-800 hover:border-electric-500/30 transition-all duration-300 hover-lift"
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                className="group relative p-8 rounded-2xl bg-gradient-to-br from-slate-800/40 to-slate-900/60 border border-slate-700/50 backdrop-blur-sm hover:border-cyan-500/30 transition-all duration-500"
               >
                 {/* Icon */}
-                <div className="mb-6">
-                  <div className="w-16 h-16 rounded-xl bg-electric-500/10 border border-electric-500/20 flex items-center justify-center group-hover:bg-electric-500/20 transition-colors duration-300">
-                    <IconComponent 
-                      size={32} 
-                      weight="duotone" 
-                      className="text-electric-400 group-hover:text-electric-300 transition-colors duration-300" 
-                    />
-                  </div>
+                <div className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/20">
+                  <IconComponent size={28} weight="duotone" className="text-cyan-400" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-gradient-fintech transition-all duration-300">
-                  {service.title}
-                </h3>
+                <h3 className="text-xl font-bold text-slate-100 mb-3">{service.title}</h3>
 
                 {/* Description */}
-                <p className="text-slate-400 leading-relaxed mb-6">
-                  {service.description}
-                </p>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">{service.description}</p>
 
                 {/* Outcomes */}
-                <div className="space-y-2 pt-6 border-t border-slate-800">
+                <ul className="space-y-2">
                   {service.outcomes.map((outcome) => (
-                    <div key={outcome} className="flex items-start gap-2">
-                      <CheckCircle 
-                        size={20} 
-                        weight="fill" 
-                        className="text-gold-500 flex-shrink-0 mt-0.5" 
-                      />
-                      <span className="text-sm text-slate-300 leading-relaxed">
-                        {outcome}
-                      </span>
-                    </div>
+                    <li key={outcome} className="flex items-start gap-2 text-sm">
+                      <CheckCircle size={18} weight="fill" className="text-emerald-400 mt-0.5 shrink-0" />
+                      <span className="text-slate-300">{outcome}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
 
                 {/* Hover glow */}
-                <div 
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: 'radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.1), transparent 70%)'
-                  }}
-                />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </motion.div>
             )
           })}

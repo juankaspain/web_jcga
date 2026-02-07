@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <circle cx="32" cy="32" r="30" fill="#0078D4" stroke="#005A9E" stroke-width="2"/>
+  <path d="M22 22h8v8h-8zM34 22h8v8h-8zM22 34h8v8h-8zM34 34h8v8h-8z" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M30 26h4M30 38h4M26 30v4M38 30v4" stroke="#50E6FF" stroke-width="1.5"/>
+  <text x="32" y="52" text-anchor="middle" font-family="system-ui,sans-serif" font-size="5" font-weight="600" fill="#50E6FF">DevOps</text>
+</svg>

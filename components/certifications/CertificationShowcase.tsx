@@ -120,7 +120,7 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
       <div className="relative mx-auto max-w-6xl px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="mb-12 text-center"
@@ -138,7 +138,7 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
         {/* Stats banner */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          animate={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           className="mb-12 flex flex-wrap items-center justify-center gap-8 rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-6"
         >
@@ -168,7 +168,7 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
         <motion.div
           variants={staggerContainer}
           initial="hidden"
-          whileInView="visible"
+          animate="visible"
           viewport={{ once: true }}
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
@@ -205,7 +205,7 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
                 <div className="mb-4 h-2 overflow-hidden rounded-full bg-slate-800">
                   <motion.div
                     initial={{ width: 0 }}
-                    whileInView={{ width: `${(group.count / 50) * 100}%` }}
+                    animate={{ width: `${(group.count / 50) * 100}%` }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.3 }}
                     className={`h-full rounded-full ${group.colorBg}`}
@@ -262,7 +262,7 @@ export function CertificationShowcase({ locale = "es" }: CertificationShowcasePr
         {/* Learning commitment */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mt-12 rounded-2xl border border-cyan-500/30 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-cyan-500/10 p-8 text-center"
         >

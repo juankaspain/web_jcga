@@ -1,102 +1,64 @@
-import { Metadata } from "next"
-import { notFound } from "next/navigation"
-import Link from "next/link"
-import { projects } from "@/lib/data/projects"
+import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
+import { ProjectDetailPage } from '@/components/projects/ProjectDetailPage'
+import { getProject, getProjectSlugs } from '@/lib/data/projects'
 
-interface Props {
+interface ProjectPageProps {
   params: {
     slug: string
   }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const project = projects.find((p) => p.slug === params.slug)
+// Generate static params for all projects (ISR)
+export async function generateStaticParams() {
+  const slugs = getProjectSlugs()
+  return slugs.map((slug) => ({ slug }))
+}
+
+// Dynamic metadata for SEO
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+  const project = getProject(params.slug, 'es')
   
   if (!project) {
     return {
-      title: "Project Not Found"
+      title: 'Proyecto no encontrado | Juan Carlos García Arriero',
     }
   }
 
   return {
-    title: `${project.title} | Projects`,
-    description: project.description
+    title: `${project.title} | Juan Carlos García Arriero`,
+    description: project.problem,
+    openGraph: {
+      title: project.title,
+      description: project.subtitle,
+      type: 'article',
+      images: [
+        {
+          url: project.thumbnail,
+          width: 1200,
+          height: 800,
+          alt: project.thumbnailAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: project.title,
+      description: project.subtitle,
+      images: [project.thumbnail],
+    },
   }
 }
 
-export async function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug
-  }))
-}
-
-export default function ProjectDetailPage({ params }: Props) {
-  const project = projects.find((p) => p.slug === params.slug)
+export default function ProjectPage({ params }: ProjectPageProps) {
+  const project = getProject(params.slug, 'es')
 
   if (!project) {
     notFound()
   }
 
-  return (
-    <div className="mx-auto max-w-4xl px-4 py-16">
-      <Link
-        href="/projects"
-        className="mb-8 inline-flex items-center text-sm text-cyan-400 hover:text-cyan-300"
-      >
-        ← Back to Projects
-      </Link>
-
-      <div className="mb-6">
-        <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-cyan-400">
-          {project.category}
-        </div>
-        <h1 className="mb-4 text-4xl font-semibold tracking-tight text-slate-50">
-          {project.title}
-        </h1>
-        <p className="text-sm text-slate-400">{project.period}</p>
-      </div>
-
-      <div className="space-y-8">
-        <section>
-          <h2 className="mb-4 text-2xl font-semibold text-slate-50">Overview</h2>
-          <p className="text-slate-300 leading-relaxed">{project.description}</p>
-        </section>
-
-        <section>
-          <h2 className="mb-4 text-2xl font-semibold text-slate-50">Key Features</h2>
-          <ul className="space-y-2">
-            {project.highlights.map((highlight, i) => (
-              <li key={i} className="flex items-start text-slate-300">
-                <span className="mr-2 text-cyan-400">•</span>
-                <span>{highlight}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {project.impact && (
-          <section>
-            <h2 className="mb-4 text-2xl font-semibold text-slate-50">Impact</h2>
-            <p className="rounded-xl border border-cyan-500/30 bg-cyan-950/20 p-4 text-slate-300">
-              {project.impact}
-            </p>
-          </section>
-        )}
-
-        <section>
-          <h2 className="mb-4 text-2xl font-semibold text-slate-50">Technologies</h2>
-          <div className="flex flex-wrap gap-2">
-            {project.technologies.map((tech) => (
-              <span
-                key={tech}
-                className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 text-sm text-slate-300"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </section>
-      </div>
-    </div>
-  )
+  return <ProjectDetailPage project={project} locale="es" />
 }
+
+// Revalidate every hour for ISR
+export const revalidate = 3600

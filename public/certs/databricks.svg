@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <circle cx="32" cy="32" r="30" fill="#FF3621" stroke="#CC2B1A" stroke-width="2"/>
+  <path d="M32 20l-12 6 12 6 12-6-12-6z" fill="#fff" opacity="0.3"/>
+  <path d="M20 32l12 6 12-6" stroke="#fff" stroke-width="1.5" fill="none"/>
+  <path d="M20 26l12 6 12-6" stroke="#fff" stroke-width="1.5" fill="none"/>
+  <path d="M20 38l12 6 12-6" stroke="#fff" stroke-width="1.5" fill="none"/>
+  <text x="32" y="56" text-anchor="middle" font-family="system-ui,sans-serif" font-size="4" font-weight="600" fill="#FFC1B8">Databricks</text>
+</svg>

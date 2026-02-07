@@ -88,7 +88,7 @@ export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
       <div className="relative mx-auto max-w-6xl px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
@@ -107,7 +107,7 @@ export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
         <motion.div
           variants={staggerContainer}
           initial="hidden"
-          whileInView="visible"
+          animate="visible"
           viewport={{ once: true }}
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
         >
@@ -138,7 +138,7 @@ export function SkillOrbit({ locale = "es" }: SkillOrbitProps) {
                       <div className="h-1.5 overflow-hidden rounded-full bg-slate-800">
                         <motion.div
                           initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
+                          animate={{ width: `${skill.level}%` }}
                           viewport={{ once: true }}
                           transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
                           className={`h-full rounded-full ${group.colorBg}`}

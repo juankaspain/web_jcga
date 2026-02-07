@@ -114,7 +114,12 @@ const nextConfig = {
   // Experimental features for performance
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['framer-motion', 'clsx'],
+    optimizePackageImports: [
+      'framer-motion',
+      '@phosphor-icons/react',
+      'lenis',
+      'clsx'
+    ],
   },
   
   // Bundle analyzer (enable with ANALYZE=true)

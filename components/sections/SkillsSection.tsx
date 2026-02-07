@@ -279,7 +279,7 @@ export function SkillsSection({ locale = 'es' }: SkillsSectionProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-slate-950 to-navy-950" />
       <div className="absolute inset-0 bg-grid opacity-30" />
       
-      <div className="relative container-professional">
+      <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow={t.eyebrow}
           title={t.title}

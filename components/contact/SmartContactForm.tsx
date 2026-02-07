@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { 
-  Briefcase, 
-  Lightning, 
-  UsersThree, 
-  Calendar, 
+import {
+  Briefcase,
+  Lightning,
+  UsersThree,
+  Calendar,
   CurrencyDollar,
   PaperPlaneRight
 } from "@phosphor-icons/react"
@@ -66,7 +66,7 @@ const copy = {
     emailPlaceholder: "Email profesional",
     messagePlaceholder: "Cuéntame sobre tu proyecto...",
     submitButton: "Enviar propuesta",
-    microcopy: "Te responderé en menos de 24 horas 🚀",
+    microcopy: "Te responderé en menos de 24 horas \uD83D\uDE80",
     required: "Campo requerido"
   },
   en: {
@@ -111,7 +111,7 @@ const copy = {
     emailPlaceholder: "Professional email",
     messagePlaceholder: "Tell me about your project...",
     submitButton: "Send proposal",
-    microcopy: "I'll respond within 24 hours 🚀",
+    microcopy: "I'll respond within 24 hours \uD83D\uDE80",
     required: "Required field"
   }
 }
@@ -125,11 +125,31 @@ export function SmartContactForm({ locale = "es" }: SmartContactFormProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // TODO: Implement form submission logic
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setIsSubmitting(false)
+
+    const formData = new FormData(e.currentTarget)
+    const body = {
+      projectType: selectedType || '',
+      timeline: formData.get('timeline') as string,
+      budget: formData.get('budget') as string,
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      message: formData.get('message') as string,
+    }
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      if (!response.ok) throw new Error('Failed to submit')
+      e.currentTarget.reset()
+      setSelectedType(null)
+    } catch (err) {
+      console.error('Form submission error:', err)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -150,7 +170,7 @@ export function SmartContactForm({ locale = "es" }: SmartContactFormProps) {
           {t.projectTypes.map((type) => {
             const IconComponent = type.icon
             const isSelected = selectedType === type.id
-            
+
             return (
               <label
                 key={type.id}
@@ -168,21 +188,19 @@ export function SmartContactForm({ locale = "es" }: SmartContactFormProps) {
                   onChange={(e) => setSelectedType(e.target.value)}
                   required
                 />
-                <div className="flex flex-col gap-3">
-                  <IconComponent 
-                    size={24} 
-                    weight="duotone" 
-                    className={isSelected ? 'text-electric-400' : 'text-slate-400'}
-                  />
-                  <div>
-                    <div className={`font-medium mb-1 ${
-                      isSelected ? 'text-white' : 'text-slate-300'
-                    }`}>
-                      {type.label}
-                    </div>
-                    <div className="text-sm text-slate-400">
-                      {type.description}
-                    </div>
+                <IconComponent
+                  size={24}
+                  weight="duotone"
+                  className={isSelected ? 'text-electric-400' : 'text-slate-400'}
+                />
+                <div>
+                  <div className={`font-medium mb-1 ${
+                    isSelected ? 'text-white' : 'text-slate-300'
+                  }`}>
+                    {type.label}
+                  </div>
+                  <div className="text-sm text-slate-400">
+                    {type.description}
                   </div>
                 </div>
               </label>
@@ -198,7 +216,8 @@ export function SmartContactForm({ locale = "es" }: SmartContactFormProps) {
             <Calendar size={16} weight="duotone" />
             {t.timelineLabel}
           </label>
-          <select 
+          <select
+            name="timeline"
             required
             className="w-full px-4 py-3 glass-card border border-slate-800 rounded-lg text-white focus:border-electric-500 focus:outline-none focus:ring-2 focus:ring-electric-500/20 transition-all duration-300"
           >
@@ -214,7 +233,8 @@ export function SmartContactForm({ locale = "es" }: SmartContactFormProps) {
             <CurrencyDollar size={16} weight="duotone" />
             {t.budgetLabel}
           </label>
-          <select 
+          <select
+            name="budget"
             required
             className="w-full px-4 py-3 glass-card border border-slate-800 rounded-lg text-white focus:border-electric-500 focus:outline-none focus:ring-2 focus:ring-electric-500/20 transition-all duration-300"
           >
@@ -231,17 +251,20 @@ export function SmartContactForm({ locale = "es" }: SmartContactFormProps) {
       <div className="space-y-4 mb-6">
         <input
           type="text"
+          name="name"
           required
           placeholder={t.namePlaceholder}
           className="w-full px-4 py-3 glass-card border border-slate-800 rounded-lg text-white placeholder:text-slate-500 focus:border-electric-500 focus:outline-none focus:ring-2 focus:ring-electric-500/20 transition-all duration-300"
         />
         <input
           type="email"
+          name="email"
           required
           placeholder={t.emailPlaceholder}
           className="w-full px-4 py-3 glass-card border border-slate-800 rounded-lg text-white placeholder:text-slate-500 focus:border-electric-500 focus:outline-none focus:ring-2 focus:ring-electric-500/20 transition-all duration-300"
         />
         <textarea
+          name="message"
           required
           rows={6}
           placeholder={t.messagePlaceholder}
@@ -264,15 +287,14 @@ export function SmartContactForm({ locale = "es" }: SmartContactFormProps) {
         ) : (
           <>
             {t.submitButton}
-            <PaperPlaneRight 
-              size={20} 
-              weight="bold" 
-              className="group-hover:translate-x-1 transition-transform" 
+            <PaperPlaneRight
+              size={20}
+              weight="bold"
+              className="group-hover:translate-x-1 transition-transform"
             />
           </>
         )}
       </button>
-      
       <p className="text-sm text-slate-500 text-center mt-3">
         {t.microcopy}
       </p>

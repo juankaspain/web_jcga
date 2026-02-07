@@ -1,182 +1,290 @@
-"use client"
-
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { MagneticButton } from '@/components/ui/MagneticButton'
+import { SkillMatrix } from '@/components/skills/SkillMatrix'
+import { 
+  Cloud, 
+  CreditCard, 
+  ChartLine, 
+  GitBranch 
+} from '@phosphor-icons/react'
 
 interface SkillsSectionProps {
   locale?: 'es' | 'en'
 }
 
-const skillCategories = {
+const copy = {
+  es: {
+    title: 'Stack Técnico',
+    subtitle: 'Tecnologías probadas en producción bancaria con millones de usuarios'
+  },
+  en: {
+    title: 'Tech Stack',
+    subtitle: 'Technologies proven in banking production with millions of users'
+  }
+}
+
+const mockSkillCategories = {
   es: [
     {
       name: 'Cloud & Infrastructure',
+      icon: <Cloud size={24} weight="duotone" />,
       skills: [
-        { name: 'Azure', level: 95 },
-        { name: 'Kubernetes', level: 90 },
-        { name: 'Terraform', level: 85 },
-        { name: 'Docker', level: 92 },
+        {
+          name: 'Azure (AKS, Functions, Service Bus)',
+          context: 'Producción Santander, clusters 50+ nodes, 5M usuarios'
+        },
+        {
+          name: 'Kubernetes + Helm + Istio',
+          context: '18 microservicios en AKS, service mesh completo'
+        },
+        {
+          name: 'Terraform + Bicep',
+          context: 'IaC para todos los entornos, 300+ recursos'
+        },
+        {
+          name: 'Oracle Cloud Infrastructure',
+          context: 'Migración de bases de datos críticas, 10TB+ datos'
+        },
+        {
+          name: 'Docker + Azure Container Registry',
+          context: 'Pipelines CI/CD, 200+ imágenes, registry privado'
+        }
       ],
+      certBadges: [
+        { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.png' },
+        { name: 'Kubernetes Administrator', icon: '/certs/cka.png' }
+      ]
     },
     {
-      name: 'Backend & APIs',
+      name: 'Payments & Fintech',
+      icon: <CreditCard size={24} weight="duotone" />,
       skills: [
-        { name: 'Java/Spring', level: 90 },
-        { name: 'Node.js', level: 85 },
-        { name: 'Python', level: 80 },
-        { name: 'GraphQL/REST', level: 92 },
+        {
+          name: 'SEPA Instant Payments (SCT Inst)',
+          context: '2M transacciones/día, cumplimiento EPC, SLA 99.95%'
+        },
+        {
+          name: 'PSD2 Open Banking APIs',
+          context: 'API Gateway Kong, 150+ TPPs conectados, OAuth 2.0'
+        },
+        {
+          name: 'ISO 20022 XML Processing',
+          context: 'Parseo y validación de mensajes pain.001/pacs.008'
+        },
+        {
+          name: 'Multi-PSP Orchestration',
+          context: 'Enrutamiento inteligente, 8 proveedores, 99.9% uptime'
+        },
+        {
+          name: 'Payment Gateway Integration',
+          context: 'Redsys, Stripe, PayPal, Bizum - todas en producción'
+        }
       ],
+      certBadges: [
+        { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.png' }
+      ]
     },
     {
-      name: 'Data & AI',
+      name: 'Data & AI/ML',
+      icon: <ChartLine size={24} weight="duotone" />,
       skills: [
-        { name: 'SQL/NoSQL', level: 88 },
-        { name: 'Apache Kafka', level: 82 },
-        { name: 'ML/AI', level: 75 },
-        { name: 'Data Engineering', level: 78 },
+        {
+          name: 'Azure Machine Learning',
+          context: 'Modelos anti-fraude, 45% reducción fraude, scoring <100ms'
+        },
+        {
+          name: 'Databricks + Spark',
+          context: 'Procesamiento 10M eventos/día, pipelines ETL complejos'
+        },
+        {
+          name: 'Python (TensorFlow, Scikit-learn)',
+          context: 'Entrenamiento modelos ML, feature engineering avanzado'
+        },
+        {
+          name: 'Kafka + Flink',
+          context: 'Streaming real-time, dashboards actualizados cada 5s'
+        },
+        {
+          name: 'PostgreSQL + Redis + MongoDB',
+          context: 'BBDDs en HA, sharding, caching distribuido'
+        }
       ],
+      certBadges: [
+        { name: 'Azure Data Engineer', icon: '/certs/azure-data.png' },
+        { name: 'Databricks Certified', icon: '/certs/databricks.png' }
+      ]
     },
     {
-      name: 'DevOps & Leadership',
+      name: 'DevOps & Automation',
+      icon: <GitBranch size={24} weight="duotone" />,
       skills: [
-        { name: 'CI/CD', level: 92 },
-        { name: 'Observability', level: 85 },
-        { name: 'Team Leadership', level: 90 },
-        { name: 'Architecture', level: 95 },
+        {
+          name: 'Azure DevOps (Pipelines, Repos)',
+          context: '50+ pipelines CI/CD, deployments automatizados blue/green'
+        },
+        {
+          name: 'ArgoCD + GitOps',
+          context: 'Deployments declarativos, sync automático desde Git'
+        },
+        {
+          name: 'Grafana + Prometheus + AppInsights',
+          context: 'Observabilidad completa, 200+ dashboards, alerting 24/7'
+        },
+        {
+          name: 'SonarQube + Trivy + Snyk',
+          context: 'Quality gates, security scanning en pipelines'
+        },
+        {
+          name: 'Bash/Python Scripting',
+          context: 'Automatización operaciones, scripts para 100+ tareas'
+        }
       ],
-    },
+      certBadges: [
+        { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.png' }
+      ]
+    }
   ],
   en: [
     {
       name: 'Cloud & Infrastructure',
+      icon: <Cloud size={24} weight="duotone" />,
       skills: [
-        { name: 'Azure', level: 95 },
-        { name: 'Kubernetes', level: 90 },
-        { name: 'Terraform', level: 85 },
-        { name: 'Docker', level: 92 },
+        {
+          name: 'Azure (AKS, Functions, Service Bus)',
+          context: 'Santander production, 50+ node clusters, 5M users'
+        },
+        {
+          name: 'Kubernetes + Helm + Istio',
+          context: '18 microservices on AKS, full service mesh'
+        },
+        {
+          name: 'Terraform + Bicep',
+          context: 'IaC for all environments, 300+ resources'
+        },
+        {
+          name: 'Oracle Cloud Infrastructure',
+          context: 'Critical database migration, 10TB+ data'
+        },
+        {
+          name: 'Docker + Azure Container Registry',
+          context: 'CI/CD pipelines, 200+ images, private registry'
+        }
       ],
+      certBadges: [
+        { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.png' },
+        { name: 'Kubernetes Administrator', icon: '/certs/cka.png' }
+      ]
     },
     {
-      name: 'Backend & APIs',
+      name: 'Payments & Fintech',
+      icon: <CreditCard size={24} weight="duotone" />,
       skills: [
-        { name: 'Java/Spring', level: 90 },
-        { name: 'Node.js', level: 85 },
-        { name: 'Python', level: 80 },
-        { name: 'GraphQL/REST', level: 92 },
+        {
+          name: 'SEPA Instant Payments (SCT Inst)',
+          context: '2M transactions/day, EPC compliance, 99.95% SLA'
+        },
+        {
+          name: 'PSD2 Open Banking APIs',
+          context: 'Kong API Gateway, 150+ connected TPPs, OAuth 2.0'
+        },
+        {
+          name: 'ISO 20022 XML Processing',
+          context: 'Parsing and validation of pain.001/pacs.008 messages'
+        },
+        {
+          name: 'Multi-PSP Orchestration',
+          context: 'Intelligent routing, 8 providers, 99.9% uptime'
+        },
+        {
+          name: 'Payment Gateway Integration',
+          context: 'Redsys, Stripe, PayPal, Bizum - all in production'
+        }
       ],
+      certBadges: [
+        { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.png' }
+      ]
     },
     {
-      name: 'Data & AI',
+      name: 'Data & AI/ML',
+      icon: <ChartLine size={24} weight="duotone" />,
       skills: [
-        { name: 'SQL/NoSQL', level: 88 },
-        { name: 'Apache Kafka', level: 82 },
-        { name: 'ML/AI', level: 75 },
-        { name: 'Data Engineering', level: 78 },
+        {
+          name: 'Azure Machine Learning',
+          context: 'Anti-fraud models, 45% fraud reduction, <100ms scoring'
+        },
+        {
+          name: 'Databricks + Spark',
+          context: 'Processing 10M events/day, complex ETL pipelines'
+        },
+        {
+          name: 'Python (TensorFlow, Scikit-learn)',
+          context: 'ML model training, advanced feature engineering'
+        },
+        {
+          name: 'Kafka + Flink',
+          context: 'Real-time streaming, dashboards updated every 5s'
+        },
+        {
+          name: 'PostgreSQL + Redis + MongoDB',
+          context: 'HA databases, sharding, distributed caching'
+        }
       ],
+      certBadges: [
+        { name: 'Azure Data Engineer', icon: '/certs/azure-data.png' },
+        { name: 'Databricks Certified', icon: '/certs/databricks.png' }
+      ]
     },
     {
-      name: 'DevOps & Leadership',
+      name: 'DevOps & Automation',
+      icon: <GitBranch size={24} weight="duotone" />,
       skills: [
-        { name: 'CI/CD', level: 92 },
-        { name: 'Observability', level: 85 },
-        { name: 'Team Leadership', level: 90 },
-        { name: 'Architecture', level: 95 },
+        {
+          name: 'Azure DevOps (Pipelines, Repos)',
+          context: '50+ CI/CD pipelines, automated blue/green deployments'
+        },
+        {
+          name: 'ArgoCD + GitOps',
+          context: 'Declarative deployments, automatic sync from Git'
+        },
+        {
+          name: 'Grafana + Prometheus + AppInsights',
+          context: 'Full observability, 200+ dashboards, 24/7 alerting'
+        },
+        {
+          name: 'SonarQube + Trivy + Snyk',
+          context: 'Quality gates, security scanning in pipelines'
+        },
+        {
+          name: 'Bash/Python Scripting',
+          context: 'Operations automation, scripts for 100+ tasks'
+        }
       ],
-    },
-  ],
-}
-
-const copy = {
-  es: {
-    eyebrow: 'Tech Stack',
-    title: 'Herramientas del oficio',
-    description: 'Las tecnologías con las que trabajo día a día para construir soluciones de alto impacto.',
-    cta: 'Ver stack completo',
-  },
-  en: {
-    eyebrow: 'Tech Stack',
-    title: 'Tools of the trade',
-    description: 'The technologies I work with daily to build high-impact solutions.',
-    cta: 'View full stack',
-  },
+      certBadges: [
+        { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.png' }
+      ]
+    }
+  ]
 }
 
 export function SkillsSection({ locale = 'es' }: SkillsSectionProps) {
   const t = copy[locale]
-  const categories = skillCategories[locale]
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const categories = mockSkillCategories[locale]
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-slate-950 py-24" style={{ position: 'relative' }}>
+    <section id="skills" className="relative py-24 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.05),transparent_50%)]" />
-
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-slate-950 to-navy-950" />
+      <div className="absolute inset-0 bg-grid opacity-30" />
+      
+      <div className="relative container-professional">
         <SectionHeading
-          eyebrow={t.eyebrow}
           title={t.title}
-          description={t.description}
+          subtitle={t.subtitle}
+          align="center"
         />
-
-        {/* Skills grid - uses CSS class */}
-        <div className="skills-grid">
-          {categories.map((category, catIndex) => (
-            <motion.div
-              key={category.name}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + catIndex * 0.1, duration: 0.6 }}
-              className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6"
-            >
-              <h3 className="mb-6 text-lg font-semibold text-slate-50">
-                {category.name}
-              </h3>
-              <div className="space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skill.name}>
-                    <div className="mb-2 flex justify-between">
-                      <span className="text-sm font-medium text-slate-300">{skill.name}</span>
-                      <span className="text-xs text-slate-500">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-slate-800">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={isInView ? { width: `${skill.level}%` } : {}}
-                        transition={{
-                          delay: 0.4 + catIndex * 0.1 + skillIndex * 0.05,
-                          duration: 1,
-                          ease: 'easeOut',
-                        }}
-                        className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-cyan-400"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+        
+        <div className="mt-16">
+          <SkillMatrix categories={categories} locale={locale} />
         </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8 }}
-          className="mt-16 text-center"
-        >
-          <MagneticButton
-            href={locale === 'es' ? '/skills' : '/en/skills'}
-            variant="secondary"
-          >
-            {t.cta}
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </MagneticButton>
-        </motion.div>
       </div>
     </section>
   )

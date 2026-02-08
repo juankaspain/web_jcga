@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { 
-  CaretDown, 
-  TrendUp, 
-  Users, 
-  CurrencyDollar, 
-  ChartLine 
+import { useState, useRef } from "react"
+import { motion, AnimatePresence, useInView } from "framer-motion"
+import {
+  CaretDown,
+  TrendUp,
+  Users,
+  CurrencyDollar,
+  ChartLine
 } from "@phosphor-icons/react"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
 
@@ -41,101 +41,93 @@ export function ExperienceAccordion({ experiences, locale = "es" }: ExperienceAc
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
   const prefersReducedMotion = useReducedMotion()
   const t = copy[locale]
+  const listRef = useRef(null)
+  const isInView = useInView(listRef, { once: true, margin: "-50px" })
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index)
   }
 
   return (
-    <div className="space-y-4">
+    <div ref={listRef} className="space-y-4">
       {experiences.map((exp, index) => {
         const isExpanded = expandedIndex === index
-        
+
         return (
           <motion.div
             key={`${exp.company}-${index}`}
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            animate={isInView ? (prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }) : (prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 })}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="p-6 rounded-xl glass-card transition-all duration-300 theme-transition"
+            className="rounded-xl border overflow-hidden theme-transition"
             style={{
-              border: '1px solid var(--border-subtle)',
+              borderColor: 'var(--border-subtle)',
+              backgroundColor: 'var(--surface-primary)',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--accent-primary)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-subtle)'
+            }}
           >
             {/* Collapsible header */}
-            <div 
-              className="flex items-start justify-between cursor-pointer"
+            <button
               onClick={() => toggleExpand(index)}
+              className="w-full text-left p-6 flex items-start justify-between gap-4"
             >
               <div className="flex-1">
-                <h3 className="text-xl font-bold mb-1 transition-colors" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
                   {exp.role}
                 </h3>
-                <p className="font-semibold mb-1" style={{ color: 'var(--accent-primary)' }}>
+                <p className="text-sm mt-1" style={{ color: 'var(--accent-primary)' }}>
                   {exp.company}
                 </p>
-                <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                <p className="text-xs mt-1" style={{ color: 'var(--text-tertiary)' }}>
                   {exp.period}
                 </p>
               </div>
-              
-              {/* Visible highlights without expanding */}
-              <div className="flex flex-wrap gap-2 items-start ml-4">
-                <span
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-sm rounded-lg"
-                  style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
-                >
-                  <Users size={16} weight="duotone" style={{ color: 'var(--accent-primary)' }} />
-                  <span className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{t.team}:</span>
-                  <span className="font-semibold">{exp.teamSize}</span>
+              <motion.div
+                animate={{ rotate: isExpanded ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ color: 'var(--text-tertiary)' }}
+              >
+                <CaretDown size={20} />
+              </motion.div>
+            </button>
+
+            {/* Visible highlights without expanding */}
+            <div className="px-6 pb-4 flex flex-wrap gap-4 text-sm">
+              <span className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+                <Users size={16} style={{ color: 'var(--accent-primary)' }} />
+                {t.team}:&nbsp;
+                <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{exp.teamSize}</span>
+              </span>
+              {exp.budget && (
+                <span className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+                  <CurrencyDollar size={16} style={{ color: 'var(--accent-primary)' }} />
+                  {t.budget}:&nbsp;
+                  <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{exp.budget}</span>
                 </span>
-                
-                {exp.budget && (
-                  <span
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-sm rounded-lg"
-                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
-                  >
-                    <CurrencyDollar size={16} weight="duotone" style={{ color: 'var(--warning)' }} />
-                    <span className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{t.budget}:</span>
-                    <span className="font-semibold">{exp.budget}</span>
-                  </span>
-                )}
-                
-                <span
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-sm rounded-lg"
-                  style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
-                >
-                  <ChartLine size={16} weight="duotone" style={{ color: 'var(--success)' }} />
-                  <span className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{t.impact}:</span>
-                  <span className="font-semibold">{exp.impact}</span>
-                </span>
-                
-                <motion.div
-                  animate={{ rotate: isExpanded ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  <CaretDown size={20} weight="bold" />
-                </motion.div>
-              </div>
+              )}
+              <span className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+                <ChartLine size={16} style={{ color: 'var(--accent-primary)' }} />
+                {t.impact}:&nbsp;
+                <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{exp.impact}</span>
+              </span>
             </div>
-            
+
             {/* Expandable content */}
-            <AnimatePresence initial={false}>
+            <AnimatePresence>
               {isExpanded && (
                 <motion.div
-                  initial={prefersReducedMotion ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+                  initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
-                  exit={prefersReducedMotion ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+                  exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}
                   className="overflow-hidden"
                 >
                   <div className="pt-6 mt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-                    
                     <h4 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                       <TrendUp size={20} weight="duotone" style={{ color: 'var(--warning)' }} />
                       {t.achievements}
@@ -153,14 +145,14 @@ export function ExperienceAccordion({ experiences, locale = "es" }: ExperienceAc
                         </li>
                       ))}
                     </ul>
-                    
+
                     <div>
                       <h4 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-tertiary)' }}>
                         {t.technologies}
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {exp.techStack.map((tech) => (
-                          <span 
+                          <span
                             key={tech}
                             className="px-3 py-1 glass text-xs rounded transition-all duration-300"
                             style={{

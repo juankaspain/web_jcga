@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils/cn"
 import { locales, localeLabels, type Locale } from "@/lib/i18n/config"
+import { ThemeToggle } from "@/components/ui/ThemeToggle"
 
 const navItems = [
   { href: "/", label: { es: "Inicio", en: "Home" } },
@@ -33,7 +34,7 @@ function localizePath(path: string, locale: Locale) {
   return `/${locale}${path}`
 }
 
-// Throttle utility function
+// Throttle utility
 function useThrottle<T extends (...args: unknown[]) => void>(
   callback: T,
   delay: number
@@ -50,10 +51,7 @@ function useThrottle<T extends (...args: unknown[]) => void>(
         lastCall.current = now
         callback(...args)
       } else {
-        // Schedule a call at the end of the throttle period
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current)
-        }
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
         timeoutRef.current = setTimeout(() => {
           lastCall.current = Date.now()
           callback(...args)
@@ -64,32 +62,26 @@ function useThrottle<T extends (...args: unknown[]) => void>(
   )
 }
 
-// Hamburger Icon Component
+// Animated Hamburger
 function HamburgerIcon({ isOpen }: { isOpen: boolean }) {
   return (
     <div className="relative w-6 h-5 flex flex-col justify-center items-center">
       <motion.span
-        className="absolute h-0.5 w-6 bg-slate-50 rounded-full"
-        animate={{
-          rotate: isOpen ? 45 : 0,
-          y: isOpen ? 0 : -6,
-        }}
+        className="absolute h-0.5 w-6 rounded-full"
+        style={{ backgroundColor: 'var(--text-primary)' }}
+        animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 0 : -6 }}
         transition={{ duration: 0.3 }}
       />
       <motion.span
-        className="absolute h-0.5 w-6 bg-slate-50 rounded-full"
-        animate={{
-          opacity: isOpen ? 0 : 1,
-          scaleX: isOpen ? 0 : 1,
-        }}
+        className="absolute h-0.5 w-6 rounded-full"
+        style={{ backgroundColor: 'var(--text-primary)' }}
+        animate={{ opacity: isOpen ? 0 : 1, scaleX: isOpen ? 0 : 1 }}
         transition={{ duration: 0.2 }}
       />
       <motion.span
-        className="absolute h-0.5 w-6 bg-slate-50 rounded-full"
-        animate={{
-          rotate: isOpen ? -45 : 0,
-          y: isOpen ? 0 : 6,
-        }}
+        className="absolute h-0.5 w-6 rounded-full"
+        style={{ backgroundColor: 'var(--text-primary)' }}
+        animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? 0 : 6 }}
         transition={{ duration: 0.3 }}
       />
     </div>
@@ -104,59 +96,60 @@ export function Header() {
 
   const basePath = currentLocale === "es" ? pathname : pathname.replace(/^\/en/, "") || "/"
 
-  // Throttled scroll handler for better performance
   const handleScroll = useCallback(() => {
     setIsScrolled(window.scrollY > 20)
   }, [])
 
   const throttledHandleScroll = useThrottle(handleScroll, 100)
 
-  // Handle scroll effect with throttle
   useEffect(() => {
-    // Set initial state
     handleScroll()
-    
     window.addEventListener('scroll', throttledHandleScroll, { passive: true })
     return () => window.removeEventListener('scroll', throttledHandleScroll)
   }, [handleScroll, throttledHandleScroll])
 
-  // Close menu on route change
   useEffect(() => {
     setIsMenuOpen(false)
   }, [pathname])
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
+    document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset'
+    return () => { document.body.style.overflow = 'unset' }
   }, [isMenuOpen])
 
   return (
     <>
-      <header 
+      <header
         className={cn(
-          "sticky top-0 z-50 transition-all duration-300",
-          isScrolled 
-            ? "glass-strong shadow-lg" 
-            : "bg-slate-950/80 backdrop-blur-sm border-b border-slate-800"
+          "sticky top-0 z-50 transition-all duration-300 theme-transition",
+          isScrolled
+            ? "glass-strong shadow-lg"
+            : "border-b"
         )}
+        style={{
+          backgroundColor: isScrolled ? undefined : 'color-mix(in srgb, var(--bg-primary) 80%, transparent)',
+          borderColor: 'var(--border-subtle)',
+        }}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           {/* Logo */}
-          <Link 
-            href={localizePath("/", currentLocale)} 
-            className="font-semibold tracking-tight group"
+          <Link
+            href={localizePath("/", currentLocale)}
+            className="font-bold tracking-tight text-lg group"
           >
-            <span className="text-slate-50 transition-colors group-hover:text-cyan-400">JCGA</span>
+            <span
+              className="transition-colors duration-200"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              JCGA
+              <span
+                className="inline-block w-1.5 h-1.5 rounded-full ml-0.5 align-super transition-colors duration-200"
+                style={{ backgroundColor: 'var(--accent-primary)' }}
+              />
+            </span>
           </Link>
 
-          {/* Desktop Navigation - Added position relative for layoutId */}
+          {/* Desktop Navigation */}
           <nav className="hidden items-center gap-1 text-sm lg:flex relative">
             {navItems.map((item) => {
               const href = localizePath(item.href, currentLocale)
@@ -169,20 +162,51 @@ export function Header() {
                   href={href}
                   className={cn(
                     "relative px-3 py-2 rounded-lg transition-all duration-200",
-                    "hover:text-cyan-300 hover:bg-slate-800/50",
-                    isActive ? "text-cyan-400" : "text-slate-300"
                   )}
+                  style={{
+                    color: isActive ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.color = 'var(--accent-glow)'
+                      e.currentTarget.style.backgroundColor = 'var(--surface-hover)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = isActive ? 'var(--accent-primary)' : 'var(--text-secondary)'
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                  }}
                 >
                   {label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full" />
+                    <motion.span
+                      layoutId="nav-indicator"
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full"
+                      style={{ backgroundColor: 'var(--accent-primary)' }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
                   )}
                 </Link>
               )
             })}
 
+            {/* Separator */}
+            <div
+              className="w-px h-5 mx-2"
+              style={{ backgroundColor: 'var(--border-default)' }}
+            />
+
+            {/* Theme Toggle */}
+            <ThemeToggle />
+
             {/* Language Switcher */}
-            <div className="ml-4 flex items-center gap-1 rounded-full border border-slate-700 bg-slate-900/60 px-1 py-1 text-xs">
+            <div
+              className="ml-2 flex items-center gap-1 rounded-full px-1 py-1 text-xs border"
+              style={{
+                borderColor: 'var(--border-default)',
+                backgroundColor: 'var(--bg-secondary)',
+              }}
+            >
               {locales.map((locale) => {
                 const isActive = locale === currentLocale
                 const href = localizePath(basePath, locale)
@@ -193,10 +217,12 @@ export function Header() {
                     href={href}
                     className={cn(
                       "rounded-full px-2.5 py-1 font-medium transition-all duration-200",
-                      isActive
-                        ? "bg-cyan-500 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.4)]"
-                        : "text-slate-300 hover:text-cyan-300 hover:bg-slate-800/50"
                     )}
+                    style={{
+                      backgroundColor: isActive ? 'var(--accent-primary)' : 'transparent',
+                      color: isActive ? 'var(--text-on-accent)' : 'var(--text-secondary)',
+                      boxShadow: isActive ? 'var(--shadow-glow-sm)' : 'none',
+                    }}
                   >
                     {localeLabels[locale]}
                   </Link>
@@ -205,15 +231,19 @@ export function Header() {
             </div>
           </nav>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-slate-800/50 transition-colors"
-            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={isMenuOpen}
-          >
-            <HamburgerIcon isOpen={isMenuOpen} />
-          </button>
+          {/* Mobile: Theme Toggle + Hamburger */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <ThemeToggle size={16} />
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 rounded-lg transition-colors"
+              style={{ backgroundColor: isMenuOpen ? 'var(--surface-hover)' : 'transparent' }}
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={isMenuOpen}
+            >
+              <HamburgerIcon isOpen={isMenuOpen} />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -221,17 +251,16 @@ export function Header() {
       <AnimatePresence>
         {isMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-40 lg:hidden"
+              style={{ backgroundColor: 'var(--bg-overlay)' }}
               onClick={() => setIsMenuOpen(false)}
             />
 
-            {/* Menu Panel */}
             <motion.nav
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -240,7 +269,6 @@ export function Header() {
               className="fixed top-0 right-0 bottom-0 z-50 w-72 glass-strong lg:hidden"
             >
               <div className="flex flex-col h-full pt-20 pb-8 px-6">
-                {/* Navigation Links */}
                 <div className="flex-1 flex flex-col gap-1">
                   {navItems.map((item, index) => {
                     const href = localizePath(item.href, currentLocale)
@@ -258,11 +286,12 @@ export function Header() {
                           href={href}
                           className={cn(
                             "block px-4 py-3 rounded-xl text-base font-medium transition-all duration-200",
-                            "hover:bg-slate-800/50 hover:text-cyan-300",
-                            isActive 
-                              ? "text-cyan-400 bg-cyan-500/10 border-l-2 border-cyan-500" 
-                              : "text-slate-300"
                           )}
+                          style={{
+                            color: isActive ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                            backgroundColor: isActive ? 'var(--accent-subtle)' : 'transparent',
+                            borderLeft: isActive ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                          }}
                         >
                           {label}
                         </Link>
@@ -276,9 +305,13 @@ export function Header() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="pt-6 border-t border-slate-800"
+                  className="pt-6"
+                  style={{ borderTop: '1px solid var(--border-subtle)' }}
                 >
-                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-3 px-4">
+                  <p
+                    className="text-xs uppercase tracking-wider mb-3 px-4"
+                    style={{ color: 'var(--text-tertiary)' }}
+                  >
                     {currentLocale === 'es' ? 'Idioma' : 'Language'}
                   </p>
                   <div className="flex gap-2 px-4">
@@ -290,12 +323,12 @@ export function Header() {
                         <Link
                           key={locale}
                           href={href}
-                          className={cn(
-                            "flex-1 text-center rounded-xl py-2.5 font-medium transition-all duration-200",
-                            isActive
-                              ? "bg-cyan-500 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.4)]"
-                              : "bg-slate-800/50 text-slate-300 hover:bg-slate-700/50 hover:text-cyan-300"
-                          )}
+                          className="flex-1 text-center rounded-xl py-2.5 font-medium transition-all duration-200"
+                          style={{
+                            backgroundColor: isActive ? 'var(--accent-primary)' : 'var(--surface-secondary)',
+                            color: isActive ? 'var(--text-on-accent)' : 'var(--text-secondary)',
+                            boxShadow: isActive ? 'var(--shadow-glow-sm)' : 'none',
+                          }}
                         >
                           {localeLabels[locale]}
                         </Link>

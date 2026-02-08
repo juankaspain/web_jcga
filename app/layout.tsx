@@ -1,12 +1,30 @@
 import type { ReactNode } from 'react'
 import type { Metadata, Viewport } from 'next'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider'
 import { ScrollProgress } from '@/components/effects/ScrollProgress'
 import { MouseGlow } from '@/components/effects/MouseGlow'
 import { SkipToContent } from '@/components/a11y/SkipToContent'
+
+// Optimized font loading via next/font
+const inter = Inter({
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  variable: '--font-inter',
+  preload: true,
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jetbrains',
+  preload: false,
+  weight: ['400', '500', '600'],
+})
 
 // SEO Metadata
 export const metadata: Metadata = {
@@ -102,11 +120,11 @@ export const metadata: Metadata = {
   },
 }
 
-// Viewport configuration
+// Viewport configuration — dynamic per theme
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#020617' },
-    { media: '(prefers-color-scheme: light)', color: '#020617' },
+    { media: '(prefers-color-scheme: dark)', color: '#0A0A0B' },
+    { media: '(prefers-color-scheme: light)', color: '#FAFAFA' },
   ],
   width: 'device-width',
   initialScale: 1,
@@ -117,31 +135,34 @@ export const viewport: Viewport = {
 function JsonLd() {
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Juan Carlos García Arriero',
-    jobTitle: 'Senior Technical Lead & Cloud Solutions Architect',
-    description:
-      'Especializado en banca digital, pagos, cloud, datos y AI',
-    url: 'https://jcga.dev',
-    image: 'https://jcga.dev/og-image.svg',
-    sameAs: [
-      'https://linkedin.com/in/juancarlosgarciarriero',
-      'https://github.com/juankaspain',
-    ],
-    worksFor: {
-      '@type': 'Organization',
-      name: 'Santander Digital Services',
+    '@type': 'ProfilePage',
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Juan Carlos García Arriero',
+      jobTitle: 'Senior Technical Lead & Cloud Solutions Architect',
+      description:
+        'Especializado en banca digital, pagos, cloud, datos y AI',
+      url: 'https://jcga.dev',
+      image: 'https://jcga.dev/og-image.svg',
+      sameAs: [
+        'https://linkedin.com/in/juancarlosgarciarriero',
+        'https://github.com/juankaspain',
+      ],
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Santander Digital Services',
+      },
+      knowsAbout: [
+        'Cloud Architecture',
+        'Azure',
+        'Digital Banking',
+        'Payment Systems',
+        'DevOps',
+        'Data & AI',
+        'Microservices',
+        'API Design',
+      ],
     },
-    knowsAbout: [
-      'Cloud Architecture',
-      'Azure',
-      'Digital Banking',
-      'Payment Systems',
-      'DevOps',
-      'Data & AI',
-      'Microservices',
-      'API Design',
-    ],
   }
 
   return (
@@ -152,45 +173,56 @@ function JsonLd() {
   )
 }
 
+// Theme initialization script to prevent flash
+const themeScript = `
+  (function() {
+    var theme = localStorage.getItem('jcga-theme');
+    if (!theme) {
+      theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+`
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="es"
-      className="scroll-smooth"
-      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
       style={{ position: 'relative' }}
     >
       <head>
         <JsonLd />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body 
-        className="bg-slate-950 text-slate-50 antialiased"
-        style={{ position: 'relative' }}
+      <body
+        className="antialiased"
+        style={{
+          position: 'relative',
+          backgroundColor: 'var(--bg-primary)',
+          color: 'var(--text-primary)',
+        }}
       >
-        <SmoothScrollProvider>
-          <SkipToContent />
-          <ScrollProgress />
-          <MouseGlow />
-          
-          <div className="relative min-h-screen flex flex-col">
-            <Header />
-            <main
-              id="main-content"
-              className="flex-1 focus:outline-none"
-              tabIndex={-1}
-            >
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </SmoothScrollProvider>
+        <ThemeProvider>
+          <SmoothScrollProvider>
+            <SkipToContent />
+            <ScrollProgress />
+            <MouseGlow />
+
+            <div className="relative min-h-screen flex flex-col">
+              <Header />
+              <main
+                id="main-content"
+                className="flex-1 focus:outline-none"
+                tabIndex={-1}
+              >
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </SmoothScrollProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

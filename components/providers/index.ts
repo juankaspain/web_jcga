@@ -1,1 +1,2 @@
-export { SmoothScrollProvider, useLenis } from './SmoothScrollProvider'
+export { SmoothScrollProvider } from './SmoothScrollProvider'
+export { ThemeProvider, useTheme } from './ThemeProvider'

@@ -1,6 +1,7 @@
 "use client"
 
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
 import { cn } from '@/lib/utils/cn'
 
 interface SectionHeadingProps {
@@ -21,9 +22,12 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   const desc = description || subtitle
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
     <div
+      ref={ref}
       className={cn(
         'mb-16',
         align === 'center' && 'text-center',
@@ -33,8 +37,7 @@ export function SectionHeading({
       {eyebrow && (
         <motion.p
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
           className="mb-4 text-xs font-bold uppercase tracking-[0.3em]"
           style={{ color: 'var(--accent-primary)' }}
@@ -42,11 +45,10 @@ export function SectionHeading({
           {eyebrow}
         </motion.p>
       )}
-      
+
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.6, delay: 0.1 }}
         style={{ color: 'var(--text-primary)' }}
       >
@@ -56,8 +58,7 @@ export function SectionHeading({
       {desc && (
         <motion.p
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className={cn(
             'mt-4 text-lg',
@@ -72,8 +73,7 @@ export function SectionHeading({
       {/* Decorative line */}
       <motion.div
         initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true, margin: '-100px' }}
+        animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
         className={cn(
           'mt-8 h-px',

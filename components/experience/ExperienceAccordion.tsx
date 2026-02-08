@@ -33,20 +33,8 @@ interface ExperienceAccordionProps {
 }
 
 const copy = {
-  es: {
-    team: "Equipo",
-    budget: "Budget",
-    impact: "Impacto",
-    achievements: "Logros Clave",
-    technologies: "Tecnologías"
-  },
-  en: {
-    team: "Team",
-    budget: "Budget",
-    impact: "Impact",
-    achievements: "Key Achievements",
-    technologies: "Technologies"
-  }
+  es: { team: "Equipo", budget: "Budget", impact: "Impacto", achievements: "Logros Clave", technologies: "Tecnolog\u00edas" },
+  en: { team: "Team", budget: "Budget", impact: "Impact", achievements: "Key Achievements", technologies: "Technologies" }
 }
 
 export function ExperienceAccordion({ experiences, locale = "es" }: ExperienceAccordionProps) {
@@ -70,7 +58,12 @@ export function ExperienceAccordion({ experiences, locale = "es" }: ExperienceAc
             whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="p-6 rounded-xl glass-card border border-slate-800 hover:border-electric-500/30 transition-all duration-300"
+            className="p-6 rounded-xl glass-card transition-all duration-300 theme-transition"
+            style={{
+              border: '1px solid var(--border-subtle)',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
           >
             {/* Collapsible header */}
             <div 
@@ -78,46 +71,55 @@ export function ExperienceAccordion({ experiences, locale = "es" }: ExperienceAc
               onClick={() => toggleExpand(index)}
             >
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-white mb-1 group-hover:text-electric-400 transition-colors">
+                <h3 className="text-xl font-bold mb-1 transition-colors" style={{ color: 'var(--text-primary)' }}>
                   {exp.role}
                 </h3>
-                <p className="text-electric-400 font-semibold mb-1">
+                <p className="font-semibold mb-1" style={{ color: 'var(--accent-primary)' }}>
                   {exp.company}
                 </p>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
                   {exp.period}
                 </p>
               </div>
               
               {/* Visible highlights without expanding */}
               <div className="flex flex-wrap gap-2 items-start ml-4">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-sm text-slate-300 rounded-lg border border-slate-800">
-                  <Users size={16} weight="duotone" className="text-electric-400" />
-                  <span className="text-xs text-slate-500">{t.team}:</span>
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-sm rounded-lg"
+                  style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
+                >
+                  <Users size={16} weight="duotone" style={{ color: 'var(--accent-primary)' }} />
+                  <span className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{t.team}:</span>
                   <span className="font-semibold">{exp.teamSize}</span>
                 </span>
                 
                 {exp.budget && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-sm text-slate-300 rounded-lg border border-slate-800">
-                    <CurrencyDollar size={16} weight="duotone" className="text-gold-400" />
-                    <span className="text-xs text-slate-500">{t.budget}:</span>
+                  <span
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-sm rounded-lg"
+                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
+                  >
+                    <CurrencyDollar size={16} weight="duotone" style={{ color: 'var(--warning)' }} />
+                    <span className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{t.budget}:</span>
                     <span className="font-semibold">{exp.budget}</span>
                   </span>
                 )}
                 
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-sm text-slate-300 rounded-lg border border-slate-800">
-                  <ChartLine size={16} weight="duotone" className="text-success-500" />
-                  <span className="text-xs text-slate-500">{t.impact}:</span>
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-sm rounded-lg"
+                  style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
+                >
+                  <ChartLine size={16} weight="duotone" style={{ color: 'var(--success)' }} />
+                  <span className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{t.impact}:</span>
                   <span className="font-semibold">{exp.impact}</span>
                 </span>
                 
-                {/* Expand icon */}
                 <motion.div
                   animate={{ rotate: isExpanded ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-slate-800 transition-colors"
+                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors"
+                  style={{ color: 'var(--text-secondary)' }}
                 >
-                  <CaretDown size={20} weight="bold" className="text-slate-400" />
+                  <CaretDown size={20} weight="bold" />
                 </motion.div>
               </div>
             </div>
@@ -132,37 +134,47 @@ export function ExperienceAccordion({ experiences, locale = "es" }: ExperienceAc
                   transition={{ duration: 0.3 }}
                   className="overflow-hidden"
                 >
-                  <div className="pt-6 border-t border-slate-800 mt-4">
+                  <div className="pt-6 mt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
                     
-                    {/* Achievements with metrics */}
-                    <h4 className="font-semibold text-white mb-3 flex items-center gap-2">
-                      <TrendUp size={20} weight="duotone" className="text-gold-400" />
+                    <h4 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                      <TrendUp size={20} weight="duotone" style={{ color: 'var(--warning)' }} />
                       {t.achievements}
                     </h4>
                     <ul className="space-y-3 mb-6">
                       {exp.achievements.map((achievement, achIndex) => (
                         <li key={achIndex} className="flex gap-3 items-start">
-                          <div className="w-1.5 h-1.5 rounded-full bg-electric-400 mt-2 flex-shrink-0" />
-                          <span className="text-slate-300 flex-1 leading-relaxed">
+                          <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: 'var(--accent-primary)' }} />
+                          <span className="flex-1 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                             {achievement.description}
                           </span>
-                          <span className="text-electric-400 font-semibold text-sm whitespace-nowrap">
+                          <span className="font-semibold text-sm whitespace-nowrap" style={{ color: 'var(--accent-primary)' }}>
                             {achievement.metric}
                           </span>
                         </li>
                       ))}
                     </ul>
                     
-                    {/* Tech stack used */}
                     <div>
-                      <h4 className="text-sm font-semibold text-slate-500 mb-3">
+                      <h4 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-tertiary)' }}>
                         {t.technologies}
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {exp.techStack.map((tech) => (
                           <span 
                             key={tech}
-                            className="px-3 py-1 glass text-slate-400 text-xs rounded border border-slate-800 hover:border-electric-500/30 hover:text-electric-400 transition-all duration-300"
+                            className="px-3 py-1 glass text-xs rounded transition-all duration-300"
+                            style={{
+                              color: 'var(--text-secondary)',
+                              border: '1px solid var(--border-subtle)',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = 'var(--accent-primary)'
+                              e.currentTarget.style.color = 'var(--accent-primary)'
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                              e.currentTarget.style.color = 'var(--text-secondary)'
+                            }}
                           >
                             {tech}
                           </span>

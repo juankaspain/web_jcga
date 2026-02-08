@@ -40,16 +40,28 @@ export function SkillMatrix({ categories, locale = "es" }: SkillMatrixProps) {
           whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-          className="group p-6 rounded-xl glass-card border border-slate-800 hover:border-electric-500/30 transition-all duration-300"
+          className="group p-6 rounded-xl glass-card transition-all duration-300 theme-transition"
+          style={{ border: '1px solid var(--border-subtle)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
         >
           {/* Category header with icon */}
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-lg bg-electric-500/10 border border-electric-500/20 flex items-center justify-center group-hover:bg-electric-500/20 transition-colors duration-300">
-              <div className="text-electric-400 group-hover:text-electric-300 transition-colors duration-300">
+            <div
+              className="w-12 h-12 rounded-lg flex items-center justify-center transition-colors duration-300"
+              style={{
+                backgroundColor: 'var(--accent-subtle)',
+                border: '1px solid var(--accent-muted)',
+              }}
+            >
+              <div style={{ color: 'var(--accent-primary)' }}>
                 {category.icon}
               </div>
             </div>
-            <h3 className="text-lg font-bold text-white group-hover:text-electric-400 transition-colors duration-300">
+            <h3
+              className="text-lg font-bold transition-colors duration-300"
+              style={{ color: 'var(--text-primary)' }}
+            >
               {category.name}
             </h3>
           </div>
@@ -61,13 +73,14 @@ export function SkillMatrix({ categories, locale = "es" }: SkillMatrixProps) {
                 <CheckCircle 
                   size={20} 
                   weight="fill" 
-                  className="text-gold-500 flex-shrink-0 mt-0.5" 
+                  style={{ color: 'var(--warning)' }}
+                  className="flex-shrink-0 mt-0.5" 
                 />
                 <div className="flex-1 min-w-0">
-                  <div className="text-white font-medium text-sm leading-tight">
+                  <div className="font-medium text-sm leading-tight" style={{ color: 'var(--text-primary)' }}>
                     {skill.name}
                   </div>
-                  <div className="text-xs text-slate-400 mt-0.5 leading-relaxed">
+                  <div className="text-xs mt-0.5 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                     {skill.context}
                   </div>
                 </div>
@@ -77,7 +90,7 @@ export function SkillMatrix({ categories, locale = "es" }: SkillMatrixProps) {
           
           {/* Related certification badges */}
           {category.certBadges && category.certBadges.length > 0 && (
-            <div className="pt-4 border-t border-slate-800">
+            <div className="pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
               <div className="flex flex-wrap gap-2">
                 {category.certBadges.map((badge) => (
                   <div
@@ -92,8 +105,13 @@ export function SkillMatrix({ categories, locale = "es" }: SkillMatrixProps) {
                       alt={badge.name}
                       className="opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
                     />
-                    {/* Tooltip on hover */}
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-950 text-slate-300 text-xs rounded whitespace-nowrap opacity-0 group-hover/badge:opacity-100 transition-opacity duration-200 pointer-events-none">
+                    <div
+                      className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs rounded whitespace-nowrap opacity-0 group-hover/badge:opacity-100 transition-opacity duration-200 pointer-events-none"
+                      style={{
+                        backgroundColor: 'var(--surface-secondary)',
+                        color: 'var(--text-secondary)',
+                      }}
+                    >
                       {badge.name}
                     </div>
                   </div>

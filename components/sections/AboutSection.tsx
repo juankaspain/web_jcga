@@ -1,6 +1,7 @@
 "use client"
 
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 
@@ -19,10 +20,10 @@ const copy = {
       'Fuera del código, soy un eterno estudiante: +140 certificaciones y contando. Creo firmemente que en tecnología, el día que dejas de aprender es el día que empiezas a quedarte atrás.',
     ],
     highlights: [
-      { icon: '🏦', title: 'Banca Digital', desc: 'Santander, BBVA, entidades financieras globales' },
-      { icon: '☁️', title: 'Cloud Native', desc: 'Azure, Kubernetes, Microservicios' },
-      { icon: '🤖', title: 'Data & AI', desc: 'ML/AI aplicado a productos financieros' },
-      { icon: '🚀', title: 'DevOps', desc: 'CI/CD, IaC, observabilidad' },
+      { icon: '\uD83C\uDFE6', title: 'Banca Digital', desc: 'Santander, BBVA, entidades financieras globales' },
+      { icon: '\u2601\uFE0F', title: 'Cloud Native', desc: 'Azure, Kubernetes, Microservicios' },
+      { icon: '\uD83E\uDD16', title: 'Data & AI', desc: 'ML/AI aplicado a productos financieros' },
+      { icon: '\uD83D\uDE80', title: 'DevOps', desc: 'CI/CD, IaC, observabilidad' },
     ],
     cta: 'Ver mi trayectoria completa',
   },
@@ -36,10 +37,10 @@ const copy = {
       'Outside of code, I\'m an eternal student: +140 certifications and counting. I firmly believe that in technology, the day you stop learning is the day you start falling behind.',
     ],
     highlights: [
-      { icon: '🏦', title: 'Digital Banking', desc: 'Santander, BBVA, global financial institutions' },
-      { icon: '☁️', title: 'Cloud Native', desc: 'Azure, Kubernetes, Microservices' },
-      { icon: '🤖', title: 'Data & AI', desc: 'ML/AI applied to financial products' },
-      { icon: '🚀', title: 'DevOps', desc: 'CI/CD, IaC, observability' },
+      { icon: '\uD83C\uDFE6', title: 'Digital Banking', desc: 'Santander, BBVA, global financial institutions' },
+      { icon: '\u2601\uFE0F', title: 'Cloud Native', desc: 'Azure, Kubernetes, Microservices' },
+      { icon: '\uD83E\uDD16', title: 'Data & AI', desc: 'ML/AI applied to financial products' },
+      { icon: '\uD83D\uDE80', title: 'DevOps', desc: 'CI/CD, IaC, observability' },
     ],
     cta: 'View my full journey',
   },
@@ -48,6 +49,8 @@ const copy = {
 export function AboutSection({ locale = 'es' }: AboutSectionProps) {
   const t = copy[locale]
   const aboutLink = locale === 'en' ? '/en/about' : '/about'
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
     <section
@@ -56,33 +59,36 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
       style={{ backgroundColor: 'var(--bg-secondary)' }}
     >
       {/* Subtle radial background */}
-      <div className="absolute inset-0 bg-gradient-radial" />
+      <div
+        className="absolute inset-0 opacity-30"
+        style={{
+          background: 'radial-gradient(ellipse at 30% 50%, var(--accent-subtle), transparent 60%)',
+        }}
+      />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <div ref={ref} className="relative mx-auto max-w-6xl px-4">
+        <SectionHeading
+          eyebrow={t.eyebrow}
+          title={t.title}
+          description={t.description}
+          align="center"
+        />
+
+        <div className="grid gap-12 md:grid-cols-2 items-start mt-16">
           {/* Left: Text content */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <SectionHeading
-              eyebrow={t.eyebrow}
-              title={t.title}
-              subtitle={t.description}
-              align="left"
-            />
-
-            <div className="mt-8 space-y-4">
+            <div className="space-y-4">
               {t.bio.map((paragraph, index) => (
                 <motion.p
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-100px' }}
-                  transition={{ delay: 0.2 + index * 0.1 }}
-                  className="leading-relaxed"
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                  className="text-base leading-relaxed"
                   style={{ color: 'var(--text-secondary)' }}
                 >
                   {paragraph}
@@ -92,36 +98,28 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ delay: 0.5 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
               className="mt-8"
             >
-              <MagneticButton href={aboutLink}>
+              <MagneticButton href={aboutLink} variant="outline">
                 {t.cta}
               </MagneticButton>
             </motion.div>
           </motion.div>
 
           {/* Right: Highlights grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 gap-4"
-          >
+          <div className="grid grid-cols-2 gap-4">
             {t.highlights.map((item, index) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ delay: 0.4 + index * 0.1 }}
-                className="group relative p-6 rounded-2xl backdrop-blur-sm transition-all duration-300"
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                className="group rounded-2xl border p-5 transition-all duration-300 theme-transition"
                 style={{
+                  borderColor: 'var(--border-subtle)',
                   backgroundColor: 'var(--surface-primary)',
-                  border: '1px solid var(--border-subtle)',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--accent-primary)'
@@ -134,18 +132,21 @@ export function AboutSection({ locale = 'es' }: AboutSectionProps) {
               >
                 {/* Glow on hover */}
                 <div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: 'linear-gradient(135deg, var(--accent-subtle), transparent)' }}
+                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ background: 'radial-gradient(circle at center, var(--accent-subtle), transparent 70%)' }}
                 />
-                
                 <div className="relative">
-                  <span className="text-3xl">{item.icon}</span>
-                  <h3 className="mt-3 text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{item.title}</h3>
-                  <p className="mt-1 text-xs" style={{ color: 'var(--text-secondary)' }}>{item.desc}</p>
+                  <span className="text-3xl mb-3 block">{item.icon}</span>
+                  <h3 className="font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>
+                    {item.title}
+                  </h3>
+                  <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                    {item.desc}
+                  </p>
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

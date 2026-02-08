@@ -1,7 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
@@ -55,6 +55,17 @@ export function Hero({ locale = "es" }: HeroProps) {
   const expertiseLink = locale === "en" ? "/en/skills" : "/skills"
   const prefersReducedMotion = useReducedMotion()
   const [mounted, setMounted] = useState(false)
+  const heroRef = useRef<HTMLElement>(null)
+
+  // Parallax: decorative elements move at different speeds during scroll
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  })
+  const meshY = useTransform(scrollYProgress, [0, 1], [0, 150])
+  const gridY = useTransform(scrollYProgress, [0, 1], [0, 80])
+  const radialY = useTransform(scrollYProgress, [0, 1], [0, 120])
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 50])
 
   useEffect(() => {
     setMounted(true)
@@ -62,20 +73,33 @@ export function Hero({ locale = "es" }: HeroProps) {
 
   return (
     <section
+      ref={heroRef}
       className="relative min-h-screen flex items-center overflow-hidden theme-transition"
       style={{ backgroundColor: 'var(--bg-primary)' }}
     >
-      {/* Mesh gradient background */}
-      <div className="mesh-gradient" />
+      {/* Mesh gradient background — parallax layer (slowest) */}
+      <motion.div
+        className="mesh-gradient"
+        style={{ y: prefersReducedMotion ? 0 : meshY }}
+      />
 
-      {/* Professional grid pattern overlay */}
-      <div className="absolute inset-0 bg-grid" />
+      {/* Professional grid pattern overlay — parallax layer */}
+      <motion.div
+        className="absolute inset-0 bg-grid"
+        style={{ y: prefersReducedMotion ? 0 : gridY }}
+      />
 
-      {/* Subtle radial gradient for depth */}
-      <div className="absolute inset-0 bg-gradient-radial" />
+      {/* Subtle radial gradient for depth — parallax layer */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-radial"
+        style={{ y: prefersReducedMotion ? 0 : radialY }}
+      />
 
-      {/* Content */}
-      <div className="relative container-main py-32">
+      {/* Content — slight parallax for depth perception */}
+      <motion.div
+        className="relative container-main py-32"
+        style={{ y: prefersReducedMotion ? 0 : contentY }}
+      >
         <motion.div
           key="hero-content"
           initial={{ opacity: 1 }}
@@ -178,55 +202,60 @@ export function Hero({ locale = "es" }: HeroProps) {
               return (
                 <motion.div
                   key={stat.label}
-                  initial={mounted ? (prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }) : { opacity: 1 }}
-                  animate={mounted ? { opacity: 1, y: 0 } : { opacity: 1 }}
-                  transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.8 + index * 0.1, duration: 0.5 }}
-                  className="group"
+                  className="text-center"
+                  initial={!prefersReducedMotion ? { opacity: 0, y: 20 } : undefined}
+                  animate={mounted ? { opacity: 1, y: 0 } : undefined}
+                  transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
                 >
-                  <div className="flex items-center gap-2 mb-1">
-                    <IconComponent
-                      size={16}
-                      weight="duotone"
-                      style={{ color: 'var(--accent-primary)' }}
-                      className="transition-colors duration-300"
-                    />
-                    <div className="text-3xl md:text-4xl font-bold text-gradient-accent">
-                      {stat.value}
-                    </div>
-                  </div>
-                  <div
-                    className="text-xs uppercase tracking-wide"
+                  <IconComponent
+                    size={20}
+                    weight="duotone"
+                    className="mx-auto mb-2"
+                    style={{ color: 'var(--accent-primary)' }}
+                  />
+                  <p
+                    className="text-2xl font-bold"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
+                    {stat.value}
+                  </p>
+                  <p
+                    className="text-sm"
                     style={{ color: 'var(--text-tertiary)' }}
                   >
                     {stat.label}
-                  </div>
+                  </p>
                 </motion.div>
               )
             })}
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
-        initial={mounted ? (prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }) : { opacity: 1 }}
-        animate={mounted ? { opacity: 1 } : { opacity: 1 }}
-        transition={prefersReducedMotion ? { duration: 0 } : { delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        initial={!prefersReducedMotion ? { opacity: 0 } : undefined}
+        animate={mounted ? { opacity: 1, y: [0, 8, 0] } : undefined}
+        transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
       >
-        <motion.div
-          animate={prefersReducedMotion ? {} : { y: [0, 8, 0] }}
-          transition={prefersReducedMotion ? {} : { duration: 2, repeat: Infinity }}
-          className="w-6 h-10 rounded-full border-2 flex items-start justify-center p-2 transition-colors duration-300"
+        <div
+          className="w-6 h-10 rounded-full border-2 flex items-start justify-center p-2 transition-colors"
           style={{ borderColor: 'var(--border-default)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-default)' }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'var(--accent-primary)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'var(--border-default)'
+          }}
         >
           <motion.div
             className="w-1.5 h-1.5 rounded-full"
             style={{ backgroundColor: 'var(--accent-primary)' }}
+            animate={!prefersReducedMotion ? { y: [0, 12, 0] } : undefined}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           />
-        </motion.div>
+        </div>
       </motion.div>
     </section>
   )

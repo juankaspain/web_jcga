@@ -26,7 +26,13 @@ export function ImpactStats({ locale = "es" }: ImpactStatsProps) {
   const items = stats[locale]
 
   return (
-    <section className="border-b border-slate-800 bg-slate-950">
+    <section
+      className="border-b theme-transition"
+      style={{
+        borderColor: 'var(--border-subtle)',
+        backgroundColor: 'var(--bg-primary)',
+      }}
+    >
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -39,21 +45,46 @@ export function ImpactStats({ locale = "es" }: ImpactStatsProps) {
             key={`stat-${index}`}
             variants={staggerItem}
             whileHover={hoverLift}
-            className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 p-6 transition-colors hover:border-cyan-500/30"
+            className="group relative overflow-hidden rounded-2xl border p-6 transition-all duration-300"
+            style={{
+              borderColor: 'var(--border-subtle)',
+              backgroundColor: 'var(--surface-primary)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-accent)'
+              e.currentTarget.style.boxShadow = 'var(--shadow-glow-sm)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-subtle)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
           >
             {/* Subtle glow on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+            <div
+              className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
+              style={{ background: 'linear-gradient(135deg, var(--accent-subtle), transparent)' }}
+            />
             
             <div className="relative">
-              <div className="text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
+              <div
+                className="text-xs font-medium uppercase tracking-[0.2em]"
+                style={{ color: 'var(--text-tertiary)' }}
+              >
                 {stat.label}
               </div>
               <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-cyan-400">
+                <span
+                  className="text-3xl font-bold text-gradient-accent"
+                >
                   {stat.value}
                 </span>
                 {stat.unit && (
-                  <span className="text-lg text-slate-300">{stat.unit}</span>
+                  <span
+                    className="text-lg"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
+                    {stat.unit}
+                  </span>
                 )}
               </div>
             </div>

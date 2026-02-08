@@ -6,15 +6,15 @@ import { usePathname } from 'next/navigation'
 
 const copy = {
   es: {
-        description: 'Construyendo el futuro de la banca digital y los sistemas de pago a través de soluciones cloud innovadoras.',
+    description: 'Construyendo el futuro de la banca digital y los sistemas de pago a través de soluciones cloud innovadoras.',
     quickLinksTitle: 'Enlaces',
     connectTitle: 'Conectar',
     available: 'Disponible para proyectos freelance y colaboraciones',
-        craftedWith: 'Hecho con pasión.',
+    craftedWith: 'Hecho con pasión.',
     online: 'Online',
     tags: ['Banca Digital', 'Pagos', 'Cloud', 'Data & AI'],
     links: [
-            { name: 'Sobre mí', href: '/about' },
+      { name: 'Sobre mí', href: '/about' },
       { name: 'Experiencia', href: '/experience' },
       { name: 'Proyectos', href: '/projects' },
       { name: 'Contacto', href: '/contact' },
@@ -46,7 +46,6 @@ const socialLinks = [
         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zM1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
       </svg>
     ),
-    gradient: 'from-blue-400 via-blue-500 to-blue-600',
   },
   {
     name: 'GitHub',
@@ -56,7 +55,6 @@ const socialLinks = [
         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
       </svg>
     ),
-    gradient: 'from-purple-400 via-pink-500 to-pink-600',
   },
   {
     name: 'Email',
@@ -66,7 +64,6 @@ const socialLinks = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
-    gradient: 'from-cyan-400 via-teal-500 to-emerald-600',
   },
 ]
 
@@ -77,12 +74,23 @@ export function Footer() {
   const t = copy[locale]
 
   return (
-    <footer className="relative overflow-hidden border-t border-slate-800/50 bg-gradient-to-b from-slate-950 via-slate-950 to-black">
+    <footer
+      className="relative overflow-hidden border-t theme-transition"
+      style={{
+        borderColor: 'var(--border-subtle)',
+        backgroundColor: 'var(--bg-secondary)',
+      }}
+    >
       {/* Animated background elements */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-0 top-0 h-[300px] w-[300px] animate-pulse rounded-full bg-cyan-500/5 blur-3xl" />
-        <div className="absolute right-0 top-1/2 h-[400px] w-[400px] animate-pulse rounded-full bg-purple-500/5 blur-3xl animation-delay-2000" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/20 via-transparent to-transparent" />
+        <div
+          className="absolute left-0 top-0 h-[300px] w-[300px] animate-pulse rounded-full blur-3xl"
+          style={{ backgroundColor: 'var(--mesh-color-1)' }}
+        />
+        <div
+          className="absolute right-0 top-1/2 h-[400px] w-[400px] animate-pulse rounded-full blur-3xl animation-delay-2000"
+          style={{ backgroundColor: 'var(--mesh-color-2)' }}
+        />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 py-16">
@@ -92,12 +100,31 @@ export function Footer() {
           <div className="space-y-6">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <Link href={locale === 'en' ? '/en' : '/'} className="inline-block">
-                <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">JCGA</span>
+                <span className="text-2xl font-bold text-gradient-accent">JCGA</span>
+                <span
+                  className="inline-block w-1.5 h-1.5 rounded-full ml-0.5 align-super"
+                  style={{ backgroundColor: 'var(--accent-primary)' }}
+                />
               </Link>
-              <p className="mt-4 text-sm text-slate-400 leading-relaxed">{t.description}</p>
+              <p
+                className="mt-4 text-sm leading-relaxed"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                {t.description}
+              </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {t.tags.map((tag, index) => (
-                  <span key={index} className="rounded-full bg-slate-800/50 px-3 py-1 text-xs text-slate-400 border border-slate-700/50">{tag}</span>
+                  <span
+                    key={index}
+                    className="rounded-full px-3 py-1 text-xs border"
+                    style={{
+                      backgroundColor: 'var(--surface-secondary)',
+                      borderColor: 'var(--border-subtle)',
+                      color: 'var(--text-secondary)',
+                    }}
+                  >
+                    {tag}
+                  </span>
                 ))}
               </div>
             </motion.div>
@@ -105,11 +132,24 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-6">{t.quickLinksTitle}</h3>
+            <h3
+              className="text-sm font-semibold uppercase tracking-wider mb-6"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              {t.quickLinksTitle}
+            </h3>
             <ul className="space-y-3">
               {t.links.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-sm text-slate-400 hover:text-cyan-400 transition-colors">{link.name}</Link>
+                  <Link
+                    href={link.href}
+                    className="text-sm transition-colors duration-200"
+                    style={{ color: 'var(--text-secondary)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent-primary)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary)' }}
+                  >
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -117,37 +157,75 @@ export function Footer() {
 
           {/* Connect */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-6">{t.connectTitle}</h3>
+            <h3
+              className="text-sm font-semibold uppercase tracking-wider mb-6"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              {t.connectTitle}
+            </h3>
             <div className="flex gap-4">
               {socialLinks.map((link, index) => (
-                <motion.a key={link.name} href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined} className="group relative flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white transition-all duration-300" initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-                  {/* Glow effect */}
-                  <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${link.gradient} opacity-0 group-hover:opacity-20 transition-opacity`} />
+                <motion.a
+                  key={link.name}
+                  href={link.href}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="group relative flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300"
+                  style={{
+                    backgroundColor: 'var(--surface-secondary)',
+                    borderColor: 'var(--border-subtle)',
+                    color: 'var(--text-secondary)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--accent-primary)'
+                    e.currentTarget.style.color = 'var(--accent-primary)'
+                    e.currentTarget.style.boxShadow = 'var(--shadow-glow-sm)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                    e.currentTarget.style.color = 'var(--text-secondary)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  aria-label={link.name}
+                >
                   {link.icon}
                 </motion.a>
               ))}
             </div>
-            <p className="mt-6 text-xs text-slate-500">{t.available}</p>
+            <p
+              className="mt-6 text-xs"
+              style={{ color: 'var(--text-tertiary)' }}
+            >
+              {t.available}
+            </p>
           </div>
 
         </div>
 
         {/* Bottom Bar */}
-        {/* Decorative gradient line */}
-        <div className="mt-12 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+        <div
+          className="mt-12 h-px"
+          style={{ background: 'linear-gradient(to right, transparent, var(--border-default), transparent)' }}
+        />
         <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-xs text-slate-500">
-                        &copy; {currentYear} <span className="text-slate-400">Juan Carlos García Arriero</span>. {t.craftedWith}
+          <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
+            &copy; {currentYear}{' '}
+            <span style={{ color: 'var(--text-secondary)' }}>Juan Carlos García Arriero</span>.{' '}
+            {t.craftedWith}
           </p>
           <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" /><span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" /></span>
-            <span className="text-xs text-emerald-400/80">{t.online}</span>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: 'var(--success)' }} />
+              <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: 'var(--success)' }} />
+            </span>
+            <span className="text-xs" style={{ color: 'var(--success)' }}>{t.online}</span>
           </div>
         </div>
       </div>
-
-      {/* Grid overlay */}
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
     </footer>
   )
 }

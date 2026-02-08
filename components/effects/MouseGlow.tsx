@@ -1,57 +1,57 @@
 "use client"
 
-import { useEffect, useState } from 'react'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
-import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
 
 export function MouseGlow() {
+  const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(false)
-  const prefersReducedMotion = useReducedMotion()
-  
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-
-  const springConfig = { damping: 25, stiffness: 150 }
-  const x = useSpring(mouseX, springConfig)
-  const y = useSpring(mouseY, springConfig)
 
   useEffect(() => {
-    if (prefersReducedMotion) return
+    // Only show on desktop (no touch)
+    const isTouch = window.matchMedia('(pointer: coarse)').matches
+    if (isTouch) return
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX)
-      mouseY.set(e.clientY)
-      setIsVisible(true)
+      setPosition({ x: e.clientX, y: e.clientY })
+      if (!isVisible) setIsVisible(true)
     }
 
-    const handleMouseLeave = () => {
-      setIsVisible(false)
-    }
+    const handleMouseLeave = () => setIsVisible(false)
+    const handleMouseEnter = () => setIsVisible(true)
 
-    window.addEventListener('mousemove', handleMouseMove)
-    document.body.addEventListener('mouseleave', handleMouseLeave)
+    document.addEventListener('mousemove', handleMouseMove, { passive: true })
+    document.addEventListener('mouseleave', handleMouseLeave)
+    document.addEventListener('mouseenter', handleMouseEnter)
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      document.body.removeEventListener('mouseleave', handleMouseLeave)
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseleave', handleMouseLeave)
+      document.removeEventListener('mouseenter', handleMouseEnter)
     }
-  }, [mouseX, mouseY, prefersReducedMotion])
+  }, [isVisible])
 
-  if (prefersReducedMotion) return null
+  if (!isVisible) return null
 
   return (
     <motion.div
-      className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300"
-      style={{ opacity: isVisible ? 1 : 0 }}
-    >
-      <motion.div
-        className="absolute h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{
-          x,
-          y,
-          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%)',
-        }}
-      />
-    </motion.div>
+      className="pointer-events-none fixed z-[9999] rounded-full mix-blend-soft-light"
+      animate={{
+        x: position.x - 200,
+        y: position.y - 200,
+      }}
+      transition={{
+        type: 'spring',
+        stiffness: 150,
+        damping: 15,
+        mass: 0.1,
+      }}
+      style={{
+        width: 400,
+        height: 400,
+        background: 'radial-gradient(circle, var(--accent-subtle) 0%, transparent 70%)',
+        opacity: 0.6,
+      }}
+    />
   )
 }

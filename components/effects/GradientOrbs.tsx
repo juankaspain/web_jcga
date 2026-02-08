@@ -1,66 +1,79 @@
 "use client"
 
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion"
+import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
 
-export function GradientOrbs() {
+interface GradientOrbsProps {
+  className?: string
+  variant?: 'hero' | 'section' | 'subtle'
+}
+
+export function GradientOrbs({ className = '', variant = 'hero' }: GradientOrbsProps) {
+  const prefersReducedMotion = useReducedMotion()
+
+  const configs = {
+    hero: {
+      orbs: [
+        { size: 600, x: '-10%', y: '-20%', delay: 0, duration: 8 },
+        { size: 500, x: '60%', y: '50%', delay: 4, duration: 10 },
+        { size: 400, x: '30%', y: '70%', delay: 2, duration: 12 },
+      ],
+      opacity: 0.7,
+    },
+    section: {
+      orbs: [
+        { size: 400, x: '-5%', y: '10%', delay: 0, duration: 10 },
+        { size: 350, x: '70%', y: '60%', delay: 3, duration: 12 },
+      ],
+      opacity: 0.5,
+    },
+    subtle: {
+      orbs: [
+        { size: 300, x: '50%', y: '50%', delay: 0, duration: 14 },
+      ],
+      opacity: 0.3,
+    },
+  }
+
+  const config = configs[variant]
+
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {/* Primary cyan orb */}
-      <motion.div
-        className="absolute -top-[40%] -left-[20%] h-[80vh] w-[80vh] rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-        }}
-        animate={{
-          x: [0, 100, 0],
-          y: [0, 50, 0],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-
-      {/* Secondary purple orb */}
-      <motion.div
-        className="absolute -bottom-[30%] -right-[20%] h-[70vh] w-[70vh] rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-        }}
-        animate={{
-          x: [0, -80, 0],
-          y: [0, -60, 0],
-          scale: [1, 1.15, 1],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-
-      {/* Accent blue orb */}
-      <motion.div
-        className="absolute top-[20%] right-[10%] h-[50vh] w-[50vh] rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
-          filter: 'blur(50px)',
-        }}
-        animate={{
-          x: [0, -50, 0],
-          y: [0, 80, 0],
-          scale: [1, 0.9, 1],
-        }}
-        transition={{
-          duration: 18,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
+    <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
+      {config.orbs.map((orb, index) => (
+        <motion.div
+          key={index}
+          className="absolute rounded-full"
+          style={{
+            width: orb.size,
+            height: orb.size,
+            left: orb.x,
+            top: orb.y,
+            background: `radial-gradient(circle, var(--mesh-color-${(index % 3) + 1}) 0%, transparent 70%)`,
+            filter: 'blur(80px)',
+            opacity: config.opacity,
+          }}
+          animate={
+            prefersReducedMotion
+              ? {}
+              : {
+                  y: [0, -30, 0],
+                  x: [0, 15, 0],
+                  scale: [1, 1.05, 1],
+                }
+          }
+          transition={
+            prefersReducedMotion
+              ? {}
+              : {
+                  duration: orb.duration,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
+                  ease: 'easeInOut',
+                  delay: orb.delay,
+                }
+          }
+        />
+      ))}
     </div>
   )
 }

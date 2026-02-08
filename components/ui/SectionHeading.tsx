@@ -1,7 +1,7 @@
 "use client"
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
+import { useRef, useEffect, useState } from 'react'
 import { cn } from '@/lib/utils/cn'
 
 interface SectionHeadingProps {
@@ -22,8 +22,24 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   const desc = description || subtitle
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const ref = useRef<HTMLDivElement>(null)
+  const [isInView, setIsInView] = useState(false)
+
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true)
+          observer.unobserve(node)
+        }
+      },
+      { rootMargin: '-100px' }
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <div
@@ -60,10 +76,7 @@ export function SectionHeading({
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className={cn(
-            'mt-4 text-lg',
-            align === 'center' && 'mx-auto max-w-2xl'
-          )}
+          className="mt-4 text-lg max-w-2xl mx-auto"
           style={{ color: 'var(--text-secondary)' }}
         >
           {desc}
@@ -75,13 +88,10 @@ export function SectionHeading({
         initial={{ scaleX: 0 }}
         animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
-        className={cn(
-          'mt-8 h-px',
-          align === 'center' && 'mx-auto max-w-xs'
-        )}
+        className="mt-6 h-1 w-12 rounded-full mx-auto"
         style={{
-          background: 'linear-gradient(to right, transparent, var(--accent-primary), transparent)',
-          opacity: 0.4,
+          background: 'var(--accent-gradient)',
+          transformOrigin: align === 'center' ? 'center' : 'left',
         }}
       />
     </div>

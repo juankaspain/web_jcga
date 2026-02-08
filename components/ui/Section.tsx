@@ -1,7 +1,7 @@
 "use client"
 
-import { forwardRef } from 'react'
-import { motion } from 'framer-motion'
+import { forwardRef, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { fadeUp } from '@/lib/animations/variants'
 
@@ -18,6 +18,8 @@ interface SectionProps {
 
 export const Section = forwardRef<HTMLElement, SectionProps>(
   ({ children, className, containerClassName, title, subtitle, centered = false, animate = true, id }, ref) => {
+    const inViewRef = useRef(null)
+    const isInView = useInView(inViewRef, { once: true, margin: '-100px' })
 
     const content = (
       <>
@@ -48,10 +50,10 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
         <div className={cn('mx-auto max-w-6xl px-4', containerClassName)}>
           {animate ? (
             <motion.div
+              ref={inViewRef}
               variants={fadeUp}
               initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
+              animate={isInView ? "visible" : "hidden"}
             >
               {content}
             </motion.div>

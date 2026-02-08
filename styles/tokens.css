@@ -10,7 +10,7 @@
 
 /* ============================================
    COLOR PRIMITIVES
-   Raw color values - do NOT use directly in components.
+   Raw color values — do NOT use directly in components.
    Use semantic tokens from app/globals.css instead.
    ============================================ */
 :root {
@@ -52,10 +52,10 @@
    ============================================ */
 :root {
   /* Font Families */
-  --token-font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --token-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --token-font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --token-font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
 
-  /* Font Sizes - Fluid (clamp) */
+  /* Font Sizes — Fluid (clamp) */
   --token-font-display: clamp(2.5rem, 5vw + 1rem, 5rem);
   --token-font-h1: clamp(2.5rem, 5vw + 1rem, 4.5rem);
   --token-font-h2: clamp(1.75rem, 3vw + 0.5rem, 2.75rem);
@@ -83,33 +83,43 @@
   --token-tracking-tight: -0.025em;
   --token-tracking-normal: 0;
   --token-tracking-wide: 0.025em;
+  --token-tracking-wider: 0.05em;
+  --token-tracking-widest: 0.1em;
 }
 
 /* ============================================
-   SPACING TOKENS (Base: 8px)
+   SPACING TOKENS
+   Base unit: 8px (0.5rem)
    ============================================ */
 :root {
   --token-space-0: 0;
-  --token-space-1: 0.25rem;
-  --token-space-2: 0.5rem;
-  --token-space-3: 0.75rem;
-  --token-space-4: 1rem;
-  --token-space-6: 1.5rem;
-  --token-space-8: 2rem;
-  --token-space-12: 3rem;
-  --token-space-16: 4rem;
-  --token-space-20: 5rem;
-  --token-space-24: 6rem;
-  --token-space-32: 8rem;
+  --token-space-px: 1px;
+  --token-space-0-5: 0.125rem; /* 2px */
+  --token-space-1: 0.25rem;    /* 4px */
+  --token-space-2: 0.5rem;     /* 8px — base */
+  --token-space-3: 0.75rem;    /* 12px */
+  --token-space-4: 1rem;       /* 16px */
+  --token-space-5: 1.25rem;    /* 20px */
+  --token-space-6: 1.5rem;     /* 24px */
+  --token-space-8: 2rem;       /* 32px */
+  --token-space-10: 2.5rem;    /* 40px */
+  --token-space-12: 3rem;      /* 48px */
+  --token-space-16: 4rem;      /* 64px */
+  --token-space-20: 5rem;      /* 80px */
+  --token-space-24: 6rem;      /* 96px */
+  --token-space-32: 8rem;      /* 128px */
+
+  /* Section Spacing */
   --token-section-padding: clamp(4rem, 10vh, 8rem);
   --token-container-padding: clamp(1rem, 5vw, 4rem);
-  --token-container-max: 76rem;
+  --token-container-max: 76rem; /* 1216px */
 }
 
 /* ============================================
    BORDER RADIUS TOKENS
    ============================================ */
 :root {
+  --token-radius-none: 0;
   --token-radius-sm: 0.25rem;
   --token-radius-md: 0.5rem;
   --token-radius-lg: 0.75rem;
@@ -122,31 +132,50 @@
    TRANSITION & ANIMATION TOKENS
    ============================================ */
 :root {
+  /* Durations */
   --token-duration-fast: 150ms;
   --token-duration-base: 200ms;
   --token-duration-slow: 300ms;
   --token-duration-slower: 500ms;
   --token-duration-theme: 400ms;
+
+  /* Easings */
   --token-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --token-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --token-ease-out: cubic-bezier(0, 0, 0.2, 1);
   --token-ease-bounce: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Composed Transitions */
+  --token-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --token-transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --token-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --token-transition-theme: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ============================================
    Z-INDEX SCALE
    ============================================ */
 :root {
+  --token-z-behind: -1;
   --token-z-base: 0;
+  --token-z-raised: 1;
   --token-z-dropdown: 10;
   --token-z-sticky: 20;
   --token-z-navbar: 50;
   --token-z-overlay: 60;
   --token-z-modal: 70;
+  --token-z-popover: 80;
   --token-z-tooltip: 90;
   --token-z-toast: 100;
 }
 
 /* ============================================
-   BREAKPOINT REFERENCE
-   Mobile: 320-639px | Tablet: 640-1023px
-   Desktop: 1024-1279px | Wide: 1280px+
+   BREAKPOINT REFERENCE (for documentation)
+   Use via Tailwind responsive prefixes:
+   sm:, md:, lg:, xl:, 2xl:
+   ============================================
+   --bp-mobile: 320px - 639px
+   --bp-tablet: 640px - 1023px
+   --bp-desktop: 1024px - 1279px
+   --bp-wide: 1280px+
    ============================================ */

@@ -742,6 +742,9 @@ code, pre {
    Force visibility for elements stuck at opacity:0
    due to whileInView bug in Next.js 15 + React 19
    ============================================ */
+
+/* After hydration, ensure motion elements become visible */
+/* This targets framer-motion's inline style pattern */
 [style*="opacity: 0"][style*="transform"] {
   animation: force-visible 0s 0.3s forwards;
 }
@@ -775,6 +778,7 @@ code, pre {
 .col-span-11 { grid-column: span 11; }
 .col-span-12 { grid-column: span 12; }
 
+/* Responsive grid collapse */
 @media (max-width: 1023px) {
   .grid-12 {
     grid-template-columns: repeat(6, 1fr);

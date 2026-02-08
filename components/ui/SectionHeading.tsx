@@ -36,7 +36,8 @@ export function SectionHeading({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.5 }}
-          className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-cyan-400"
+          className="mb-4 text-xs font-bold uppercase tracking-[0.3em]"
+          style={{ color: 'var(--accent-primary)' }}
         >
           {eyebrow}
         </motion.p>
@@ -47,7 +48,7 @@ export function SectionHeading({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-3xl font-bold tracking-tight text-slate-50 md:text-4xl lg:text-5xl"
+        style={{ color: 'var(--text-primary)' }}
       >
         {title}
       </motion.h2>
@@ -59,9 +60,10 @@ export function SectionHeading({
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className={cn(
-            'mt-4 text-lg text-slate-400',
+            'mt-4 text-lg',
             align === 'center' && 'mx-auto max-w-2xl'
           )}
+          style={{ color: 'var(--text-secondary)' }}
         >
           {desc}
         </motion.p>
@@ -74,9 +76,13 @@ export function SectionHeading({
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.8, delay: 0.3 }}
         className={cn(
-          'mt-8 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent',
+          'mt-8 h-px',
           align === 'center' && 'mx-auto max-w-xs'
         )}
+        style={{
+          background: 'linear-gradient(to right, transparent, var(--accent-primary), transparent)',
+          opacity: 0.4,
+        }}
       />
     </div>
   )

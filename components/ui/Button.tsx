@@ -14,13 +14,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   rightIcon?: React.ReactNode
 }
 
-const variants: Record<ButtonVariant, string> = {
-  primary: 'bg-cyan-500 text-slate-950 hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.5)] active:bg-cyan-600',
-  secondary: 'bg-slate-800 text-slate-50 hover:bg-slate-700 border border-slate-700 hover:border-slate-600',
-  ghost: 'text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50',
-  outline: 'border border-slate-600 text-slate-50 hover:border-cyan-500 hover:text-cyan-400 hover:bg-cyan-500/10',
-}
-
 const sizes: Record<ButtonSize, string> = {
   sm: 'px-3 py-1.5 text-xs',
   md: 'px-5 py-2.5 text-sm',
@@ -38,17 +31,47 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     rightIcon,
     children, 
     disabled,
+    style,
     ...props 
   }, ref) => {
+
+    const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
+      primary: {
+        background: 'var(--accent-gradient)',
+        color: 'var(--text-on-accent)',
+      },
+      secondary: {
+        backgroundColor: 'var(--surface-secondary)',
+        color: 'var(--text-primary)',
+        border: '1px solid var(--border-default)',
+      },
+      ghost: {
+        backgroundColor: 'transparent',
+        color: 'var(--text-secondary)',
+      },
+      outline: {
+        backgroundColor: 'transparent',
+        color: 'var(--text-primary)',
+        border: '1px solid var(--border-default)',
+      },
+    }
+
     const classes = cn(
       'inline-flex items-center justify-center gap-2 rounded-full font-medium',
       'transition-all duration-300 ease-out',
-      'focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-slate-950',
+      'focus-visible:outline-2 focus-visible:outline-offset-2',
       'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none',
-      variants[variant],
       sizes[size],
       className
     )
+
+    const mergedStyle = {
+      ...variantStyles[variant],
+      // @ts-expect-error CSS custom properties
+      '--focus-ring-color': 'var(--accent-primary)',
+      outlineColor: 'var(--accent-primary)',
+      ...style,
+    }
 
     const content = (
       <>
@@ -65,14 +88,37 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     if (href) {
       return (
-        <Link href={href} className={classes}>
+        <Link href={href} className={classes} style={mergedStyle}>
           {content}
         </Link>
       )
     }
 
     return (
-      <button ref={ref} className={classes} disabled={disabled || isLoading} {...props}>
+      <button
+        ref={ref}
+        className={classes}
+        style={mergedStyle}
+        disabled={disabled || isLoading}
+        onMouseEnter={(e) => {
+          if (variant === 'primary') {
+            e.currentTarget.style.boxShadow = 'var(--shadow-glow-sm)'
+          } else if (variant === 'outline' || variant === 'secondary') {
+            e.currentTarget.style.borderColor = 'var(--accent-primary)'
+            e.currentTarget.style.color = 'var(--accent-primary)'
+          } else if (variant === 'ghost') {
+            e.currentTarget.style.color = 'var(--accent-primary)'
+            e.currentTarget.style.backgroundColor = 'var(--surface-hover)'
+          }
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.boxShadow = ''
+          e.currentTarget.style.borderColor = ''
+          e.currentTarget.style.color = ''
+          e.currentTarget.style.backgroundColor = ''
+        }}
+        {...props}
+      >
         {content}
       </button>
     )

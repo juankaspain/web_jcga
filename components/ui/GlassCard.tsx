@@ -8,14 +8,12 @@ import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
 interface GlassCardProps {
   children: ReactNode
   className?: string
-  glowColor?: 'cyan' | 'purple' | 'blue'
   hover?: boolean
 }
 
 export function GlassCard({
   children,
   className,
-  glowColor = 'cyan',
   hover = true,
 }: GlassCardProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -32,12 +30,6 @@ export function GlassCard({
     })
   }
 
-  const glowColors = {
-    cyan: 'rgba(6, 182, 212, 0.15)',
-    purple: 'rgba(139, 92, 246, 0.15)',
-    blue: 'rgba(59, 130, 246, 0.15)',
-  }
-
   return (
     <motion.div
       ref={ref}
@@ -45,22 +37,24 @@ export function GlassCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
-        'relative overflow-hidden rounded-2xl',
-        'bg-slate-900/60 backdrop-blur-xl',
-        'border border-slate-700/50',
-        hover && 'transition-all duration-300 hover:border-slate-600/80',
+        'relative overflow-hidden rounded-2xl backdrop-blur-xl theme-transition',
+        hover && 'transition-all duration-300',
         className
       )}
+      style={{
+        backgroundColor: 'var(--surface-primary)',
+        border: '1px solid var(--border-subtle)',
+      }}
       whileHover={hover && !prefersReducedMotion ? { y: -4, scale: 1.01 } : undefined}
       transition={{ duration: 0.3 }}
     >
-      {/* Gradient border effect */}
+      {/* Gradient border effect on hover */}
       <div className="absolute inset-0 rounded-2xl p-px">
         <div 
-          className="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500"
+          className="absolute inset-0 rounded-2xl transition-opacity duration-500"
           style={{
             opacity: isHovered ? 1 : 0,
-            background: `linear-gradient(135deg, ${glowColors[glowColor]}, transparent 50%)`,
+            background: 'linear-gradient(135deg, var(--accent-subtle), transparent 50%)',
           }}
         />
       </div>
@@ -72,7 +66,7 @@ export function GlassCard({
           style={{
             left: mousePosition.x - 150,
             top: mousePosition.y - 150,
-            background: `radial-gradient(circle, ${glowColors[glowColor]}, transparent 70%)`,
+            background: 'radial-gradient(circle, var(--accent-subtle), transparent 70%)',
             opacity: isHovered ? 1 : 0,
           }}
         />

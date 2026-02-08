@@ -43,21 +43,28 @@ export function MagneticButton({
     setPosition({ x: 0, y: 0 })
   }
 
-  const baseStyles = cn(
-    'group relative inline-flex items-center justify-center font-semibold transition-all duration-300',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-500 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950',
-    {
-      // Variants
-      'bg-gradient-to-r from-electric-500 to-electric-600 text-white hover:from-electric-400 hover:to-electric-500 shadow-lg': variant === 'primary',
-      'border-2 border-slate-700 bg-slate-900/50 text-slate-50 backdrop-blur-sm hover:border-electric-500/50 hover:bg-slate-800/80 hover:text-electric-400': variant === 'secondary',
-      'text-slate-300 hover:text-electric-400 hover:bg-slate-800/50': variant === 'ghost',
-      // Sizes
-      'px-4 py-2 text-sm rounded-full gap-1.5': size === 'sm',
-      'px-6 py-3 text-sm rounded-full gap-2': size === 'md',
-      'px-8 py-4 text-base rounded-full gap-2': size === 'lg',
+  const variantStyles = {
+    primary: {
+      background: 'var(--accent-gradient)',
+      color: 'var(--text-on-accent)',
+      boxShadow: 'var(--shadow-glow-sm)',
     },
-    className
-  )
+    secondary: {
+      background: 'var(--surface-primary)',
+      color: 'var(--text-primary)',
+      border: '2px solid var(--border-default)',
+    },
+    ghost: {
+      background: 'transparent',
+      color: 'var(--text-secondary)',
+    },
+  }
+
+  const sizeClasses = {
+    sm: 'px-4 py-2 text-sm rounded-full gap-1.5',
+    md: 'px-6 py-3 text-sm rounded-full gap-2',
+    lg: 'px-8 py-4 text-base rounded-full gap-2',
+  }
 
   const content = (
     <motion.div
@@ -66,27 +73,47 @@ export function MagneticButton({
       onMouseLeave={handleMouseLeave}
       animate={{ x: position.x, y: position.y }}
       transition={{ type: 'spring', stiffness: 150, damping: 15 }}
-      className={baseStyles}
+      className={cn(
+        'group relative inline-flex items-center justify-center font-semibold transition-all duration-300',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+        sizeClasses[size],
+        className
+      )}
+      style={{
+        ...variantStyles[variant],
+        // @ts-expect-error CSS custom properties
+        '--tw-ring-color': 'var(--accent-primary)',
+        '--tw-ring-offset-color': 'var(--bg-primary)',
+      }}
+      onMouseEnter={(e) => {
+        if (variant === 'secondary') {
+          e.currentTarget.style.borderColor = 'var(--accent-primary)'
+          e.currentTarget.style.color = 'var(--accent-primary)'
+        } else if (variant === 'ghost') {
+          e.currentTarget.style.color = 'var(--accent-primary)'
+          e.currentTarget.style.backgroundColor = 'var(--surface-hover)'
+        } else if (variant === 'primary') {
+          e.currentTarget.style.boxShadow = 'var(--shadow-glow)'
+        }
+      }}
+      onMouseLeave2={(e) => {
+        // Reset is handled by handleMouseLeave for position
+        // Style resets handled by React re-render
+      }}
     >
       <span className="relative z-10 flex items-center gap-2">{children}</span>
       
-      {/* Premium shine effect with gold accent */}
+      {/* Premium shine effect */}
       {variant === 'primary' && (
-        <>
-          <motion.span
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
-            initial={{ x: '-100%' }}
-            whileHover={{ x: '100%' }}
-            transition={{ duration: 0.5 }}
-          />
-          {/* Gold edge glow on hover */}
-          <motion.span
-            className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{
-              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, transparent 50%, rgba(14, 165, 233, 0.1) 100%)'
-            }}
-          />
-        </>
+        <motion.span
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
+          }}
+          initial={{ x: '-100%' }}
+          whileHover={{ x: '100%' }}
+          transition={{ duration: 0.5 }}
+        />
       )}
     </motion.div>
   )

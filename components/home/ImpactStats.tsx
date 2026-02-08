@@ -1,7 +1,7 @@
 "use client"
 
-import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
+import { motion } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import { staggerContainer, staggerItem, hoverLift } from "@/lib/animations/variants"
 
 type ImpactStatsProps = {
@@ -10,10 +10,10 @@ type ImpactStatsProps = {
 
 const stats = {
   es: [
-    { label: "Experiencia", value: "+15", unit: "años" },
+    { label: "Experiencia", value: "+15", unit: "a\u00f1os" },
     { label: "Clientes Impactados", value: "Millones", unit: "" },
     { label: "Certificaciones", value: "+140", unit: "" },
-    { label: "Tamaño de Equipo", value: "12", unit: "personas" }
+    { label: "Tama\u00f1o de Equipo", value: "12", unit: "personas" }
   ],
   en: [
     { label: "Experience", value: "+15", unit: "years" },
@@ -25,8 +25,36 @@ const stats = {
 
 export function ImpactStats({ locale = "es" }: ImpactStatsProps) {
   const items = stats[locale]
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null)
+  const [isInView, setIsInView] = useState(false)
+
+  // Native IntersectionObserver instead of framer-motion useInView
+  // Fixes whileInView/useInView bug in Next.js 15 + React 19 + Framer Motion 11
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+
+    // Fallback: if IntersectionObserver takes too long, force visible
+    const fallbackTimer = setTimeout(() => setIsInView(true), 2000)
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true)
+          clearTimeout(fallbackTimer)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    observer.observe(element)
+
+    return () => {
+      clearTimeout(fallbackTimer)
+      observer.disconnect()
+    }
+  }, [])
 
   return (
     <section
@@ -64,22 +92,27 @@ export function ImpactStats({ locale = "es" }: ImpactStatsProps) {
           >
             {/* Subtle glow on hover */}
             <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{
-                background: 'radial-gradient(circle at 50% 50%, var(--accent-subtle), transparent 70%)',
-              }}
+              className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{ background: 'var(--accent-subtle)' }}
             />
+
             <div className="relative">
               <p
-                className="text-sm font-medium mb-1"
-                style={{ color: 'var(--text-secondary)' }}
+                className="text-sm font-medium uppercase tracking-wider"
+                style={{ color: 'var(--text-tertiary)' }}
               >
                 {stat.label}
               </p>
-              <p className="text-3xl font-bold" style={{ color: 'var(--accent-primary)' }}>
+              <p
+                className="mt-2 text-3xl font-bold tracking-tight"
+                style={{ color: 'var(--text-primary)' }}
+              >
                 {stat.value}{' '}
                 {stat.unit && (
-                  <span className="text-lg font-normal" style={{ color: 'var(--text-tertiary)' }}>
+                  <span
+                    className="text-lg font-normal"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
                     {stat.unit}
                   </span>
                 )}

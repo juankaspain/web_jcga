@@ -743,7 +743,7 @@ code, pre {
    due to whileInView bug in Next.js 15 + React 19
    ============================================ */
 [style*="opacity: 0"][style*="transform"] {
-  animation: force-visible 0s 1.5s forwards;
+  animation: force-visible 0s 0.3s forwards;
 }
 
 @keyframes force-visible {

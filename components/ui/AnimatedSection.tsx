@@ -1,7 +1,7 @@
 "use client"
 
-import { motion, type Variants } from "framer-motion"
-import { type ReactNode } from "react"
+import { motion, useInView, type Variants } from "framer-motion"
+import { type ReactNode, useRef } from "react"
 import { fadeInUp } from "@/lib/animations/variants"
 
 type AnimatedSectionProps = {
@@ -21,11 +21,14 @@ export function AnimatedSection({
   once = true,
   amount = 0.3
 }: AnimatedSectionProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once, amount })
+
   return (
     <motion.div
+      ref={ref}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, amount }}
+      animate={isInView ? "visible" : "hidden"}
       variants={variants}
       transition={{ delay }}
       className={className}

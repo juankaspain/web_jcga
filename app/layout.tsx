@@ -9,6 +9,7 @@ import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvide
 import { ScrollProgress } from '@/components/effects/ScrollProgress'
 import { MouseGlow } from '@/components/effects/MouseGlow'
 import { SkipToContent } from '@/components/a11y/SkipToContent'
+import { WhileInViewFix } from '@/components/ui/WhileInViewFix'
 
 // Optimized font loading via next/font
 const inter = Inter({
@@ -209,6 +210,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <SkipToContent />
             <ScrollProgress />
             <MouseGlow />
+                          <WhileInViewFix />
 
             <div className="relative min-h-screen flex flex-col">
               <Header />

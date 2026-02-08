@@ -1,7 +1,8 @@
 "use client"
 
-import { motion, useInView, type Variants } from "framer-motion"
+import { motion, type Variants } from "framer-motion"
 import { type ReactNode, useRef } from "react"
+import { useNativeInView } from "@/lib/hooks/useNativeInView"
 import { fadeInUp } from "@/lib/animations/variants"
 
 type AnimatedSectionProps = {
@@ -22,7 +23,7 @@ export function AnimatedSection({
   amount = 0.3
 }: AnimatedSectionProps) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once, amount })
+  const isInView = useNativeInView(ref, { once, amount })
 
   return (
     <motion.div

@@ -1,7 +1,8 @@
 "use client"
 
 import { forwardRef, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { useNativeInView } from '@/lib/hooks/useNativeInView'
 import { cn } from '@/lib/utils/cn'
 import { fadeUp } from '@/lib/animations/variants'
 
@@ -19,7 +20,7 @@ interface SectionProps {
 export const Section = forwardRef<HTMLElement, SectionProps>(
   ({ children, className, containerClassName, title, subtitle, centered = false, animate = true, id }, ref) => {
     const inViewRef = useRef(null)
-    const isInView = useInView(inViewRef, { once: true, margin: '-100px' })
+    const isInView = useNativeInView(inViewRef, { once: true, margin: '-100px' })
 
     const content = (
       <>

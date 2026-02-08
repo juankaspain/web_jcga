@@ -9,8 +9,8 @@ interface ExperienceSectionProps {
 const copy = {
   es: {
     eyebrow: 'Trayectoria',
-        title: 'Dónde he creado impacto',
-        subtitle: 'Liderazgo técnico en proyectos críticos de transformación digital bancaria'
+    title: 'Dónde he creado impacto',
+    subtitle: 'Liderazgo técnico en proyectos críticos de transformación digital bancaria'
   },
   en: {
     eyebrow: 'Career',
@@ -39,10 +39,10 @@ export function ExperienceSection({ locale = 'es' }: ExperienceSectionProps) {
   const adaptedExperiences = mapExperiencesToAccordion(locale)
 
   return (
-    <section className="relative py-24 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950" />
-
+    <section
+      className="relative py-24 overflow-hidden theme-transition"
+      style={{ backgroundColor: 'var(--bg-primary)' }}
+    >
       <div className="relative max-w-6xl mx-auto px-6">
         <SectionHeading
           eyebrow={t.eyebrow}

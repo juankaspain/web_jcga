@@ -23,7 +23,7 @@ const copy = {
     contactInfoTitle: 'Información de contacto',
     contactInfoSubtitle: 'Prefiero discusiones estructuradas. Completa el formulario o contacta directamente:',
     email: 'Email profesional',
-        emailValue: 'contact@jcga.dev',
+    emailValue: 'contact@jcga.dev',
     phone: 'Teléfono',
     phoneValue: '+34 XXX XXX XXX',
     location: 'Ubicación',
@@ -43,7 +43,7 @@ const copy = {
     contactInfoTitle: 'Contact information',
     contactInfoSubtitle: 'I prefer structured discussions. Fill out the form or contact directly:',
     email: 'Professional email',
-        emailValue: 'contact@jcga.dev',
+    emailValue: 'contact@jcga.dev',
     phone: 'Phone',
     phoneValue: '+34 XXX XXX XXX',
     location: 'Location',
@@ -62,13 +62,11 @@ const socialLinks = [
     name: 'LinkedIn',
     href: 'https://linkedin.com/in/juancarlosgarciarriero',
     icon: LinkedinLogo,
-    gradient: 'from-electric-400 to-electric-600',
   },
   {
     name: 'GitHub',
     href: 'https://github.com/juankaspain',
     icon: GithubLogo,
-    gradient: 'from-slate-400 to-slate-600',
   },
 ]
 
@@ -76,9 +74,12 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
   const t = copy[locale]
 
   return (
-    <section id="contact" className="relative py-24 overflow-hidden">
-      {/* Premium background with grid */}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-slate-950 to-navy-950" />
+    <section
+      id="contact"
+      className="relative py-24 overflow-hidden theme-transition"
+      style={{ backgroundColor: 'var(--bg-primary)' }}
+    >
+      {/* Background */}
       <div className="absolute inset-0 bg-grid opacity-20" />
 
       <div className="relative mx-auto max-w-7xl px-6">
@@ -91,9 +92,17 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-semibold tracking-wide mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide mb-6"
+            style={{
+              backgroundColor: 'var(--success-subtle)',
+              color: 'var(--success)',
+              border: '1px solid var(--success)',
+            }}
           >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ backgroundColor: 'var(--success)' }}
+            />
             {t.availability}
           </motion.div>
 
@@ -102,7 +111,8 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5 }}
-            className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-cyan-400"
+            className="mb-4 text-xs font-bold uppercase tracking-[0.3em]"
+            style={{ color: 'var(--accent-primary)' }}
           >
             {t.eyebrow}
           </motion.p>
@@ -112,7 +122,7 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-3xl font-bold tracking-tight text-slate-50 md:text-4xl lg:text-5xl"
+            style={{ color: 'var(--text-primary)' }}
           >
             {t.title}
           </motion.h2>
@@ -122,7 +132,8 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mt-4 text-lg text-slate-400 mx-auto max-w-2xl"
+            className="mt-4 text-lg mx-auto max-w-2xl"
+            style={{ color: 'var(--text-secondary)' }}
           >
             {t.subtitle}
           </motion.p>
@@ -151,8 +162,15 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
           >
             {/* Contact info header */}
             <div>
-              <h3 className="text-xl font-bold text-white mb-2">{t.contactInfoTitle}</h3>
-              <p className="text-slate-400 text-sm">{t.contactInfoSubtitle}</p>
+              <h3
+                className="text-xl font-bold mb-2"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                {t.contactInfoTitle}
+              </h3>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                {t.contactInfoSubtitle}
+              </p>
             </div>
 
             {/* Contact info cards */}
@@ -160,56 +178,95 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
               {/* Email */}
               <a
                 href={`mailto:${t.emailValue}`}
-                className="group flex items-center gap-4 p-4 rounded-xl glass-card border border-slate-700/50 hover:border-electric-500/30 transition-all duration-300"
+                className="group flex items-center gap-4 p-4 rounded-xl glass-card transition-all duration-300"
+                style={{ border: '1px solid var(--border-subtle)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
               >
-                <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-electric-500/10 border border-electric-500/20">
-                  <EnvelopeSimple size={20} weight="duotone" className="text-electric-400" />
+                <div
+                  className="flex items-center justify-center w-10 h-10 rounded-lg"
+                  style={{
+                    backgroundColor: 'var(--accent-subtle)',
+                    border: '1px solid var(--accent-muted)',
+                  }}
+                >
+                  <EnvelopeSimple size={20} weight="duotone" style={{ color: 'var(--accent-primary)' }} />
                 </div>
                 <div>
-                  <div className="text-xs text-slate-500 uppercase tracking-wide">{t.email}</div>
-                  <div className="text-sm font-medium text-white">{t.emailValue}</div>
+                  <div className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-tertiary)' }}>{t.email}</div>
+                  <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{t.emailValue}</div>
                 </div>
               </a>
 
               {/* Phone */}
-              <div className="flex items-center gap-4 p-4 rounded-xl glass-card border border-slate-700/50">
-                <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
-                  <Phone size={20} weight="duotone" className="text-cyan-400" />
+              <div
+                className="flex items-center gap-4 p-4 rounded-xl glass-card"
+                style={{ border: '1px solid var(--border-subtle)' }}
+              >
+                <div
+                  className="flex items-center justify-center w-10 h-10 rounded-lg"
+                  style={{
+                    backgroundColor: 'var(--accent-subtle)',
+                    border: '1px solid var(--accent-muted)',
+                  }}
+                >
+                  <Phone size={20} weight="duotone" style={{ color: 'var(--accent-primary)' }} />
                 </div>
                 <div>
-                  <div className="text-xs text-slate-500 uppercase tracking-wide">{t.phone}</div>
-                  <div className="text-sm font-medium text-white">{t.phoneValue}</div>
+                  <div className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-tertiary)' }}>{t.phone}</div>
+                  <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{t.phoneValue}</div>
                 </div>
               </div>
 
               {/* Location */}
-              <div className="flex items-center gap-4 p-4 rounded-xl glass-card border border-slate-700/50">
-                <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                  <MapPin size={20} weight="duotone" className="text-emerald-400" />
+              <div
+                className="flex items-center gap-4 p-4 rounded-xl glass-card"
+                style={{ border: '1px solid var(--border-subtle)' }}
+              >
+                <div
+                  className="flex items-center justify-center w-10 h-10 rounded-lg"
+                  style={{
+                    backgroundColor: 'var(--success-subtle)',
+                    border: '1px solid var(--success)',
+                  }}
+                >
+                  <MapPin size={20} weight="duotone" style={{ color: 'var(--success)' }} />
                 </div>
                 <div>
-                  <div className="text-xs text-slate-500 uppercase tracking-wide">{t.location}</div>
-                  <div className="text-sm font-medium text-white">{t.locationValue}</div>
+                  <div className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-tertiary)' }}>{t.location}</div>
+                  <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{t.locationValue}</div>
                 </div>
               </div>
             </div>
 
             {/* Response time callout */}
-            <div className="p-4 rounded-xl bg-electric-500/5 border border-electric-500/20">
+            <div
+              className="p-4 rounded-xl"
+              style={{
+                backgroundColor: 'var(--accent-subtle)',
+                border: '1px solid var(--accent-muted)',
+              }}
+            >
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-electric-400" />
-                <div className="text-xs font-semibold text-electric-400 uppercase tracking-wide">
+                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--accent-primary)' }} />
+                <div className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--accent-primary)' }}>
                   {t.responseTime}
                 </div>
               </div>
-              <div className="text-sm font-medium text-white">
+              <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
                 {t.responseTimeValue}
               </div>
             </div>
 
             {/* Social links */}
-            <div className="pt-6 border-t border-slate-800">
-              <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-4">
+            <div
+              className="pt-6"
+              style={{ borderTop: '1px solid var(--border-subtle)' }}
+            >
+              <div
+                className="text-xs font-semibold uppercase tracking-wide mb-4"
+                style={{ color: 'var(--text-tertiary)' }}
+              >
                 Social
               </div>
               <div className="flex gap-3">
@@ -225,13 +282,25 @@ export function ContactSection({ locale = 'es' }: ContactSectionProps) {
                       aria-label={link.name}
                       title={link.name}
                     >
-                      <div className="flex items-center justify-center gap-2 p-3 rounded-xl glass-card border border-slate-800 hover:border-electric-500/30 transition-all duration-300">
+                      <div
+                        className="flex items-center justify-center gap-2 p-3 rounded-xl glass-card transition-all duration-300"
+                        style={{ border: '1px solid var(--border-subtle)' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = 'var(--accent-primary)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                        }}
+                      >
                         <IconComponent
                           size={20}
                           weight="fill"
-                          className="text-slate-400 group-hover:text-electric-400 transition-colors"
+                          style={{ color: 'var(--text-secondary)' }}
                         />
-                        <span className="text-xs font-medium text-slate-400 group-hover:text-electric-400 transition-colors">
+                        <span
+                          className="text-xs font-medium"
+                          style={{ color: 'var(--text-secondary)' }}
+                        >
                           {link.name}
                         </span>
                       </div>

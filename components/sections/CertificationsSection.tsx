@@ -41,9 +41,13 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
   const totalCerts = vendors.reduce((acc, v) => acc + v.count, 0)
 
   return (
-    <section id="certifications" className="relative overflow-hidden bg-slate-900/50 py-24" style={{ position: 'relative' }}>
+    <section
+      id="certifications"
+      className="relative overflow-hidden py-24 theme-transition"
+      style={{ backgroundColor: 'var(--bg-secondary)' }}
+    >
       {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(6,182,212,0.03),transparent_70%)]" />
+      <div className="absolute inset-0 bg-gradient-radial" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeading
@@ -61,15 +65,16 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           className="text-center mb-12"
         >
           <div className="inline-flex items-baseline gap-2">
-            <AnimatedCounter value={totalCerts} className="text-7xl font-black bg-gradient-to-r from-cyan-400 to-electric-400 bg-clip-text text-transparent" />
-            <span className="text-xl text-slate-400">+</span>
+            <AnimatedCounter value={totalCerts} className="text-7xl font-black text-gradient-accent" />
+            <span className="text-xl" style={{ color: 'var(--text-secondary)' }}>+</span>
           </div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-slate-400 mt-2"
+            style={{ color: 'var(--text-secondary)' }}
+            className="mt-2"
           >
             {t.totalLabel}
           </motion.p>
@@ -87,10 +92,13 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
               className="group"
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-sm font-medium text-slate-300">{vendor.name}</span>
-                <span className="text-sm text-slate-500">{vendor.count}</span>
+                <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{vendor.name}</span>
+                <span className="text-sm" style={{ color: 'var(--text-tertiary)' }}>{vendor.count}</span>
               </div>
-              <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+              <div
+                className="h-2 rounded-full overflow-hidden"
+                style={{ backgroundColor: 'var(--surface-secondary)' }}
+              >
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: `${(vendor.count / totalCerts) * 100}%` }}

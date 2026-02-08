@@ -33,9 +33,12 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
   const featuredProjects = allProjects.slice(0, 3)
 
   return (
-    <section id="projects" className="relative py-24 overflow-hidden">
+    <section
+      id="projects"
+      className="relative py-24 overflow-hidden theme-transition"
+      style={{ backgroundColor: 'var(--bg-primary)' }}
+    >
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-slate-950 to-navy-950" />
       <div className="absolute inset-0 bg-grid opacity-30" />
       
       <div className="relative mx-auto max-w-7xl px-6">
@@ -68,7 +71,19 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
         <div className="flex justify-center mt-12">
           <Link
             href={t.ctaLink}
-            className="group inline-flex items-center gap-2 px-8 py-4 glass-card border-2 border-slate-700 text-slate-300 rounded-lg font-semibold hover:border-electric-500/50 hover:text-electric-400 transition-all duration-300"
+            className="group inline-flex items-center gap-2 px-8 py-4 glass-card rounded-lg font-semibold transition-all duration-300"
+            style={{
+              border: '2px solid var(--border-default)',
+              color: 'var(--text-secondary)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--accent-primary)'
+              e.currentTarget.style.color = 'var(--accent-primary)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-default)'
+              e.currentTarget.style.color = 'var(--text-secondary)'
+            }}
           >
             {t.ctaText}
             <ArrowRight 

@@ -1,7 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useState } from "react"
+import { motion, useInView } from "framer-motion"
+import { useState, useRef } from "react"
 import Link from "next/link"
 import { getAllProjects } from "@/lib/data/projects"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
@@ -27,6 +27,8 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
   const [activeFilter, setActiveFilter] = useState("all")
   const prefersReducedMotion = useReducedMotion()
   const projects = getAllProjects(locale)
+  const gridRef = useRef(null)
+  const isInView = useInView(gridRef, { once: true, amount: 0.1 })
 
   const filteredProjects = projects.filter((project) => {
     if (activeFilter === "all") return true
@@ -43,8 +45,7 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
       <div className="relative mx-auto max-w-6xl px-4">
         <motion.div
           initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6 }}
           className="mb-12 text-center"
         >
@@ -62,8 +63,7 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
         {showFilters && (
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
             transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: 0.2 }}
             className="mb-8 flex flex-wrap justify-center gap-3"
           >
@@ -87,10 +87,10 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
 
         {/* Projects grid */}
         <motion.div
+          ref={gridRef}
           variants={staggerContainer}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          animate={isInView ? "visible" : "hidden"}
           className="grid gap-6 md:grid-cols-2"
         >
           {displayedProjects.map((project) => {

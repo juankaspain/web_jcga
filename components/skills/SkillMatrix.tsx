@@ -1,9 +1,10 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import Image from "next/image"
 import { CheckCircle } from "@phosphor-icons/react"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
+import { useRef } from "react"
 import type { ReactNode } from "react"
 
 interface Skill {
@@ -30,15 +31,16 @@ interface SkillMatrixProps {
 
 export function SkillMatrix({ categories, locale = "es" }: SkillMatrixProps) {
   const prefersReducedMotion = useReducedMotion()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-50px" })
 
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div ref={ref} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {categories.map((category, categoryIndex) => (
         <motion.div
           key={category.name}
           initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
+          animate={isInView ? (prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }) : (prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 })}
           transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
           className="group p-6 rounded-xl glass-card transition-all duration-300 theme-transition"
           style={{ border: '1px solid var(--border-subtle)' }}
@@ -58,23 +60,20 @@ export function SkillMatrix({ categories, locale = "es" }: SkillMatrixProps) {
                 {category.icon}
               </div>
             </div>
-            <h3
-              className="text-lg font-bold transition-colors duration-300"
-              style={{ color: 'var(--text-primary)' }}
-            >
+            <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
               {category.name}
             </h3>
           </div>
-          
+
           {/* Skills with real-world context */}
           <ul className="space-y-3 mb-6">
             {category.skills.map((skill) => (
               <li key={skill.name} className="flex items-start gap-2">
-                <CheckCircle 
-                  size={20} 
-                  weight="fill" 
+                <CheckCircle
+                  size={20}
+                  weight="fill"
                   style={{ color: 'var(--warning)' }}
-                  className="flex-shrink-0 mt-0.5" 
+                  className="flex-shrink-0 mt-0.5"
                 />
                 <div className="flex-1 min-w-0">
                   <div className="font-medium text-sm leading-tight" style={{ color: 'var(--text-primary)' }}>
@@ -87,7 +86,7 @@ export function SkillMatrix({ categories, locale = "es" }: SkillMatrixProps) {
               </li>
             ))}
           </ul>
-          
+
           {/* Related certification badges */}
           {category.certBadges && category.certBadges.length > 0 && (
             <div className="pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
@@ -98,7 +97,7 @@ export function SkillMatrix({ categories, locale = "es" }: SkillMatrixProps) {
                     className="group/badge relative"
                     title={badge.name}
                   >
-                    <Image 
+                    <Image
                       src={badge.icon}
                       width={32}
                       height={32}

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useMotionValueEvent, useScroll } from "framer-motion"
 import { cn } from "@/lib/utils/cn"
 import { locales, localeLabels, type Locale } from "@/lib/i18n/config"
 import { ThemeToggle } from "@/components/ui/ThemeToggle"
@@ -93,20 +93,34 @@ export function Header() {
   const currentLocale = getLocaleFromPath(pathname || "/")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
 
   const basePath = currentLocale === "es" ? pathname : pathname.replace(/^\/en/, "") || "/"
 
-  const handleScroll = useCallback(() => {
-    setIsScrolled(window.scrollY > 20)
-  }, [])
+  // Smart navbar: hide on scroll down, show on scroll up
+  const { scrollY } = useScroll()
+  const lastScrollY = useRef(0)
 
-  const throttledHandleScroll = useThrottle(handleScroll, 100)
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = lastScrollY.current
+    const threshold = 10
 
-  useEffect(() => {
-    handleScroll()
-    window.addEventListener('scroll', throttledHandleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', throttledHandleScroll)
-  }, [handleScroll, throttledHandleScroll])
+    // Si estamos en el top, siempre mostrar
+    if (latest < 100) {
+      setIsHidden(false)
+      setIsScrolled(false)
+    } else {
+      setIsScrolled(true)
+      // Solo ocultar si scrolleamos hacia abajo más del threshold
+      if (latest > previous && latest - previous > threshold) {
+        setIsHidden(true)
+      } else if (latest < previous && previous - latest > threshold) {
+        setIsHidden(false)
+      }
+    }
+
+    lastScrollY.current = latest
+  })
 
   useEffect(() => {
     setIsMenuOpen(false)
@@ -119,9 +133,9 @@ export function Header() {
 
   return (
     <>
-      <header
+      <motion.header
         className={cn(
-          "sticky top-0 z-50 transition-all duration-300 theme-transition",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 theme-transition",
           isScrolled
             ? "glass-strong shadow-lg"
             : "border-b"
@@ -129,6 +143,13 @@ export function Header() {
         style={{
           backgroundColor: isScrolled ? undefined : 'color-mix(in srgb, var(--bg-primary) 80%, transparent)',
           borderColor: 'var(--border-subtle)',
+        }}
+        animate={{
+          y: isHidden ? -100 : 0,
+        }}
+        transition={{
+          duration: 0.3,
+          ease: "easeInOut",
         }}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
@@ -245,7 +266,7 @@ export function Header() {
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>

@@ -214,14 +214,15 @@ function TimelineItem({
             }}
           />
           {/* Inner dot */}
-          <Circle
-            size={12}
-            weight="fill"
-            className="relative"
-            style={{
-              color: isInView ? "var(--accent-primary)" : "var(--text-tertiary)",
-            }}
-          />
+<span
+                className="relative"
+                style={{
+                  color: isInView ? "var(--accent-primary)" : "var(--text-tertiary)",
+                }}
+              >
+                <Circle size={12} weight="fill" />
+              </span>
+          
         </motion.div>
       </div>
 
@@ -293,7 +294,9 @@ function CardContent({
           className="flex items-center gap-1.5"
           style={{ color: "var(--text-secondary)" }}
         >
-          <Users size={14} style={{ color: "var(--accent-primary)" }} />
+<span style={{ color: "var(--accent-primary)" }}>
+                <Users size={14} />
+              </span>
           {t.team}:&nbsp;
           <span
             className="font-medium"
@@ -307,7 +310,9 @@ function CardContent({
             className="flex items-center gap-1.5"
             style={{ color: "var(--text-secondary)" }}
           >
-            <CurrencyDollar size={14} style={{ color: "var(--accent-primary)" }} />
+<span style={{ color: "var(--accent-primary)" }}>
+                <CurrencyDollar size={14} />
+              </span>
             {t.budget}:&nbsp;
             <span
               className="font-medium"
@@ -321,7 +326,9 @@ function CardContent({
           className="flex items-center gap-1.5"
           style={{ color: "var(--text-secondary)" }}
         >
-          <ChartLine size={14} style={{ color: "var(--accent-primary)" }} />
+<span style={{ color: "var(--accent-primary)" }}>
+                <ChartLine size={14} />
+              </span>
           {t.impact}:&nbsp;
           <span
             className="font-medium"
@@ -338,7 +345,9 @@ function CardContent({
           className="font-semibold mb-2 flex items-center gap-2 text-sm"
           style={{ color: "var(--text-primary)" }}
         >
-          <TrendUp size={16} weight="duotone" style={{ color: "var(--warning)" }} />
+<span style={{ color: "var(--warning)" }}>
+              <TrendUp size={16} weight="duotone" />
+            </span>
           {t.achievements}
         </h4>
         <ul className="space-y-2">

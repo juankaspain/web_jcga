@@ -39,8 +39,18 @@ export function MagneticButton({
     setPosition({ x, y })
   }
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     setPosition({ x: 0, y: 0 })
+    // Reset inline styles set by onMouseEnter
+    if (variant === 'secondary') {
+      e.currentTarget.style.borderColor = ''
+      e.currentTarget.style.color = ''
+    } else if (variant === 'ghost') {
+      e.currentTarget.style.color = ''
+      e.currentTarget.style.backgroundColor = ''
+    } else if (variant === 'primary') {
+      e.currentTarget.style.boxShadow = ''
+    }
   }
 
   const variantStyles = {
@@ -95,10 +105,6 @@ export function MagneticButton({
         } else if (variant === 'primary') {
           e.currentTarget.style.boxShadow = 'var(--shadow-glow)'
         }
-      }}
-      onMouseLeave2={(e) => {
-        // Reset is handled by handleMouseLeave for position
-        // Style resets handled by React re-render
       }}
     >
       <span className="relative z-10 flex items-center gap-2">{children}</span>

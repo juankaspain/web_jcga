@@ -104,15 +104,15 @@ export function Hero({ locale = "es" }: HeroProps) {
       >
         <motion.div
           key="hero-content"
-          initial={!prefersReducedMotion ? "hidden" : undefined}
-          animate={!prefersReducedMotion ? "visible" : undefined}
-          variants={!prefersReducedMotion ? staggerContainer : undefined}
+                    initial={mounted && !prefersReducedMotion ? "hidden" : undefined}
+                    animate={mounted && !prefersReducedMotion ? "visible" : undefined}
+                    variants={mounted && !prefersReducedMotion ? staggerContainer : undefined}
           className="max-w-5xl"
         >
 
           {/* Typing greeting */}
           <motion.div
-            variants={!prefersReducedMotion ? staggerItem : undefined}
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="mb-3"
           >
             <TypingText
@@ -125,7 +125,7 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* Professional Kicker */}
           <motion.div
-            variants={!prefersReducedMotion ? staggerItem : undefined}
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="flex items-center gap-2 mb-4"
           >
 <span className="text-[var(--accent-primary)]">
@@ -143,7 +143,7 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* H1: Value proposition */}
           <motion.h1
-            variants={!prefersReducedMotion ? staggerItem : undefined}
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="mb-6 leading-tight"
           >
             <span
@@ -156,7 +156,7 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* Description */}
           <motion.p
-            variants={!prefersReducedMotion ? staggerItem : undefined}
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="text-xl max-w-3xl mb-8 leading-relaxed text-[var(--text-secondary)]"
           >
             {t.description}
@@ -164,7 +164,7 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* CTAs */}
           <motion.div
-            variants={!prefersReducedMotion ? staggerItem : undefined}
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="flex flex-wrap gap-4 mb-10"
           >
             <Link
@@ -189,7 +189,7 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           {/* Stats */}
           <motion.div
-            variants={!prefersReducedMotion ? staggerItem : undefined}
+            variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl"
           >
             {t.stats.map((stat, index) => {
@@ -198,7 +198,7 @@ export function Hero({ locale = "es" }: HeroProps) {
                 <motion.div
                   key={stat.label}
                   className="text-center"
-                  initial={!prefersReducedMotion ? { opacity: 0, y: 20 } : undefined}
+                  initial={mounted && !prefersReducedMotion ? { opacity: 0, y: 20 } : undefined}
                   animate={mounted ? { opacity: 1, y: 0 } : undefined}
                   transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
                 >
@@ -228,7 +228,7 @@ export function Hero({ locale = "es" }: HeroProps) {
       {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={!prefersReducedMotion ? { opacity: 0 } : undefined}
+        initial={mounted && !prefersReducedMotion ? { opacity: 0 } : undefined}
         animate={mounted ? { opacity: 1, y: [0, 8, 0] } : undefined}
         transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
       >
@@ -237,7 +237,7 @@ export function Hero({ locale = "es" }: HeroProps) {
         >
           <motion.div
             className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)]"
-            animate={!prefersReducedMotion ? { y: [0, 12, 0] } : undefined}
+            animate={mounted && !prefersReducedMotion ? { y: [0, 12, 0] } : undefined}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>

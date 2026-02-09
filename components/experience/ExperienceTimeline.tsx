@@ -158,7 +158,7 @@ function TimelineItem({
         }`}
       >
         <motion.div
-          initial=
+          initial={
             prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: isLeft ? 30 : -30 }
           }
           animate={

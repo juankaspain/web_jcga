@@ -25,6 +25,7 @@ export { AnimatedSection } from './AnimatedSection'
 export { MagneticButton } from './MagneticButton'
 export { RevealText } from './RevealText'
 export { Section } from './Section'
+export { TypingText } from './TypingText'
 
 // Feedback
 export { LoadingDots } from './LoadingDots'

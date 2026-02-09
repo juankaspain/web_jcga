@@ -19,6 +19,7 @@ export function CustomCursor() {
   const prefersReducedMotion = useReducedMotion()
   const [isPointer, setIsPointer] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
+    const [mounted, setMounted] = useState(false)
   const cursorSize = isPointer ? 48 : 32
 
   // Motion values para posición suave
@@ -33,6 +34,11 @@ export function CustomCursor() {
   const requestRef = useRef<number>()
   const mouseX = useRef(0)
   const mouseY = useRef(0)
+
+  // Evitar hidratación mismatch - solo renderizar en cliente
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     // No mostrar en mobile/tablet o si prefiere movimiento reducido
@@ -93,6 +99,9 @@ export function CustomCursor() {
 
   const isTouchDevice = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
   if (isTouchDevice) return null
+
+  // No renderizar en servidor para evitar hidratación mismatch
+  if (!mounted) return null
 
   return (
     <>

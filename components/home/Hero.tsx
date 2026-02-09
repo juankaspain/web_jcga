@@ -2,18 +2,18 @@
 
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
 import { TypingText } from "@/components/ui/TypingText"
 import { HERO_CLAIMS, HERO_COPY, type Locale } from "@/app/content/hero"
+import { Button } from "@/components/ui/Button"
 import {
   ArrowRight,
   Briefcase,
   ChartLine,
   Users,
   Trophy,
-  Clock
+  Clock,
 } from "@phosphor-icons/react"
 
 type HeroProps = {
@@ -29,13 +29,11 @@ export function Hero({ locale = "es" }: HeroProps) {
   const [mounted, setMounted] = useState(false)
   const heroRef = useRef<HTMLElement>(null)
 
-  // Parallax: decorative elements move at different speeds during scroll
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   })
 
-  // Reduce scroll-linked animations to a single, subtle layer
   const radialY = useTransform(scrollYProgress, [0, 1], [0, 80])
 
   useEffect(() => {
@@ -43,10 +41,22 @@ export function Hero({ locale = "es" }: HeroProps) {
   }, [])
 
   const stats = [
-    { value: HERO_CLAIMS.years, label: locale === 'en' ? 'Years experience' : 'Años experiencia', icon: Clock },
-    { value: HERO_CLAIMS.certifications, label: locale === 'en' ? 'Certifications' : 'Certificaciones', icon: Trophy },
-    { value: HERO_CLAIMS.teamSize, label: locale === 'en' ? 'Current team' : 'Equipo actual', icon: Users },
-    { value: HERO_CLAIMS.sla, label: 'SLA Achieved', icon: ChartLine },
+    {
+      value: HERO_CLAIMS.years,
+      label: locale === "en" ? "Years experience" : "Años experiencia",
+      icon: Clock,
+    },
+    {
+      value: HERO_CLAIMS.certifications,
+      label: locale === "en" ? "Certifications" : "Certificaciones",
+      icon: Trophy,
+    },
+    {
+      value: HERO_CLAIMS.teamSize,
+      label: locale === "en" ? "Current team" : "Equipo actual",
+      icon: Users,
+    },
+    { value: HERO_CLAIMS.sla, label: "SLA Achieved", icon: ChartLine },
   ]
 
   return (
@@ -54,19 +64,14 @@ export function Hero({ locale = "es" }: HeroProps) {
       ref={heroRef}
       className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden theme-transition bg-[var(--bg-primary)]"
     >
-      {/* Mesh gradient background — static (CSS animated) */}
       <div className="mesh-gradient" />
-
-      {/* Professional grid pattern overlay — static */}
       <div className="absolute inset-0 bg-grid" />
 
-      {/* Subtle radial gradient — only layer with optional parallax */}
       <motion.div
         className="absolute inset-0 bg-gradient-radial"
         style={mounted && !prefersReducedMotion ? { y: radialY } : undefined}
       />
 
-      {/* Content — no parallax (reduces scroll work) */}
       <div className="relative container-main py-20">
         <motion.div
           key="hero-content"
@@ -75,7 +80,6 @@ export function Hero({ locale = "es" }: HeroProps) {
           variants={mounted && !prefersReducedMotion ? staggerContainer : undefined}
           className="max-w-5xl"
         >
-          {/* Typing greeting */}
           <motion.div
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="mb-3"
@@ -88,7 +92,6 @@ export function Hero({ locale = "es" }: HeroProps) {
             />
           </motion.div>
 
-          {/* Professional Kicker */}
           <motion.div
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="flex items-center gap-2 mb-4"
@@ -101,7 +104,6 @@ export function Hero({ locale = "es" }: HeroProps) {
             </p>
           </motion.div>
 
-          {/* H1: Value proposition */}
           <motion.h1
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="mb-6 leading-tight"
@@ -112,7 +114,6 @@ export function Hero({ locale = "es" }: HeroProps) {
             <span className="block text-gradient-accent">{t.h1Line2}</span>
           </motion.h1>
 
-          {/* Description */}
           <motion.p
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="text-xl max-w-3xl mb-8 leading-relaxed text-[var(--text-secondary)]"
@@ -120,29 +121,29 @@ export function Hero({ locale = "es" }: HeroProps) {
             {t.description}
           </motion.p>
 
-          {/* CTAs */}
           <motion.div
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="flex flex-wrap gap-4 mb-10"
           >
-            <Link
+            <Button
               href={projectsLink}
-              className="hero-cta-primary group inline-flex items-center gap-2 font-semibold px-8 py-4 rounded-xl transition-all duration-300"
+              size="lg"
+              className="hero-cta-primary rounded-xl px-8 py-4 font-semibold"
+              rightIcon={<ArrowRight size={20} weight="bold" />}
             >
               {t.ctaPrimary}
-              <span className="group-hover:translate-x-1 transition-transform duration-200">
-                <ArrowRight size={20} weight="bold" />
-              </span>
-            </Link>
-            <Link
+            </Button>
+
+            <Button
               href={expertiseLink}
-              className="hero-cta-secondary inline-flex items-center gap-2 border-2 font-semibold px-8 py-4 rounded-xl transition-all duration-300"
+              size="lg"
+              variant="outline"
+              className="hero-cta-secondary rounded-xl border-2 px-8 py-4 font-semibold"
             >
               {t.ctaSecondary}
-            </Link>
+            </Button>
           </motion.div>
 
-          {/* Stats */}
           <motion.div
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl"
@@ -153,7 +154,11 @@ export function Hero({ locale = "es" }: HeroProps) {
                 <motion.div
                   key={stat.label}
                   className="text-center"
-                  initial={mounted && !prefersReducedMotion ? { opacity: 0, y: 20 } : undefined}
+                  initial={
+                    mounted && !prefersReducedMotion
+                      ? { opacity: 0, y: 20 }
+                      : undefined
+                  }
                   animate={mounted ? { opacity: 1, y: 0 } : undefined}
                   transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
                 >
@@ -163,7 +168,9 @@ export function Hero({ locale = "es" }: HeroProps) {
                   <p className="text-2xl font-bold text-[var(--text-primary)]">
                     {stat.value}
                   </p>
-                  <p className="text-sm text-[var(--text-tertiary)]">{stat.label}</p>
+                  <p className="text-sm text-[var(--text-tertiary)]">
+                    {stat.label}
+                  </p>
                 </motion.div>
               )
             })}
@@ -171,7 +178,6 @@ export function Hero({ locale = "es" }: HeroProps) {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         initial={mounted && !prefersReducedMotion ? { opacity: 0 } : undefined}

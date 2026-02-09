@@ -478,6 +478,40 @@ code, pre {
 }
 
 /* ============================================
+   HERO CTA BUTTONS — CSS-only hover (no JS handlers)
+   Prevents hydration mismatch from inline styles
+   ============================================ */
+
+.hero-cta-primary {
+  background: var(--accent-gradient);
+  color: var(--text-on-accent);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+.hero-cta-primary:hover {
+  box-shadow: var(--shadow-glow);
+}
+
+.hero-cta-secondary {
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+
+.hero-cta-secondary:hover {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+/* Scroll indicator in Hero */
+.hero-scroll-indicator {
+  border-color: var(--border-default);
+}
+
+.hero-scroll-indicator:hover {
+  border-color: var(--accent-primary);
+}
+
+/* ============================================
    HOVER EFFECTS — Premium interactions
    ============================================ */
 

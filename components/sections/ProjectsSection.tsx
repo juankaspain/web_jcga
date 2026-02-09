@@ -35,7 +35,7 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
   return (
     <section
       id="projects"
-      className="relative py-24 overflow-hidden theme-transition"
+      className="relative py-16 overflow-hidden theme-transition"
       style={{ backgroundColor: 'var(--bg-primary)' }}
     >
       {/* Background */}

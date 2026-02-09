@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation'
 
 const copy = {
   es: {
-    description: 'Construyendo el futuro de la banca digital y los sistemas de pago a través de soluciones cloud innovadoras.',
+    description:
+      'Construyendo el futuro de la banca digital y los sistemas de pago a través de soluciones cloud innovadoras.',
     quickLinksTitle: 'Enlaces',
     connectTitle: 'Conectar',
     available: 'Disponible para proyectos freelance y colaboraciones',
@@ -14,14 +15,15 @@ const copy = {
     online: 'Online',
     tags: ['Banca Digital', 'Pagos', 'Cloud', 'Data & AI'],
     links: [
-      { name: 'Sobre mí', href: '/about' },
-      { name: 'Experiencia', href: '/experience' },
       { name: 'Proyectos', href: '/projects' },
+      { name: 'Experiencia', href: '/experience' },
+      { name: 'Sobre mí', href: '/about' },
       { name: 'Contacto', href: '/contact' },
     ],
   },
   en: {
-    description: 'Building the future of digital banking and payment systems through innovative cloud solutions.',
+    description:
+      'Building the future of digital banking and payment systems through innovative cloud solutions.',
     quickLinksTitle: 'Quick Links',
     connectTitle: 'Connect',
     available: 'Available for freelance projects and collaborations',
@@ -29,9 +31,9 @@ const copy = {
     online: 'Online',
     tags: ['Digital Banking', 'Payments', 'Cloud', 'Data & AI'],
     links: [
-      { name: 'About', href: '/en/about' },
-      { name: 'Experience', href: '/en/experience' },
       { name: 'Projects', href: '/en/projects' },
+      { name: 'Experience', href: '/en/experience' },
+      { name: 'About', href: '/en/about' },
       { name: 'Contact', href: '/en/contact' },
     ],
   },
@@ -95,10 +97,13 @@ export function Footer() {
 
       <div className="relative mx-auto max-w-7xl px-6 py-16">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-
           {/* Brand & Description */}
           <div className="space-y-6">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
               <Link href={locale === 'en' ? '/en' : '/'} className="inline-block">
                 <span className="text-2xl font-bold text-gradient-accent">JCGA</span>
                 <span
@@ -145,8 +150,12 @@ export function Footer() {
                     href={link.href}
                     className="text-sm transition-colors duration-200"
                     style={{ color: 'var(--text-secondary)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent-primary)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary)' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'var(--accent-primary)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'var(--text-secondary)'
+                    }}
                   >
                     {link.name}
                   </Link>
@@ -196,33 +205,42 @@ export function Footer() {
                 </motion.a>
               ))}
             </div>
-            <p
-              className="mt-6 text-xs"
-              style={{ color: 'var(--text-tertiary)' }}
-            >
+            <p className="mt-6 text-xs" style={{ color: 'var(--text-tertiary)' }}>
               {t.available}
             </p>
           </div>
-
         </div>
 
         {/* Bottom Bar */}
         <div
           className="mt-12 h-px"
-          style={{ background: 'linear-gradient(to right, transparent, var(--border-default), transparent)' }}
+          style={{
+            background:
+              'linear-gradient(to right, transparent, var(--border-default), transparent)',
+          }}
         />
         <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
             &copy; {currentYear}{' '}
-            <span style={{ color: 'var(--text-secondary)' }}>Juan Carlos García Arriero</span>.{' '}
-            {t.craftedWith}
+            <span style={{ color: 'var(--text-secondary)' }}>
+              Juan Carlos García Arriero
+            </span>
+            . {t.craftedWith}
           </p>
           <div className="flex items-center gap-2">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: 'var(--success)' }} />
-              <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: 'var(--success)' }} />
+              <span
+                className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                style={{ backgroundColor: 'var(--success)' }}
+              />
+              <span
+                className="relative inline-flex rounded-full h-2 w-2"
+                style={{ backgroundColor: 'var(--success)' }}
+              />
             </span>
-            <span className="text-xs" style={{ color: 'var(--success)' }}>{t.online}</span>
+            <span className="text-xs" style={{ color: 'var(--success)' }}>
+              {t.online}
+            </span>
           </div>
         </div>
       </div>

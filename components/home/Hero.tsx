@@ -6,6 +6,7 @@ import Link from "next/link"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
 import { TypingText } from "@/components/ui/TypingText"
+import { HERO_CLAIMS, HERO_COPY, type Locale } from "@/app/content/hero"
 import {
   ArrowRight,
   Briefcase,
@@ -16,45 +17,13 @@ import {
 } from "@phosphor-icons/react"
 
 type HeroProps = {
-  locale?: "es" | "en"
-}
-
-const copy = {
-  es: {
-    greeting: "Hola, soy Juan Carlos...",
-    kicker: "Senior Technical Lead @ Santander Digital Services",
-    h1Line1: "Arquitecto soluciones de pago",
-    h1Line2: "que escalan a millones de usuarios",
-    description: "Diseño y lidero arquitecturas cloud (Azure/Oracle) para sistemas de pago SEPA e internacionales en banca digital. Mi trabajo impacta a 5M+ usuarios procesando 2M transacciones/día con SLA 99.95%.",
-    ctaPrimary: "Caso de estudio: Plataforma SEPA",
-    ctaSecondary: "Mi expertise técnico",
-    stats: [
-      { value: "15+", label: "Años experiencia", icon: Clock },
-      { value: "140+", label: "Certificaciones", icon: Trophy },
-      { value: "12", label: "Equipo actual", icon: Users },
-      { value: "99.95%", label: "SLA Achieved", icon: ChartLine }
-    ]
-  },
-  en: {
-    greeting: "Hi, I'm Juan Carlos...",
-    kicker: "Senior Technical Lead @ Santander Digital Services",
-    h1Line1: "I architect payment solutions",
-    h1Line2: "that scale to millions of users",
-    description: "I design and lead cloud architectures (Azure/Oracle) for SEPA and international payment systems in digital banking. My work impacts 5M+ users processing 2M transactions/day with 99.95% SLA.",
-    ctaPrimary: "Case study: SEPA Platform",
-    ctaSecondary: "My technical expertise",
-    stats: [
-      { value: "15+", label: "Years experience", icon: Clock },
-      { value: "140+", label: "Certifications", icon: Trophy },
-      { value: "12", label: "Current team", icon: Users },
-      { value: "99.95%", label: "SLA Achieved", icon: ChartLine }
-    ]
-  }
+  locale?: Locale
 }
 
 export function Hero({ locale = "es" }: HeroProps) {
-  const t = copy[locale]
-  const projectsLink = locale === "en" ? "/en/projects/sepa-platform" : "/projects/sepa-platform"
+  const t = HERO_COPY[locale]
+  const projectsLink =
+    locale === "en" ? "/en/projects/sepa-platform" : "/projects/sepa-platform"
   const expertiseLink = locale === "en" ? "/en/skills" : "/skills"
   const prefersReducedMotion = useReducedMotion()
   const [mounted, setMounted] = useState(false)
@@ -63,7 +32,7 @@ export function Hero({ locale = "es" }: HeroProps) {
   // Parallax: decorative elements move at different speeds during scroll
   const { scrollYProgress } = useScroll({
     target: heroRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end start"],
   })
 
   // Reduce scroll-linked animations to a single, subtle layer
@@ -72,6 +41,13 @@ export function Hero({ locale = "es" }: HeroProps) {
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const stats = [
+    { value: HERO_CLAIMS.years, label: locale === 'en' ? 'Years experience' : 'Años experiencia', icon: Clock },
+    { value: HERO_CLAIMS.certifications, label: locale === 'en' ? 'Certifications' : 'Certificaciones', icon: Trophy },
+    { value: HERO_CLAIMS.teamSize, label: locale === 'en' ? 'Current team' : 'Equipo actual', icon: Users },
+    { value: HERO_CLAIMS.sla, label: 'SLA Achieved', icon: ChartLine },
+  ]
 
   return (
     <section
@@ -99,7 +75,6 @@ export function Hero({ locale = "es" }: HeroProps) {
           variants={mounted && !prefersReducedMotion ? staggerContainer : undefined}
           className="max-w-5xl"
         >
-
           {/* Typing greeting */}
           <motion.div
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
@@ -119,14 +94,9 @@ export function Hero({ locale = "es" }: HeroProps) {
             className="flex items-center gap-2 mb-4"
           >
             <span className="text-[var(--accent-primary)]">
-              <Briefcase
-                size={16}
-                weight="duotone"
-              />
+              <Briefcase size={16} weight="duotone" />
             </span>
-            <p
-              className="text-sm uppercase tracking-wider font-semibold text-[var(--text-secondary)]"
-            >
+            <p className="text-sm uppercase tracking-wider font-semibold text-[var(--text-secondary)]">
               {t.kicker}
             </p>
           </motion.div>
@@ -136,9 +106,7 @@ export function Hero({ locale = "es" }: HeroProps) {
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="mb-6 leading-tight"
           >
-            <span
-              className="block mb-2 text-[var(--text-primary)]"
-            >
+            <span className="block mb-2 text-[var(--text-primary)]">
               {t.h1Line1}
             </span>
             <span className="block text-gradient-accent">{t.h1Line2}</span>
@@ -163,11 +131,8 @@ export function Hero({ locale = "es" }: HeroProps) {
             >
               {t.ctaPrimary}
               <span className="group-hover:translate-x-1 transition-transform duration-200">
-              <ArrowRight
-                size={20}
-                weight="bold"
-              />
-            </span>
+                <ArrowRight size={20} weight="bold" />
+              </span>
             </Link>
             <Link
               href={expertiseLink}
@@ -182,7 +147,7 @@ export function Hero({ locale = "es" }: HeroProps) {
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl"
           >
-            {t.stats.map((stat, index) => {
+            {stats.map((stat, index) => {
               const IconComponent = stat.icon
               return (
                 <motion.div
@@ -193,21 +158,12 @@ export function Hero({ locale = "es" }: HeroProps) {
                   transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
                 >
                   <span className="mx-auto mb-2 text-[var(--accent-primary)]">
-                    <IconComponent
-                      size={20}
-                      weight="duotone"
-                    />
+                    <IconComponent size={20} weight="duotone" />
                   </span>
-                  <p
-                    className="text-2xl font-bold text-[var(--text-primary)]"
-                  >
+                  <p className="text-2xl font-bold text-[var(--text-primary)]">
                     {stat.value}
                   </p>
-                  <p
-                    className="text-sm text-[var(--text-tertiary)]"
-                  >
-                    {stat.label}
-                  </p>
+                  <p className="text-sm text-[var(--text-tertiary)]">{stat.label}</p>
                 </motion.div>
               )
             })}
@@ -222,9 +178,7 @@ export function Hero({ locale = "es" }: HeroProps) {
         animate={mounted ? { opacity: 1, y: [0, 8, 0] } : undefined}
         transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
       >
-        <div
-          className="hero-scroll-indicator w-6 h-10 rounded-full border-2 flex items-start justify-center p-2 transition-colors"
-        >
+        <div className="hero-scroll-indicator w-6 h-10 rounded-full border-2 flex items-start justify-center p-2 transition-colors">
           <motion.div
             className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)]"
             animate={mounted && !prefersReducedMotion ? { y: [0, 12, 0] } : undefined}

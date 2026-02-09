@@ -4,50 +4,26 @@ import { SkillsSection } from '@/components/sections/SkillsSection'
 import { ExperienceSection } from '@/components/sections/ExperienceSection'
 import { CertificationsSection } from '@/components/sections/CertificationsSection'
 import { ContactSection } from '@/components/sections/ContactSection'
+import type { Metadata } from 'next'
+import { HERO_CLAIMS } from '@/app/content/hero'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Juan Carlos García Arriero | Senior Technical Lead - Cloud & Payments',
   description:
-    'Arquitecto de soluciones de pago que escalan a millones de usuarios. Senior Technical Lead @ Santander Digital Services. 2M transacciones/día, SLA 99.95%. Especializado en Azure, Kubernetes, SEPA, PSD2, AI/ML.',
+    `Arquitecto de soluciones de pago que escalan a millones de usuarios. Senior Technical Lead @ Santander Digital Services. ${HERO_CLAIMS.transactionsPerDay} transacciones/día, SLA ${HERO_CLAIMS.sla}. Especializado en Azure, Kubernetes, SEPA, PSD2, AI/ML.`,
 }
 
 /**
  * HOMEPAGE STRATEGIC ORDER (Conversion-Optimized)
- * 
- * 1. Hero → Value proposition + quantifiable impact
- * 2. Projects → Immediate social proof (show don't tell)
- * 3. Skills → Technical credibility with production context
- * 4. Experience → Career depth for engaged visitors
- * 5. Certifications → Authority reinforcement (140+ certs)
- * 6. Contact → Strategic CTA with lead qualification
- * 
- * REMOVED: AboutSection (generic bio, low conversion value)
- * 
- * WHY THIS ORDER:
- * - Projects early = Hook attention with real results (99.95% SLA > generic about)
- * - Skills after projects = Visitor understands tech context from cases
- * - Experience deeper = Only truly interested visitors scroll this far
- * - Contact at end = Natural funnel conclusion, self-qualified leads
  */
 export default function HomePage() {
   return (
     <>
-      {/* 1. HOOK: Value proposition with quantifiable data */}
       <HeroSection locale="es" />
-      
-      {/* 2. PROOF: Show don't tell - Real projects with metrics */}
       <ProjectsSection locale="es" />
-      
-      {/* 3. CREDIBILITY: Technical expertise with production context */}
       <SkillsSection locale="es" />
-      
-      {/* 4. DEPTH: Career progression for engaged visitors */}
       <ExperienceSection locale="es" />
-      
-      {/* 5. AUTHORITY: 140+ certifications as trust signal */}
       <CertificationsSection locale="es" />
-      
-      {/* 6. CONVERSION: Smart form with lead qualification */}
       <ContactSection locale="es" />
     </>
   )

@@ -77,7 +77,7 @@ export function Hero({ locale = "es" }: HeroProps) {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden theme-transition bg-[var(--bg-primary)]"
+      className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden theme-transition bg-[var(--bg-primary)]"
     >
       {/* Mesh gradient background — parallax layer (slowest) */}
       <motion.div
@@ -99,13 +99,13 @@ export function Hero({ locale = "es" }: HeroProps) {
 
       {/* Content — slight parallax for depth perception */}
       <motion.div
-        className="relative container-main py-32"
+        className="relative container-main py-20"
         style={mounted && !prefersReducedMotion ? { y: contentY } : undefined}
       >
         <motion.div
           key="hero-content"
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 1 }}
+          initial={!prefersReducedMotion ? "hidden" : undefined}
+          animate={!prefersReducedMotion ? "visible" : undefined}
           variants={!prefersReducedMotion ? staggerContainer : undefined}
           className="max-w-5xl"
         >
@@ -164,7 +164,7 @@ export function Hero({ locale = "es" }: HeroProps) {
           {/* CTAs */}
           <motion.div
             variants={!prefersReducedMotion ? staggerItem : undefined}
-            className="flex flex-wrap gap-4 mb-16"
+            className="flex flex-wrap gap-4 mb-10"
           >
             <Link
               href={projectsLink}

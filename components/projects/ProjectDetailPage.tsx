@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { 
-  ArrowLeft, CheckCircle, TrendingUp, Users, Clock, Briefcase
+  ArrowLeft, CheckCircle, TrendUp, Users, Clock, Briefcase
 } from "@phosphor-icons/react"
 import type { Project } from "@/lib/data/projects"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
@@ -111,7 +111,7 @@ export function ProjectDetailPage({ project, locale = "es" }: ProjectDetailPageP
             <motion.div initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
               <h2 className="text-3xl font-bold mb-6 flex items-center gap-3" style={{ color: 'var(--text-primary)' }}>
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--accent-subtle)', border: '1px solid var(--accent-muted)' }}>
-                  <TrendingUp size={24} weight="duotone" style={{ color: 'var(--accent-primary)' }} />
+                  <TrendUp size={24} weight="duotone" style={{ color: 'var(--accent-primary)' }} />
                 </div>
                 {project.challenge.title}
               </h2>
@@ -141,7 +141,7 @@ export function ProjectDetailPage({ project, locale = "es" }: ProjectDetailPageP
             <motion.div initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
               <h2 className="text-3xl font-bold mb-6 flex items-center gap-3" style={{ color: 'var(--text-primary)' }}>
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--success-subtle)', border: '1px solid var(--success)' }}>
-                  <TrendingUp size={24} weight="duotone" style={{ color: 'var(--success)' }} />
+                  <TrendUp size={24} weight="duotone" style={{ color: 'var(--success)' }} />
                 </div>
                 {project.impact.title}
               </h2>

@@ -7,10 +7,10 @@ import { useEffect } from "react"
  * with Next.js 15 + Turbopack + React 19 + Framer Motion 11 + Lenis.
  *
  * Strategy:
- * 1. Force all elements with opacity:0 + transform to become visible
- *    when they enter the viewport
- * 2. Periodic scanning to catch dynamically added elements
- * 3. Immediate fix on mount and after short delay
+ * 1. Force ALL elements with opacity:0 in viewport to become visible
+ * 2. Use IntersectionObserver to catch elements as they scroll into view
+ * 3. Multiple timed passes for safety
+ * 4. MutationObserver for dynamically added elements
  */
 export function WhileInViewFix() {
   useEffect(() => {
@@ -20,23 +20,43 @@ export function WhileInViewFix() {
       el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'
     }
 
-    function isInViewport(el: HTMLElement): boolean {
-      const r = el.getBoundingClientRect()
-      return r.top < window.innerHeight + 100 && r.bottom > -100
-    }
-
     function scanAndFix() {
-      // Find all elements with inline style containing opacity
       const els = document.querySelectorAll('[style]')
       els.forEach((el) => {
         const htmlEl = el as HTMLElement
         const s = htmlEl.getAttribute('style') || ''
-        // Check for opacity: 0 or opacity:0 (with or without space)
-        if (
-          (s.includes('opacity: 0') || s.includes('opacity:0')) &&
-          isInViewport(htmlEl)
-        ) {
-          forceVisible(htmlEl)
+        if (s.includes('opacity: 0') || s.includes('opacity:0')) {
+          const r = htmlEl.getBoundingClientRect()
+          if (r.top < window.innerHeight + 200 && r.bottom > -200) {
+            forceVisible(htmlEl)
+          }
+        }
+      })
+    }
+
+    // Set up IntersectionObserver to watch for elements entering viewport
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement
+            const s = el.getAttribute('style') || ''
+            if (s.includes('opacity: 0') || s.includes('opacity:0')) {
+              forceVisible(el)
+            }
+            io.unobserve(el)
+          }
+        })
+      },
+      { rootMargin: '100px', threshold: 0 }
+    )
+
+    function observeHiddenElements() {
+      const els = document.querySelectorAll('[style]')
+      els.forEach((el) => {
+        const s = el.getAttribute('style') || ''
+        if (s.includes('opacity: 0') || s.includes('opacity:0')) {
+          io.observe(el)
         }
       })
     }
@@ -46,30 +66,49 @@ export function WhileInViewFix() {
       window.dispatchEvent(new Event('scroll'))
       window.dispatchEvent(new Event('resize'))
       scanAndFix()
+      observeHiddenElements()
     }, 50)
 
-    // Second pass after React finishes rendering
+    // Second pass
     const t2 = setTimeout(() => {
       scanAndFix()
+      observeHiddenElements()
     }, 300)
 
-    // Third pass - safety net
+    // Third pass
     const t3 = setTimeout(() => {
       scanAndFix()
+      observeHiddenElements()
     }, 800)
 
-    // Fourth pass - catch anything still stuck
+    // Fourth pass
     const t4 = setTimeout(() => {
       scanAndFix()
+      observeHiddenElements()
     }, 1500)
 
-    // Re-scan on scroll (passive)
+    // Fifth pass - aggressive: force ALL remaining opacity:0 elements
+    const t5 = setTimeout(() => {
+      const els = document.querySelectorAll('[style]')
+      els.forEach((el) => {
+        const htmlEl = el as HTMLElement
+        const s = htmlEl.getAttribute('style') || ''
+        if (s.includes('opacity: 0') || s.includes('opacity:0')) {
+          forceVisible(htmlEl)
+        }
+      })
+    }, 2500)
+
+    // Re-scan on scroll
     const onScroll = () => scanAndFix()
     window.addEventListener('scroll', onScroll, { passive: true })
 
     // MutationObserver for dynamically added elements
     const mo = new MutationObserver(() => {
-      requestAnimationFrame(scanAndFix)
+      requestAnimationFrame(() => {
+        scanAndFix()
+        observeHiddenElements()
+      })
     })
     mo.observe(document.body, {
       childList: true,
@@ -83,7 +122,9 @@ export function WhileInViewFix() {
       clearTimeout(t2)
       clearTimeout(t3)
       clearTimeout(t4)
+      clearTimeout(t5)
       window.removeEventListener('scroll', onScroll)
+      io.disconnect()
       mo.disconnect()
     }
   }, [])

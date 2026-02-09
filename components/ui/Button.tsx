@@ -36,6 +36,23 @@ const sizes: Record<ButtonSize, string> = {
   lg: 'px-7 py-3 text-base',
 }
 
+const base = [
+  'inline-flex items-center justify-center gap-2 font-semibold',
+  'transition-all duration-200 ease-out',
+  'focus-visible:outline-2 focus-visible:outline-offset-2',
+  'disabled:opacity-50 disabled:cursor-not-allowed',
+].join(' ')
+
+const variantClass: Record<ButtonVariant, string> = {
+  primary: 'bg-[var(--accent-primary)] text-[var(--text-on-accent)] hover:shadow-[var(--shadow-glow-sm)]',
+  secondary:
+    'bg-[var(--surface-secondary)] text-[var(--text-primary)] border border-[var(--border-default)] hover:border-[var(--accent-primary)]',
+  outline:
+    'bg-transparent text-[var(--text-primary)] border border-[var(--border-default)] hover:border-[var(--accent-primary)]',
+  ghost:
+    'bg-transparent text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--surface-hover)]',
+}
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -53,40 +70,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
-      primary: {
-        background: 'var(--accent-gradient)',
-        color: 'var(--text-on-accent)',
-        boxShadow: 'var(--shadow-glow-sm)',
-      },
-      secondary: {
-        backgroundColor: 'var(--surface-secondary)',
-        color: 'var(--text-primary)',
-        border: '1px solid var(--border-default)',
-      },
-      ghost: {
-        backgroundColor: 'transparent',
-        color: 'var(--text-secondary)',
-      },
-      outline: {
-        backgroundColor: 'transparent',
-        color: 'var(--text-primary)',
-        border: '1px solid var(--border-default)',
-      },
-    }
-
-    const classes = cn(
-      'inline-flex items-center justify-center gap-2 font-semibold',
-      'transition-all duration-200 ease-out',
-      'focus-visible:outline-2 focus-visible:outline-offset-2',
-      'disabled:opacity-50 disabled:cursor-not-allowed',
-      sizes[size],
-      className
-    )
+    const classes = cn(base, sizes[size], variantClass[variant], className)
 
     const mergedStyle: React.CSSProperties = {
-      ...variantStyles[variant],
       outlineColor: 'var(--accent-primary)',
+      ...(variant === 'primary' ? { background: 'var(--accent-gradient)' } : null),
       ...style,
     }
 
@@ -117,14 +105,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       </>
     )
 
-    const commonInteractiveProps = {
-      className: classes,
-      style: mergedStyle,
-    }
-
     if (href) {
       return (
-        <Link href={href} {...(props as any)} {...commonInteractiveProps}>
+        <Link href={href} {...(props as any)} className={classes} style={mergedStyle}>
           {content}
         </Link>
       )
@@ -134,7 +117,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         {...(props as any)}
-        {...commonInteractiveProps}
+        className={classes}
+        style={mergedStyle}
         disabled={disabled || isLoading}
       >
         {content}

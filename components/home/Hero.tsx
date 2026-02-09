@@ -128,11 +128,12 @@ export function Hero({ locale = "es" }: HeroProps) {
             variants={!prefersReducedMotion ? staggerItem : undefined}
             className="flex items-center gap-2 mb-4"
           >
-            <Briefcase
-              size={16}
-              weight="duotone"
-              className="text-[var(--accent-primary)]"
-            />
+<span className="text-[var(--accent-primary)]">
+              <Briefcase
+                size={16}
+                weight="duotone"
+              />
+            </span>
             <p
               className="text-sm uppercase tracking-wider font-semibold text-[var(--text-secondary)]"
             >
@@ -171,11 +172,12 @@ export function Hero({ locale = "es" }: HeroProps) {
               className="hero-cta-primary group inline-flex items-center gap-2 font-semibold px-8 py-4 rounded-xl transition-all duration-300"
             >
               {t.ctaPrimary}
+              <span className="group-hover:translate-x-1 transition-transform duration-200">
               <ArrowRight
                 size={20}
                 weight="bold"
-                className="group-hover:translate-x-1 transition-transform duration-200"
               />
+            </span>
             </Link>
             <Link
               href={expertiseLink}
@@ -200,11 +202,12 @@ export function Hero({ locale = "es" }: HeroProps) {
                   animate={mounted ? { opacity: 1, y: 0 } : undefined}
                   transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
                 >
-                  <IconComponent
-                    size={20}
-                    weight="duotone"
-                    className="mx-auto mb-2 text-[var(--accent-primary)]"
-                  />
+<span className="mx-auto mb-2 text-[var(--accent-primary)]">
+                <IconComponent
+                  size={20}
+                  weight="duotone"
+                />
+              </span>
                   <p
                     className="text-2xl font-bold text-[var(--text-primary)]"
                   >

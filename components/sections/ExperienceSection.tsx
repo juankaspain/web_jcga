@@ -25,11 +25,11 @@ function mapExperiencesToTimeline(locale: 'es' | 'en') {
     company: exp.company,
     period: exp.period,
     teamSize: exp.location || 'Remote',
-    budget: exp.budget || undefined,
+    budget: undefined,
     impact: exp.impact ? exp.impact[0] : exp.description,
     achievements: exp.highlights.map((h, idx) => ({
       description: h,
-      metric: exp.metrics && exp.metrics[idx] ? exp.metrics[idx] : ''
+      metric: exp.impact && exp.impact[idx] ? exp.impact[idx] : ''
     })),
     techStack: exp.technologies
   }))

@@ -1,7 +1,7 @@
 "use client"
 
-import { motion, useInView } from "framer-motion"
-import { useState, useRef } from "react"
+import { motion } from "framer-motion"
+import { useState } from "react"
 import Link from "next/link"
 import { getAllProjects } from "@/lib/data/projects"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
@@ -27,8 +27,6 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
   const [activeFilter, setActiveFilter] = useState("all")
   const prefersReducedMotion = useReducedMotion()
   const projects = getAllProjects(locale)
-  const gridRef = useRef(null)
-  const isInView = useInView(gridRef, { once: true, amount: 0.1 })
 
   const filteredProjects = projects.filter((project) => {
     if (activeFilter === "all") return true
@@ -87,10 +85,10 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
 
         {/* Projects grid */}
         <motion.div
-          ref={gridRef}
           variants={staggerContainer}
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+                    whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
           className="grid gap-6 md:grid-cols-2"
         >
           {displayedProjects.map((project) => {

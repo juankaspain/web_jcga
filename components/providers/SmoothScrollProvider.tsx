@@ -9,6 +9,7 @@ interface SmoothScrollProviderProps {
 
 export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   const lenisRef = useRef<Lenis | null>(null)
+  const rafIdRef = useRef<number | null>(null)
 
   useEffect(() => {
     // Respect user preference for reduced motion
@@ -29,12 +30,37 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
 
     function raf(time: number) {
       lenis.raf(time)
-      requestAnimationFrame(raf)
+      rafIdRef.current = requestAnimationFrame(raf)
     }
 
-    requestAnimationFrame(raf)
+    rafIdRef.current = requestAnimationFrame(raf)
+
+    function onVisibilityChange() {
+      // Pause RAF loop when tab is not visible (battery + main-thread savings)
+      if (document.visibilityState === 'hidden') {
+        if (rafIdRef.current != null) {
+          cancelAnimationFrame(rafIdRef.current)
+          rafIdRef.current = null
+        }
+        return
+      }
+
+      // Resume when visible
+      if (rafIdRef.current == null) {
+        rafIdRef.current = requestAnimationFrame(raf)
+      }
+    }
+
+    document.addEventListener('visibilitychange', onVisibilityChange)
 
     return () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+
+      if (rafIdRef.current != null) {
+        cancelAnimationFrame(rafIdRef.current)
+        rafIdRef.current = null
+      }
+
       lenis.destroy()
       lenisRef.current = null
     }

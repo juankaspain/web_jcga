@@ -21,6 +21,7 @@ interface ProjectShowcaseCardProps {
   tags: string[]
   metrics: [ProjectMetric, ProjectMetric, ProjectMetric]
   locale?: "es" | "en"
+    priority?: boolean
 }
 
 const copy = {
@@ -30,7 +31,8 @@ const copy = {
 
 export function ProjectShowcaseCard({
   slug, title, problem, thumbnail, thumbnailAlt,
-  highlightMetric, tags, metrics, locale = "es"
+  highlightMetric, tags, metrics, locale = "es",
+  priority
 }: ProjectShowcaseCardProps) {
   const t = copy[locale]
   const prefersReducedMotion = useReducedMotion()
@@ -54,6 +56,7 @@ export function ProjectShowcaseCard({
       <Link href={projectLink} className="block relative h-64 overflow-hidden">
         <Image 
           src={thumbnail} alt={thumbnailAlt} fill
+                    priority={priority}
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />

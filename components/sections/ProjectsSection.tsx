@@ -51,7 +51,7 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
         
         {/* Featured Projects - Top 3 */}
         <div className="projects-grid mt-16">
-          {featuredProjects.map((project) => (
+          {featuredProjects.map((project, index) => (
             <ProjectShowcaseCard
               key={project.slug}
               slug={project.slug}
@@ -63,6 +63,7 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
               tags={project.tags}
               metrics={project.metrics}
               locale={locale}
+                            priority={index === 0}
             />
           ))}
         </div>

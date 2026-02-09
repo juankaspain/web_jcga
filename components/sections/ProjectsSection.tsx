@@ -76,21 +76,22 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
               border: '2px solid var(--border-default)',
               color: 'var(--text-secondary)',
             }}
-            onMouseEnter={(e) => {
+            onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
               e.currentTarget.style.borderColor = 'var(--accent-primary)'
               e.currentTarget.style.color = 'var(--accent-primary)'
             }}
-            onMouseLeave={(e) => {
+            onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
               e.currentTarget.style.borderColor = 'var(--border-default)'
               e.currentTarget.style.color = 'var(--text-secondary)'
             }}
           >
             {t.ctaText}
-            <ArrowRight 
-              size={20} 
-              weight="bold" 
-              className="group-hover:translate-x-1 transition-transform" 
-            />
+<span className="group-hover:translate-x-1 transition-transform">
+              <ArrowRight
+                size={20}
+                weight="bold"
+              />
+            </span>
           </Link>
         </div>
       </div>

@@ -74,31 +74,30 @@ export function Hero({ locale = "es" }: HeroProps) {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden theme-transition"
-      style={{ backgroundColor: 'var(--bg-primary)' }}
+      className="relative min-h-screen flex items-center overflow-hidden theme-transition bg-[var(--bg-primary)]"
     >
       {/* Mesh gradient background — parallax layer (slowest) */}
       <motion.div
         className="mesh-gradient"
-        style={{ y: prefersReducedMotion ? 0 : meshY }}
+        style={mounted && !prefersReducedMotion ? { y: meshY } : undefined}
       />
 
       {/* Professional grid pattern overlay — parallax layer */}
       <motion.div
         className="absolute inset-0 bg-grid"
-        style={{ y: prefersReducedMotion ? 0 : gridY }}
+        style={mounted && !prefersReducedMotion ? { y: gridY } : undefined}
       />
 
       {/* Subtle radial gradient for depth — parallax layer */}
       <motion.div
         className="absolute inset-0 bg-gradient-radial"
-        style={{ y: prefersReducedMotion ? 0 : radialY }}
+        style={mounted && !prefersReducedMotion ? { y: radialY } : undefined}
       />
 
       {/* Content — slight parallax for depth perception */}
       <motion.div
         className="relative container-main py-32"
-        style={{ y: prefersReducedMotion ? 0 : contentY }}
+        style={mounted && !prefersReducedMotion ? { y: contentY } : undefined}
       >
         <motion.div
           key="hero-content"
@@ -116,11 +115,10 @@ export function Hero({ locale = "es" }: HeroProps) {
             <Briefcase
               size={16}
               weight="duotone"
-              style={{ color: 'var(--accent-primary)' }}
+              className="text-[var(--accent-primary)]"
             />
             <p
-              className="text-sm uppercase tracking-wider font-semibold"
-              style={{ color: 'var(--accent-primary)' }}
+              className="text-sm uppercase tracking-wider font-semibold text-[var(--accent-primary)]"
             >
               {t.kicker}
             </p>
@@ -132,8 +130,7 @@ export function Hero({ locale = "es" }: HeroProps) {
             className="mb-6 leading-tight"
           >
             <span
-              className="block mb-2"
-              style={{ color: 'var(--text-primary)' }}
+              className="block mb-2 text-[var(--text-primary)]"
             >
               {t.h1Line1}
             </span>
@@ -143,8 +140,7 @@ export function Hero({ locale = "es" }: HeroProps) {
           {/* Description */}
           <motion.p
             variants={!prefersReducedMotion ? staggerItem : undefined}
-            className="text-xl max-w-3xl mb-8 leading-relaxed"
-            style={{ color: 'var(--text-secondary)' }}
+            className="text-xl max-w-3xl mb-8 leading-relaxed text-[var(--text-secondary)]"
           >
             {t.description}
           </motion.p>
@@ -156,14 +152,7 @@ export function Hero({ locale = "es" }: HeroProps) {
           >
             <Link
               href={projectsLink}
-              className="group inline-flex items-center gap-2 font-semibold px-8 py-4 rounded-xl transition-all duration-300"
-              style={{
-                background: 'var(--accent-gradient)',
-                color: 'var(--text-on-accent)',
-                boxShadow: 'var(--shadow-glow-sm)',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-glow)' }}
-              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-glow-sm)' }}
+              className="hero-cta-primary group inline-flex items-center gap-2 font-semibold px-8 py-4 rounded-xl transition-all duration-300"
             >
               {t.ctaPrimary}
               <ArrowRight
@@ -174,19 +163,7 @@ export function Hero({ locale = "es" }: HeroProps) {
             </Link>
             <Link
               href={expertiseLink}
-              className="inline-flex items-center gap-2 border-2 font-semibold px-8 py-4 rounded-xl transition-all duration-300"
-              style={{
-                borderColor: 'var(--border-default)',
-                color: 'var(--text-secondary)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--accent-primary)'
-                e.currentTarget.style.color = 'var(--text-primary)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border-default)'
-                e.currentTarget.style.color = 'var(--text-secondary)'
-              }}
+              className="hero-cta-secondary inline-flex items-center gap-2 border-2 font-semibold px-8 py-4 rounded-xl transition-all duration-300"
             >
               {t.ctaSecondary}
             </Link>
@@ -210,18 +187,15 @@ export function Hero({ locale = "es" }: HeroProps) {
                   <IconComponent
                     size={20}
                     weight="duotone"
-                    className="mx-auto mb-2"
-                    style={{ color: 'var(--accent-primary)' }}
+                    className="mx-auto mb-2 text-[var(--accent-primary)]"
                   />
                   <p
-                    className="text-2xl font-bold"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="text-2xl font-bold text-[var(--text-primary)]"
                   >
                     {stat.value}
                   </p>
                   <p
-                    className="text-sm"
-                    style={{ color: 'var(--text-tertiary)' }}
+                    className="text-sm text-[var(--text-tertiary)]"
                   >
                     {stat.label}
                   </p>
@@ -240,18 +214,10 @@ export function Hero({ locale = "es" }: HeroProps) {
         transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
       >
         <div
-          className="w-6 h-10 rounded-full border-2 flex items-start justify-center p-2 transition-colors"
-          style={{ borderColor: 'var(--border-default)' }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'var(--accent-primary)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'var(--border-default)'
-          }}
+          className="hero-scroll-indicator w-6 h-10 rounded-full border-2 flex items-start justify-center p-2 transition-colors"
         >
           <motion.div
-            className="w-1.5 h-1.5 rounded-full"
-            style={{ backgroundColor: 'var(--accent-primary)' }}
+            className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)]"
             animate={!prefersReducedMotion ? { y: [0, 12, 0] } : undefined}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           />

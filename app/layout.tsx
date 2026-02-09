@@ -189,6 +189,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="es"
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
       style={{ position: 'relative' }}
@@ -198,11 +199,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
-        className="antialiased"
+        className="antialiased bg-[var(--bg-primary)] text-[var(--text-primary)]"
         style={{
           position: 'relative',
-          backgroundColor: 'var(--bg-primary)',
-          color: 'var(--text-primary)',
         }}
       >
         <ThemeProvider>

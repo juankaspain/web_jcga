@@ -1,5 +1,5 @@
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { ExperienceAccordion } from '@/components/experience/ExperienceAccordion'
+import { ExperienceTimeline } from '@/components/experience/ExperienceTimeline'
 import { experiences } from '@/lib/data/experience'
 
 interface ExperienceSectionProps {
@@ -19,16 +19,17 @@ const copy = {
   }
 }
 
-function mapExperiencesToAccordion(locale: 'es' | 'en') {
+function mapExperiencesToTimeline(locale: 'es' | 'en') {
   return experiences.map((exp) => ({
     role: exp.role,
     company: exp.company,
     period: exp.period,
-    teamSize: locale === 'es' ? `${exp.location}` : `${exp.location}`,
+    teamSize: exp.location || 'Remote',
+    budget: exp.budget || undefined,
     impact: exp.impact ? exp.impact[0] : exp.description,
-    achievements: exp.highlights.map((h) => ({
+    achievements: exp.highlights.map((h, idx) => ({
       description: h,
-      metric: ''
+      metric: exp.metrics && exp.metrics[idx] ? exp.metrics[idx] : ''
     })),
     techStack: exp.technologies
   }))
@@ -36,7 +37,7 @@ function mapExperiencesToAccordion(locale: 'es' | 'en') {
 
 export function ExperienceSection({ locale = 'es' }: ExperienceSectionProps) {
   const t = copy[locale]
-  const adaptedExperiences = mapExperiencesToAccordion(locale)
+  const adaptedExperiences = mapExperiencesToTimeline(locale)
 
   return (
     <section
@@ -49,7 +50,9 @@ export function ExperienceSection({ locale = 'es' }: ExperienceSectionProps) {
           title={t.title}
           subtitle={t.subtitle}
         />
-        <ExperienceAccordion experiences={adaptedExperiences} locale={locale} />
+        <div className="mt-16">
+          <ExperienceTimeline experiences={adaptedExperiences} locale={locale} />
+        </div>
       </div>
     </section>
   )

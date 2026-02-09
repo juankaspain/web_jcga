@@ -855,3 +855,11 @@ code, pre {
     grid-column: 1 / -1;
   }
 }
+
+
+/* Custom cursor - hide native cursor on interactive elements (desktop only) */
+@media (min-width: 1024px) {
+  a, button, input, textarea, select, [role="button"] {
+    cursor: none !important;
+  }
+}

@@ -151,14 +151,6 @@ export function CustomCursor() {
         />
       </motion.div>
 
-      {/* Estilos globales para ocultar cursor en elementos interactivos */}
-              <style dangerouslySetInnerHTML={{ __html: `
-          @media (min-width: 1024px) {
-            a, button, input, textarea, select, [role="button"] {
-              cursor: none !important;
-            }
-          }
-        `}} />
     </>
   )
 }

@@ -60,7 +60,7 @@ const copy = {
  * <ExperienceTimeline experiences={mockExperiences} locale="es" />
  */
 export function ExperienceTimeline({
-  experiences,
+    experiences = [],
   locale = "es",
 }: ExperienceTimelineProps) {
   const t = copy[locale]

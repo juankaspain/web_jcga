@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { ExperienceTimeline } from "@/components/experience/ExperienceTimeline"
+import { ExperienceSection } from '@/components/sections/ExperienceSection'
 
 export const metadata: Metadata = {
   title: "Experience | Juan Carlos García Arriero",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function EnExperiencePage() {
-  return <ExperienceTimeline locale="en" />
+  return <ExperienceSection locale="en" />
 }

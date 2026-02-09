@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { staggerContainer, staggerItem } from "@/lib/animations/variants"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
+import { TypingText } from "@/components/ui/TypingText"
 import {
   ArrowRight,
   Briefcase,
@@ -20,6 +21,7 @@ type HeroProps = {
 
 const copy = {
   es: {
+    greeting: "Hola, soy Juan Carlos...",
     kicker: "Senior Technical Lead @ Santander Digital Services",
     h1Line1: "Arquitecto soluciones de pago",
     h1Line2: "que escalan a millones de usuarios",
@@ -34,6 +36,7 @@ const copy = {
     ]
   },
   en: {
+    greeting: "Hi, I'm Juan Carlos...",
     kicker: "Senior Technical Lead @ Santander Digital Services",
     h1Line1: "I architect payment solutions",
     h1Line2: "that scale to millions of users",
@@ -107,6 +110,19 @@ export function Hero({ locale = "es" }: HeroProps) {
           className="max-w-5xl"
         >
 
+          {/* Typing greeting */}
+          <motion.div
+            variants={!prefersReducedMotion ? staggerItem : undefined}
+            className="mb-3"
+          >
+            <TypingText
+              text={t.greeting}
+              typingSpeed={80}
+              showCursor={true}
+              className="text-lg font-semibold text-[var(--accent-primary)]"
+            />
+          </motion.div>
+
           {/* Professional Kicker */}
           <motion.div
             variants={!prefersReducedMotion ? staggerItem : undefined}
@@ -118,7 +134,7 @@ export function Hero({ locale = "es" }: HeroProps) {
               className="text-[var(--accent-primary)]"
             />
             <p
-              className="text-sm uppercase tracking-wider font-semibold text-[var(--accent-primary)]"
+              className="text-sm uppercase tracking-wider font-semibold text-[var(--text-secondary)]"
             >
               {t.kicker}
             </p>

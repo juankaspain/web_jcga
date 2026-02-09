@@ -1,0 +1,1 @@
+This is a permissions probe file. If you see this in main, the assistant has write access.

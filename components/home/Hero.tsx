@@ -65,10 +65,9 @@ export function Hero({ locale = "es" }: HeroProps) {
     target: heroRef,
     offset: ["start start", "end start"]
   })
-  const meshY = useTransform(scrollYProgress, [0, 1], [0, 150])
-  const gridY = useTransform(scrollYProgress, [0, 1], [0, 80])
-  const radialY = useTransform(scrollYProgress, [0, 1], [0, 120])
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 50])
+
+  // Reduce scroll-linked animations to a single, subtle layer
+  const radialY = useTransform(scrollYProgress, [0, 1], [0, 80])
 
   useEffect(() => {
     setMounted(true)
@@ -79,34 +78,25 @@ export function Hero({ locale = "es" }: HeroProps) {
       ref={heroRef}
       className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden theme-transition bg-[var(--bg-primary)]"
     >
-      {/* Mesh gradient background — parallax layer (slowest) */}
-      <motion.div
-        className="mesh-gradient"
-        style={mounted && !prefersReducedMotion ? { y: meshY } : undefined}
-      />
+      {/* Mesh gradient background — static (CSS animated) */}
+      <div className="mesh-gradient" />
 
-      {/* Professional grid pattern overlay — parallax layer */}
-      <motion.div
-        className="absolute inset-0 bg-grid"
-        style={mounted && !prefersReducedMotion ? { y: gridY } : undefined}
-      />
+      {/* Professional grid pattern overlay — static */}
+      <div className="absolute inset-0 bg-grid" />
 
-      {/* Subtle radial gradient for depth — parallax layer */}
+      {/* Subtle radial gradient — only layer with optional parallax */}
       <motion.div
         className="absolute inset-0 bg-gradient-radial"
         style={mounted && !prefersReducedMotion ? { y: radialY } : undefined}
       />
 
-      {/* Content — slight parallax for depth perception */}
-      <motion.div
-        className="relative container-main py-20"
-        style={mounted && !prefersReducedMotion ? { y: contentY } : undefined}
-      >
+      {/* Content — no parallax (reduces scroll work) */}
+      <div className="relative container-main py-20">
         <motion.div
           key="hero-content"
-                    initial={mounted && !prefersReducedMotion ? "hidden" : undefined}
-                    animate={mounted && !prefersReducedMotion ? "visible" : undefined}
-                    variants={mounted && !prefersReducedMotion ? staggerContainer : undefined}
+          initial={mounted && !prefersReducedMotion ? "hidden" : undefined}
+          animate={mounted && !prefersReducedMotion ? "visible" : undefined}
+          variants={mounted && !prefersReducedMotion ? staggerContainer : undefined}
           className="max-w-5xl"
         >
 
@@ -128,7 +118,7 @@ export function Hero({ locale = "es" }: HeroProps) {
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
             className="flex items-center gap-2 mb-4"
           >
-<span className="text-[var(--accent-primary)]">
+            <span className="text-[var(--accent-primary)]">
               <Briefcase
                 size={16}
                 weight="duotone"
@@ -202,12 +192,12 @@ export function Hero({ locale = "es" }: HeroProps) {
                   animate={mounted ? { opacity: 1, y: 0 } : undefined}
                   transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
                 >
-<span className="mx-auto mb-2 text-[var(--accent-primary)]">
-                <IconComponent
-                  size={20}
-                  weight="duotone"
-                />
-              </span>
+                  <span className="mx-auto mb-2 text-[var(--accent-primary)]">
+                    <IconComponent
+                      size={20}
+                      weight="duotone"
+                    />
+                  </span>
                   <p
                     className="text-2xl font-bold text-[var(--text-primary)]"
                   >
@@ -223,7 +213,7 @@ export function Hero({ locale = "es" }: HeroProps) {
             })}
           </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
 
       {/* Scroll indicator */}
       <motion.div

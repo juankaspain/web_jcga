@@ -359,11 +359,11 @@ code, pre {
 
 .text-gradient-accent {
   background: var(--accent-gradient);
-     background-size: 200% 200%;
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-     animation: gradient-shift 8s ease-in-out infinite;
+  animation: gradient-shift 8s ease-in-out infinite;
 }
 
 /* ============================================
@@ -860,6 +860,6 @@ code, pre {
 /* Custom cursor - hide native cursor on interactive elements (desktop only) */
 @media (min-width: 1024px) {
   a, button, input, textarea, select, [role="button"] {
-    cursor: none !important;
+    cursor: auto !important;
   }
 }

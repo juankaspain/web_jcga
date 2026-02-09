@@ -3,8 +3,8 @@
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ProjectShowcaseCard } from '@/components/projects/ProjectShowcaseCard'
 import { getAllProjects } from '@/lib/data/projects'
-import Link from 'next/link'
 import { ArrowRight } from '@phosphor-icons/react'
+import { Button } from '@/components/ui/Button'
 
 interface ProjectsSectionProps {
   locale?: 'es' | 'en'
@@ -14,17 +14,19 @@ const copy = {
   es: {
     eyebrow: 'Portfolio',
     title: 'Casos de éxito que procesaron 500M€/año',
-    subtitle: 'Proyectos reales con impacto medible en producción bancaria. Desde plataformas SEPA hasta sistemas anti-fraude ML.',
+    subtitle:
+      'Proyectos reales con impacto medible en producción bancaria. Desde plataformas SEPA hasta sistemas anti-fraude ML.',
     ctaText: 'Ver todos los casos de estudio',
-    ctaLink: '/projects'
+    ctaLink: '/projects',
   },
   en: {
     eyebrow: 'Portfolio',
     title: 'Success cases that processed €500M/year',
-    subtitle: 'Real projects with measurable impact in banking production. From SEPA platforms to ML anti-fraud systems.',
+    subtitle:
+      'Real projects with measurable impact in banking production. From SEPA platforms to ML anti-fraud systems.',
     ctaText: 'View all case studies',
-    ctaLink: '/en/projects'
-  }
+    ctaLink: '/en/projects',
+  },
 }
 
 export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
@@ -38,9 +40,8 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
       className="relative py-16 overflow-hidden theme-transition"
       style={{ backgroundColor: 'var(--bg-primary)' }}
     >
-      {/* Background */}
       <div className="absolute inset-0 bg-grid opacity-30" />
-      
+
       <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow={t.eyebrow}
@@ -48,8 +49,7 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
           subtitle={t.subtitle}
           align="center"
         />
-        
-        {/* Featured Projects - Top 3 */}
+
         <div className="projects-grid mt-16">
           {featuredProjects.map((project, index) => (
             <ProjectShowcaseCard
@@ -63,37 +63,21 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
               tags={project.tags}
               metrics={project.metrics}
               locale={locale}
-                            priority={index === 0}
+              priority={index === 0}
             />
           ))}
         </div>
 
-        {/* CTA to all projects */}
         <div className="flex justify-center mt-12">
-          <Link
+          <Button
             href={t.ctaLink}
-            className="group inline-flex items-center gap-2 px-8 py-4 glass-card rounded-lg font-semibold transition-all duration-300"
-            style={{
-              border: '2px solid var(--border-default)',
-              color: 'var(--text-secondary)',
-            }}
-            onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
-              e.currentTarget.style.borderColor = 'var(--accent-primary)'
-              e.currentTarget.style.color = 'var(--accent-primary)'
-            }}
-            onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
-              e.currentTarget.style.borderColor = 'var(--border-default)'
-              e.currentTarget.style.color = 'var(--text-secondary)'
-            }}
+            variant="outline"
+            size="lg"
+            className="glass-card rounded-xl border-2 px-8 py-4 text-[var(--text-secondary)]"
+            rightIcon={<ArrowRight size={20} weight="bold" />}
           >
             {t.ctaText}
-<span className="group-hover:translate-x-1 transition-transform">
-              <ArrowRight
-                size={20}
-                weight="bold"
-              />
-            </span>
-          </Link>
+          </Button>
         </div>
       </div>
     </section>

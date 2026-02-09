@@ -60,7 +60,7 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
         {/* Filters */}
         {showFilters && (
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: 0.2 }}
             className="mb-8 flex flex-wrap justify-center gap-3"
@@ -87,8 +87,8 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
         <motion.div
           variants={staggerContainer}
           initial="hidden"
-                    whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0 }}
           className="grid gap-6 md:grid-cols-2"
         >
           {displayedProjects.map((project) => {
@@ -101,40 +101,49 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
                 <Link href={`/projects/${project.slug}`}>
                   <GlassCard className="group relative overflow-hidden p-0 transition-all hover:scale-[1.02]">
                     {/* Project image/preview area */}
-                    <div className="relative h-48 overflow-hidden">
-                      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, var(--accent-subtle), var(--mesh-color-1), var(--mesh-color-2))' }} />
-                      <div className="flex h-full items-center justify-center">
-                        <span className="text-5xl">{project.highlightMetric?.icon || "\uD83D\uDCBC"}</span>
+                    <div
+                      className="relative h-48 overflow-hidden"
+                      style={{ backgroundColor: 'var(--surface-secondary)' }}
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-4xl">{project.highlightMetric?.icon || "\uD83D\uDCBC"}</span>
                       </div>
                       <div className="absolute bottom-3 left-3 flex gap-2">
                         {project.tags?.slice(0, 2).map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-full px-2 py-1 text-xs"
-                            style={{ backgroundColor: 'var(--surface-secondary)', color: 'var(--accent-primary)' }}
+                            className="rounded-full px-2 py-1 text-xs font-medium"
+                            style={{
+                              backgroundColor: 'var(--accent-primary)',
+                              color: 'var(--text-on-accent)',
+                              opacity: 0.9
+                            }}
                           >
                             {tag}
                           </span>
                         ))}
                       </div>
                       <div
-                        className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100"
-                        style={{ backgroundColor: 'var(--bg-primary-alpha-60, rgba(0,0,0,0.6))' }}
+                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
                       >
-                        <span
-                          className="rounded-full px-4 py-2 text-sm font-medium"
-                          style={{ backgroundColor: 'var(--accent-primary)', color: 'var(--text-on-accent)' }}
-                        >
+                        <span className="text-white font-medium">
                           {locale === "es" ? "Ver detalles" : "View details"}
                         </span>
                       </div>
                     </div>
 
-                    <div className="p-6">
-                      <h3 className="mb-2 text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
+                    <div className="p-5">
+                      <h3
+                        className="mb-2 text-lg font-bold"
+                        style={{ color: 'var(--text-primary)' }}
+                      >
                         {translated.title || project.title}
                       </h3>
-                      <p className="mb-4 text-sm line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
+                      <p
+                        className="mb-4 text-sm line-clamp-2"
+                        style={{ color: 'var(--text-secondary)' }}
+                      >
                         {translated.description || translated.subtitle || project.subtitle}
                       </p>
 
@@ -142,26 +151,36 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
                         <div className="mb-4 flex gap-6">
                           {projectMetrics.slice(0, 2).map((metric: { value: string; label: string }, mIndex: number) => (
                             <div key={mIndex}>
-                              <div className="text-lg font-bold" style={{ color: 'var(--accent-primary)' }}>{metric.value}</div>
-                              <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{metric.label}</div>
+                              <div className="text-lg font-bold" style={{ color: 'var(--accent-primary)' }}>
+                                {metric.value}
+                              </div>
+                              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                                {metric.label}
+                              </div>
                             </div>
                           ))}
                         </div>
                       )}
 
                       {allTechnologies.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5">
+                        <div className="flex flex-wrap gap-1">
                           {allTechnologies.slice(0, 4).map((tech) => (
                             <span
                               key={tech}
                               className="rounded px-2 py-0.5 text-xs"
-                              style={{ backgroundColor: 'var(--surface-secondary)', color: 'var(--text-secondary)' }}
+                              style={{
+                                backgroundColor: 'var(--surface-secondary)',
+                                color: 'var(--text-muted)'
+                              }}
                             >
                               {tech}
                             </span>
                           ))}
                           {allTechnologies.length > 4 && (
-                            <span className="rounded px-2 py-0.5 text-xs" style={{ backgroundColor: 'var(--surface-secondary)', color: 'var(--text-tertiary)' }}>
+                            <span
+                              className="rounded px-2 py-0.5 text-xs"
+                              style={{ color: 'var(--text-muted)' }}
+                            >
                               +{allTechnologies.length - 4}
                             </span>
                           )}
@@ -178,9 +197,12 @@ export function ProjectsGrid({ locale = "es", limit, showFilters = true }: Proje
         {limit && filteredProjects.length > limit && (
           <div className="mt-12 text-center">
             <Link
-              href="/projects"
-              className="inline-flex items-center gap-2 transition-colors"
-              style={{ color: 'var(--accent-primary)' }}
+              href={locale === "es" ? "/projects" : "/en/projects"}
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-medium transition-all"
+              style={{
+                border: '1px solid var(--border-default)',
+                color: 'var(--text-secondary)',
+              }}
             >
               {locale === "es" ? "Ver todos los proyectos" : "View all projects"}
             </Link>

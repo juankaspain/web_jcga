@@ -42,7 +42,7 @@ export function ProjectShowcaseCard({
     <motion.div
       initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
       whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, amount: 0 }}
       transition={{ duration: 0.5 }}
       className="group relative overflow-hidden rounded-2xl hover-lift transition-all duration-300 theme-transition"
       style={{

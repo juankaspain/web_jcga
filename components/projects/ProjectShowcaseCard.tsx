@@ -47,8 +47,8 @@ export function ProjectShowcaseCard({
         backgroundColor: 'var(--surface-primary)',
         border: '1px solid var(--border-subtle)',
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
-      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+      onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
+      onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
     >
       {/* Thumbnail with overlay */}
       <Link href={projectLink} className="block relative h-64 overflow-hidden">
@@ -119,7 +119,9 @@ export function ProjectShowcaseCard({
           style={{ color: 'var(--accent-primary)' }}
         >
           <span className="group-hover:underline">{t.readCase}</span>
-          <ArrowRight size={18} weight="bold" className="group-hover:translate-x-1 transition-transform duration-300" />
+<span className="group-hover:translate-x-1 transition-transform duration-300">
+              <ArrowRight size={18} weight="bold" />
+            </span>
         </Link>
       </div>
       

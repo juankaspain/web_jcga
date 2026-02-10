@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 
@@ -30,27 +30,25 @@ const positionStyles: Record<string, { tooltip: string; initial: { x?: number; y
   },
 }
 
-export function Tooltip({
-  children,
-  content,
-  position = 'top',
-  className,
-}: TooltipProps) {
+export function Tooltip({ children, content, position = 'top', className }: TooltipProps) {
+  const tooltipId = useId()
   const [isVisible, setIsVisible] = useState(false)
   const config = positionStyles[position]
 
   return (
     <div
       className="relative inline-flex"
-      onMouseEnter={() => setIsVisible(true)}
-      onMouseLeave={() => setIsVisible(false)}
-      onFocus={() => setIsVisible(true)}
-      onBlur={() => setIsVisible(false)}
+      onPointerEnter={() => setIsVisible(true)}
+      onPointerLeave={() => setIsVisible(false)}
+      onFocusCapture={() => setIsVisible(true)}
+      onBlurCapture={() => setIsVisible(false)}
+      aria-describedby={isVisible ? tooltipId : undefined}
     >
       {children}
       <AnimatePresence>
         {isVisible && (
           <motion.div
+            id={tooltipId}
             role="tooltip"
             initial={{ opacity: 0, scale: 0.95, ...config.initial }}
             animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
@@ -60,14 +58,10 @@ export function Tooltip({
               'absolute z-50 pointer-events-none',
               'px-3 py-1.5 rounded-md text-xs font-medium',
               'whitespace-nowrap shadow-lg',
+              'bg-[var(--surface-tertiary)] text-[var(--text-primary)] border border-[var(--border-subtle)]',
               config.tooltip,
               className
             )}
-            style={{
-              backgroundColor: 'var(--surface-tertiary)',
-              color: 'var(--text-primary)',
-              border: '1px solid var(--border-subtle)',
-            }}
           >
             {content}
           </motion.div>

@@ -5,12 +5,13 @@ import { ExperienceSection } from '@/components/sections/ExperienceSection'
 import { CertificationsSection } from '@/components/sections/CertificationsSection'
 import { ContactSection } from '@/components/sections/ContactSection'
 import type { Metadata } from 'next'
-import { HERO_CLAIMS } from '@/app/content/hero'
+import { HERO_COPY, type Locale } from '@/app/content/hero'
+
+const locale: Locale = 'es'
 
 export const metadata: Metadata = {
   title: 'Juan Carlos García Arriero | Senior Technical Lead - Cloud & Payments',
-  description:
-    `Arquitecto de soluciones de pago que escalan a millones de usuarios. Senior Technical Lead @ Santander Digital Services. ${HERO_CLAIMS.transactionsPerDay} transacciones/día, SLA ${HERO_CLAIMS.sla}. Especializado en Azure, Kubernetes, SEPA, PSD2, AI/ML.`,
+  description: HERO_COPY[locale].description,
 }
 
 /**
@@ -19,12 +20,12 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <HeroSection locale="es" />
-      <ProjectsSection locale="es" />
-      <SkillsSection locale="es" />
-      <ExperienceSection locale="es" />
-      <CertificationsSection locale="es" />
-      <ContactSection locale="es" />
+      <HeroSection locale={locale} />
+      <ProjectsSection locale={locale} />
+      <SkillsSection locale={locale} />
+      <ExperienceSection locale={locale} />
+      <CertificationsSection locale={locale} />
+      <ContactSection locale={locale} />
     </>
   )
 }

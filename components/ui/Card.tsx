@@ -40,13 +40,18 @@ const paddings = {
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', padding = 'md', children, style, ...props }, ref) => {
+    const interactiveClass =
+      variant === 'interactive'
+        ? 'hover-lift cursor-pointer hover:border-[var(--border-accent)] hover:shadow-[var(--shadow-glow-sm)]'
+        : ''
+
     return (
       <motion.div
         ref={ref}
         className={cn(
-          'rounded-2xl transition-all duration-300 theme-transition',
+          'rounded-2xl border transition-all duration-300 theme-transition',
           variant === 'glass' && 'glass-card',
-          variant === 'interactive' && 'hover-lift cursor-pointer',
+          interactiveClass,
           paddings[padding],
           className
         )}
@@ -55,14 +60,6 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           ...style,
         }}
         whileHover={variant === 'interactive' ? { scale: 1.02 } : undefined}
-        onMouseEnter={variant === 'interactive' ? (e) => {
-          (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-accent)'
-          ;(e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-glow-sm)'
-        } : undefined}
-        onMouseLeave={variant === 'interactive' ? (e) => {
-          (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-subtle)'
-          ;(e.currentTarget as HTMLElement).style.boxShadow = ''
-        } : undefined}
         {...props}
       >
         {children}

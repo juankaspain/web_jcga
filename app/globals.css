@@ -381,6 +381,14 @@ code, pre {
 }
 
 /* ============================================
+   HERO — Above-the-fold
+   ============================================ */
+
+.hero-bg-radial {
+  will-change: transform;
+}
+
+/* ============================================
    TEXT EFFECTS — Gradients
    ============================================ */
 
@@ -804,7 +812,7 @@ code, pre {
 
 @keyframes skeleton-pulse {
   0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.7; }
+  to { opacity: 0.7; }
 }
 
 @keyframes bounce-dot {

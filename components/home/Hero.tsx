@@ -68,7 +68,7 @@ export function Hero({ locale = "es" }: HeroProps) {
       <div className="absolute inset-0 bg-grid" />
 
       <motion.div
-        className="absolute inset-0 bg-gradient-radial"
+        className="absolute inset-0 bg-gradient-radial hero-bg-radial"
         style={mounted && !prefersReducedMotion ? { y: radialY } : undefined}
       />
 
@@ -187,7 +187,9 @@ export function Hero({ locale = "es" }: HeroProps) {
         <div className="hero-scroll-indicator w-6 h-10 rounded-full border-2 flex items-start justify-center p-2 transition-colors">
           <motion.div
             className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)]"
-            animate={mounted && !prefersReducedMotion ? { y: [0, 12, 0] } : undefined}
+            animate={
+              mounted && !prefersReducedMotion ? { y: [0, 12, 0] } : undefined
+            }
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>

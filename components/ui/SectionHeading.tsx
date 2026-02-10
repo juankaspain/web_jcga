@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
+import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
 
 interface SectionHeadingProps {
   eyebrow?: string
@@ -21,15 +22,38 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   const desc = description || subtitle
+  const prefersReducedMotion = useReducedMotion()
+
+  const eyebrowMotion = prefersReducedMotion
+    ? { initial: false, whileInView: undefined, transition: undefined }
+    : {
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.5 },
+      }
+
+  const titleMotion = prefersReducedMotion
+    ? { initial: false, whileInView: undefined, transition: undefined }
+    : {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.6, delay: 0.1 },
+      }
+
+  const descMotion = prefersReducedMotion
+    ? { initial: false, whileInView: undefined, transition: undefined }
+    : {
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.5, delay: 0.2 },
+      }
 
   return (
     <div className={cn('mb-16', align === 'center' && 'text-center', className)}>
       {eyebrow && (
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.5 }}
+          {...eyebrowMotion}
+          viewport={{ once: true, amount: 0.2 }}
           className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]"
         >
           {eyebrow}
@@ -37,10 +61,8 @@ export function SectionHeading({
       )}
 
       <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
+        {...titleMotion}
+        viewport={{ once: true, amount: 0.2 }}
         className="text-3xl font-bold md:text-4xl text-[var(--text-primary)]"
       >
         {title}
@@ -48,10 +70,8 @@ export function SectionHeading({
 
       {desc && (
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          {...descMotion}
+          viewport={{ once: true, amount: 0.2 }}
           className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-secondary)]"
         >
           {desc}

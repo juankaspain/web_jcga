@@ -44,11 +44,12 @@ const base = [
 ].join(' ')
 
 const variantClass: Record<ButtonVariant, string> = {
-  primary: 'bg-[var(--accent-primary)] text-[var(--text-on-accent)] hover:shadow-[var(--shadow-glow-sm)]',
+  primary:
+    'bg-[var(--accent-primary)] text-[var(--text-on-accent)] hover:shadow-[var(--shadow-glow-sm)]',
   secondary:
     'bg-[var(--surface-secondary)] text-[var(--text-primary)] border border-[var(--border-default)] hover:border-[var(--accent-primary)]',
   outline:
-    'bg-transparent text-[var(--text-primary)] border border-[var(--border-default)] hover:border-[var(--accent-primary)]',
+    'bg-transparent text-[var(--text-primary)] border border-[var(--border-default)] hover:border-[var(--accent-primary)] hover:bg-[var(--surface-hover)]',
   ghost:
     'bg-transparent text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--surface-hover)]',
 }

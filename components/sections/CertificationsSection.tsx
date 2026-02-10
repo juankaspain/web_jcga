@@ -23,14 +23,16 @@ const copy = {
   es: {
     eyebrow: 'Certificaciones',
     title: 'Aprendizaje continuo',
-    description: 'Creo firmemente en la formación constante. Cada certificación representa un nuevo desafío superado.',
+    description:
+      'Creo firmemente en la formación constante. Cada certificación representa un nuevo desafío superado.',
     totalLabel: 'Certificaciones totales',
     cta: 'Ver todas las certificaciones',
   },
   en: {
     eyebrow: 'Certifications',
     title: 'Continuous learning',
-    description: 'I firmly believe in constant training. Each certification represents a new challenge overcome.',
+    description:
+      'I firmly believe in constant training. Each certification represents a new challenge overcome.',
     totalLabel: 'Total certifications',
     cta: 'View all certifications',
   },
@@ -43,20 +45,13 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
   return (
     <section
       id="certifications"
-      className="relative overflow-hidden py-24 theme-transition"
-      style={{ backgroundColor: 'var(--bg-secondary)' }}
+      className="relative overflow-hidden py-24 theme-transition bg-[var(--bg-secondary)]"
     >
-      {/* Background */}
       <div className="absolute inset-0 bg-gradient-radial" />
 
       <div className="relative mx-auto max-w-7xl px-6">
-        <SectionHeading
-          eyebrow={t.eyebrow}
-          title={t.title}
-          description={t.description}
-        />
+        <SectionHeading eyebrow={t.eyebrow} title={t.title} description={t.description} />
 
-        {/* Big number */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -65,22 +60,23 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           className="text-center mb-12"
         >
           <div className="inline-flex items-baseline gap-2">
-            <AnimatedCounter value={totalCerts} className="text-7xl font-black text-gradient-accent" />
-            <span className="text-xl" style={{ color: 'var(--text-secondary)' }}>+</span>
+            <AnimatedCounter
+              value={totalCerts}
+              className="text-7xl font-black text-gradient-accent"
+            />
+            <span className="text-xl text-[var(--text-secondary)]">+</span>
           </div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            style={{ color: 'var(--text-secondary)' }}
-            className="mt-2"
+            className="mt-2 text-[var(--text-secondary)]"
           >
             {t.totalLabel}
           </motion.p>
         </motion.div>
 
-        {/* Vendor bars */}
         <div className="max-w-3xl mx-auto space-y-4 mb-12">
           {vendors.map((vendor, index) => (
             <motion.div
@@ -92,18 +88,23 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
               className="group"
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{vendor.name}</span>
-                <span className="text-sm" style={{ color: 'var(--text-tertiary)' }}>{vendor.count}</span>
+                <span className="text-sm font-medium text-[var(--text-secondary)]">
+                  {vendor.name}
+                </span>
+                <span className="text-sm text-[var(--text-tertiary)]">
+                  {vendor.count}
+                </span>
               </div>
-              <div
-                className="h-2 rounded-full overflow-hidden"
-                style={{ backgroundColor: 'var(--surface-secondary)' }}
-              >
+              <div className="h-2 rounded-full overflow-hidden bg-[var(--surface-secondary)]">
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: `${(vendor.count / totalCerts) * 100}%` }}
                   viewport={{ once: true, margin: '-100px' }}
-                  transition={{ duration: 1, delay: 0.5 + index * 0.1, ease: 'easeOut' }}
+                  transition={{
+                    duration: 1,
+                    delay: 0.5 + index * 0.1,
+                    ease: 'easeOut',
+                  }}
                   className="h-full rounded-full"
                   style={{ backgroundColor: vendor.color }}
                 />
@@ -112,7 +113,6 @@ export function CertificationsSection({ locale = 'es' }: CertificationsSectionPr
           ))}
         </div>
 
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

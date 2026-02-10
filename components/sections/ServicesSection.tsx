@@ -178,13 +178,7 @@ export function ServicesSection({ locale = 'es' }: ServicesSectionProps) {
                   </ul>
                 </div>
 
-                <div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background:
-                      'linear-gradient(135deg, var(--accent-subtle), transparent 60%)',
-                  }}
-                />
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(135deg,var(--accent-subtle),transparent_60%)]" />
               </motion.div>
             )
           })}

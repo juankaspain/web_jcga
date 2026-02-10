@@ -2,13 +2,7 @@
 
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-import {
-  TrendUp,
-  Users,
-  CurrencyDollar,
-  ChartLine,
-  Circle,
-} from "@phosphor-icons/react"
+import { TrendUp, Users, CurrencyDollar, ChartLine, Circle } from "@phosphor-icons/react"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
 import { useScrollAnimation } from "@/hooks/useScrollAnimation"
 
@@ -50,24 +44,11 @@ const copy = {
   },
 }
 
-/**
- * Timeline vertical de experiencia profesional
- * Diseño premium con línea conectora animada al scroll
- * Alternancia izquierda/derecha en desktop, lineal en mobile
- * Dot indicator con pulse animation en el item visible
- * 
- * @example
- * <ExperienceTimeline experiences={mockExperiences} locale="es" />
- */
-export function ExperienceTimeline({
-    experiences = [],
-  locale = "es",
-}: ExperienceTimelineProps) {
+export function ExperienceTimeline({ experiences = [], locale = "es" }: ExperienceTimelineProps) {
   const t = copy[locale]
   const prefersReducedMotion = useReducedMotion()
   const timelineRef = useRef<HTMLDivElement>(null)
 
-  // Progreso de scroll para animar la línea conectora
   const { scrollYProgress } = useScroll({
     target: timelineRef,
     offset: ["start center", "end center"],
@@ -77,7 +58,7 @@ export function ExperienceTimeline({
 
   return (
     <div ref={timelineRef} className="relative">
-      {/* Línea vertical central — animada con scroll */}
+      {/* Desktop: Central line */}
       <div
         className="absolute left-1/2 top-0 bottom-0 w-px hidden md:block"
         style={{ backgroundColor: "var(--border-subtle)" }}
@@ -92,7 +73,7 @@ export function ExperienceTimeline({
         />
       </div>
 
-      {/* Mobile: Línea vertical a la izquierda */}
+      {/* Mobile: Left line */}
       <div
         className="absolute left-4 top-0 bottom-0 w-px md:hidden"
         style={{ backgroundColor: "var(--border-subtle)" }}
@@ -109,7 +90,6 @@ export function ExperienceTimeline({
 
       <div className="space-y-16">
         {experiences.map((exp, index) => {
-          // Alternar izquierda/derecha en desktop
           const isLeft = index % 2 === 0
           return (
             <TimelineItem
@@ -147,52 +127,43 @@ function TimelineItem({
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <div
-      ref={ref}
-      className="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
-    >
-      {/* Desktop: Alternar contenido */}
-      <div
-        className={`hidden md:block ${
-          isLeft ? "md:order-1" : "md:order-2"
-        }`}
-      >
+    <div ref={ref} className="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      {/* Desktop card */}
+      <div className={`hidden md:block ${isLeft ? "md:order-1" : "md:order-2"}`}>
         <motion.div
           initial={
-            prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: isLeft ? 30 : -30 }
+            prefersReducedMotion
+              ? { opacity: 1 }
+              : { opacity: 0, x: isLeft ? 30 : -30 }
           }
           animate={
             isInView
               ? { opacity: 1, x: 0 }
               : prefersReducedMotion
-              ? { opacity: 1 }
-              : { opacity: 0, x: isLeft ? 30 : -30 }
+                ? { opacity: 1 }
+                : { opacity: 0, x: isLeft ? 30 : -30 }
           }
           transition={{ duration: 0.6, delay: 0.2 }}
-          className={`glass-card p-6 rounded-xl hover-lift ${
-            isLeft ? "text-right" : "text-left"
-          }`}
+          className={
+            `p-6 rounded-2xl theme-transition card-interactive ` +
+            (isLeft ? "text-right" : "text-left")
+          }
         >
           <CardContent exp={exp} t={t} isLeft={isLeft} />
         </motion.div>
       </div>
 
-      {/* Dot indicator central */}
-      <div
-        className="absolute left-4 md:left-1/2 top-4 md:top-6 transform md:-translate-x-1/2 z-10"
-      >
+      {/* Dot indicator */}
+      <div className="absolute left-4 md:left-1/2 top-4 md:top-6 transform md:-translate-x-1/2 z-10">
         <motion.div
-          animate={{
-            scale: isInView ? [1, 1.2, 1] : 1,
-          }}
+          animate={{ scale: isInView ? [1, 1.2, 1] : 1 }}
           transition={{
             duration: 2,
-            repeat: isInView ? Infinity : 0,
+            repeat: prefersReducedMotion ? 0 : isInView ? Infinity : 0,
             ease: "easeInOut",
           }}
           className="relative"
         >
-          {/* Glow outer ring */}
           <motion.div
             className="absolute inset-0 rounded-full"
             style={{
@@ -203,37 +174,36 @@ function TimelineItem({
               backgroundColor: "var(--accent-primary)",
               opacity: isInView ? 0.3 : 0.1,
             }}
-            animate={{
-              scale: isInView ? [1, 1.5, 1] : 1,
-              opacity: isInView ? [0.3, 0, 0.3] : 0.1,
-            }}
+            animate={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    scale: isInView ? [1, 1.5, 1] : 1,
+                    opacity: isInView ? [0.3, 0, 0.3] : 0.1,
+                  }
+            }
             transition={{
               duration: 2,
-              repeat: isInView ? Infinity : 0,
+              repeat: prefersReducedMotion ? 0 : isInView ? Infinity : 0,
               ease: "easeOut",
             }}
           />
-          {/* Inner dot */}
-<span
-                className="relative"
-                style={{
-                  color: isInView ? "var(--accent-primary)" : "var(--text-tertiary)",
-                }}
-              >
-                <Circle size={12} weight="fill" />
-              </span>
-          
+
+          <span
+            className="relative"
+            style={{
+              color: isInView ? "var(--accent-primary)" : "var(--text-tertiary)",
+            }}
+          >
+            <Circle size={12} weight="fill" />
+          </span>
         </motion.div>
       </div>
 
-      {/* Desktop: Espacio vacío en el lado opuesto */}
-      <div
-        className={`hidden md:block ${
-          isLeft ? "md:order-2" : "md:order-1"
-        }`}
-      />
+      {/* Desktop: empty side */}
+      <div className={`hidden md:block ${isLeft ? "md:order-2" : "md:order-1"}`} />
 
-      {/* Mobile: Contenido siempre a la derecha de la línea */}
+      {/* Mobile card */}
       <div className="md:hidden pl-12">
         <motion.div
           initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: 20 }}
@@ -241,11 +211,11 @@ function TimelineItem({
             isInView
               ? { opacity: 1, x: 0 }
               : prefersReducedMotion
-              ? { opacity: 1 }
-              : { opacity: 0, x: 20 }
+                ? { opacity: 1 }
+                : { opacity: 0, x: 20 }
           }
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="glass-card p-6 rounded-xl"
+          className="p-6 rounded-2xl theme-transition card-interactive"
         >
           <CardContent exp={exp} t={t} isLeft={false} />
         </motion.div>
@@ -265,110 +235,66 @@ function CardContent({
 }) {
   return (
     <>
-      {/* Header */}
       <div className="mb-4">
-        <h3
-          className="text-xl font-bold mb-1"
-          style={{ color: "var(--text-primary)" }}
-        >
-          {exp.role}
-        </h3>
-        <p
-          className="text-sm font-semibold mb-1"
-          style={{ color: "var(--accent-primary)" }}
-        >
-          {exp.company}
-        </p>
-        <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-          {exp.period}
-        </p>
+        <h3 className="text-xl font-bold mb-1 text-[var(--text-primary)]">{exp.role}</h3>
+        <p className="text-sm font-semibold mb-1 text-[var(--accent-primary)]">{exp.company}</p>
+        <p className="text-xs text-[var(--text-tertiary)]">{exp.period}</p>
       </div>
 
-      {/* Highlights */}
       <div
-        className={`flex flex-wrap gap-3 text-xs mb-4 ${
-          isLeft ? "justify-end" : "justify-start"
-        }`}
+        className={
+          `flex flex-wrap gap-3 text-xs mb-4 ` +
+          (isLeft ? "justify-end" : "justify-start")
+        }
       >
-        <span
-          className="flex items-center gap-1.5"
-          style={{ color: "var(--text-secondary)" }}
-        >
-<span style={{ color: "var(--accent-primary)" }}>
-                <Users size={14} />
-              </span>
-          {t.team}:&nbsp;
-          <span
-            className="font-medium"
-            style={{ color: "var(--text-primary)" }}
-          >
-            {exp.teamSize}
+        <span className="flex items-center gap-1.5 text-[var(--text-secondary)]">
+          <span className="text-[var(--accent-primary)]">
+            <Users size={14} />
           </span>
+          {t.team}:&nbsp;
+          <span className="font-medium text-[var(--text-primary)]">{exp.teamSize}</span>
         </span>
+
         {exp.budget && (
-          <span
-            className="flex items-center gap-1.5"
-            style={{ color: "var(--text-secondary)" }}
-          >
-<span style={{ color: "var(--accent-primary)" }}>
-                <CurrencyDollar size={14} />
-              </span>
-            {t.budget}:&nbsp;
-            <span
-              className="font-medium"
-              style={{ color: "var(--text-primary)" }}
-            >
-              {exp.budget}
+          <span className="flex items-center gap-1.5 text-[var(--text-secondary)]">
+            <span className="text-[var(--accent-primary)]">
+              <CurrencyDollar size={14} />
             </span>
+            {t.budget}:&nbsp;
+            <span className="font-medium text-[var(--text-primary)]">{exp.budget}</span>
           </span>
         )}
-        <span
-          className="flex items-center gap-1.5"
-          style={{ color: "var(--text-secondary)" }}
-        >
-<span style={{ color: "var(--accent-primary)" }}>
-                <ChartLine size={14} />
-              </span>
-          {t.impact}:&nbsp;
-          <span
-            className="font-medium"
-            style={{ color: "var(--text-primary)" }}
-          >
-            {exp.impact}
+
+        <span className="flex items-center gap-1.5 text-[var(--text-secondary)]">
+          <span className="text-[var(--accent-primary)]">
+            <ChartLine size={14} />
           </span>
+          {t.impact}:&nbsp;
+          <span className="font-medium text-[var(--text-primary)]">{exp.impact}</span>
         </span>
       </div>
 
-      {/* Achievements */}
       <div className="mb-4">
-        <h4
-          className="font-semibold mb-2 flex items-center gap-2 text-sm"
-          style={{ color: "var(--text-primary)" }}
-        >
-<span style={{ color: "var(--warning)" }}>
-              <TrendUp size={16} weight="duotone" />
-            </span>
+        <h4 className="font-semibold mb-2 flex items-center gap-2 text-sm text-[var(--text-primary)]">
+          <span className="text-[var(--warning)]">
+            <TrendUp size={16} weight="duotone" />
+          </span>
           {t.achievements}
         </h4>
         <ul className="space-y-2">
           {exp.achievements.map((achievement, achIndex) => (
             <li
               key={achIndex}
-              className={`flex gap-2 items-start text-sm ${
-                isLeft ? "flex-row-reverse text-right" : ""
-              }`}
+              className={
+                `flex gap-2 items-start text-sm ` +
+                (isLeft ? "flex-row-reverse text-right" : "")
+              }
             >
-              <div
-                className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
-                style={{ backgroundColor: "var(--accent-primary)" }}
-              />
-              <span className="flex-1" style={{ color: "var(--text-secondary)" }}>
+              <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-[var(--accent-primary)]" />
+              <span className="flex-1 text-[var(--text-secondary)]">
                 {achievement.description}
               </span>
-              <span
-                className="font-semibold text-xs whitespace-nowrap"
-                style={{ color: "var(--accent-primary)" }}
-              >
+              <span className="font-semibold text-xs whitespace-nowrap text-[var(--accent-primary)]">
                 {achievement.metric}
               </span>
             </li>
@@ -376,36 +302,15 @@ function CardContent({
         </ul>
       </div>
 
-      {/* Tech Stack */}
       <div>
-        <h4
-          className="text-xs font-semibold mb-2"
-          style={{ color: "var(--text-tertiary)" }}
-        >
+        <h4 className="text-xs font-semibold mb-2 text-[var(--text-tertiary)]">
           {t.technologies}
         </h4>
-        <div
-          className={`flex flex-wrap gap-2 ${
-            isLeft ? "justify-end" : "justify-start"
-          }`}
-        >
+        <div className={`flex flex-wrap gap-2 ${isLeft ? "justify-end" : "justify-start"}`}>
           {exp.techStack.map((tech) => (
             <span
               key={tech}
-              className="px-2 py-1 text-xs rounded transition-all duration-300"
-              style={{
-                color: "var(--text-secondary)",
-                border: "1px solid var(--border-subtle)",
-                backgroundColor: "var(--surface-secondary)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--accent-primary)"
-                e.currentTarget.style.color = "var(--accent-primary)"
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--border-subtle)"
-                e.currentTarget.style.color = "var(--text-secondary)"
-              }}
+              className="px-2 py-1 text-xs rounded border border-[var(--border-subtle)] bg-[var(--surface-secondary)] text-[var(--text-secondary)] transition-colors duration-200 group-hover:border-[var(--accent-primary)] group-hover:text-[var(--accent-primary)]"
             >
               {tech}
             </span>

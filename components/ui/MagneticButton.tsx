@@ -81,7 +81,7 @@ export function MagneticButton({
     >
       <span className="relative z-10 flex items-center gap-2">{children}</span>
 
-      {variant === 'primary' && (
+      {variant === 'primary' && !prefersReducedMotion && (
         <motion.span
           className="absolute inset-0 rounded-full"
           style={{

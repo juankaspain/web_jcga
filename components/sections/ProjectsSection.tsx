@@ -35,11 +35,7 @@ export function ProjectsSection({ locale = 'es' }: ProjectsSectionProps) {
   const featuredProjects = allProjects.slice(0, 3)
 
   return (
-    <section
-      id="projects"
-      className="relative py-16 overflow-hidden theme-transition"
-      style={{ backgroundColor: 'var(--bg-primary)' }}
-    >
+    <section id="projects" className="relative py-16 overflow-hidden theme-transition bg-[var(--bg-primary)]">
       <div className="absolute inset-0 bg-grid opacity-30" />
 
       <div className="relative mx-auto max-w-7xl px-6">

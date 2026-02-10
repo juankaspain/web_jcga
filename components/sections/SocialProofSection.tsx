@@ -18,48 +18,116 @@ const copy = {
     companiesTitle: 'He trabajado con',
     certificationsTitle: 'Certificaciones destacadas',
     testimonials: [
-      { quote: 'Juan Carlos lideró la migración más crítica de nuestra historia con zero downtime. Su visión técnica y capacidad de ejecución son excepcionales.', author: 'Director de Tecnología', company: 'Santander Digital Services', role: 'CTO' },
-      { quote: 'Arquitectó nuestro sistema de pagos instantáneos procesando 2M transacciones diarias con SLA del 99.95%. Un profesional de nivel enterprise.', author: 'Head of Payments', company: 'Santander', role: 'VP Payments' },
-      { quote: 'Su expertise en cloud y sistemas distribuidos nos permitió escalar de 500K a 3M usuarios sin refactorizar. Mentalidad de product engineer.', author: 'Engineering Manager', company: 'BBVA', role: 'Engineering Lead' }
+      {
+        quote:
+          'Juan Carlos lideró la migración más crítica de nuestra historia con zero downtime. Su visión técnica y capacidad de ejecución son excepcionales.',
+        author: 'Director de Tecnología',
+        company: 'Santander Digital Services',
+        role: 'CTO',
+      },
+      {
+        quote:
+          'Arquitectó nuestro sistema de pagos instantáneos procesando 2M transacciones diarias con SLA del 99.95%. Un profesional de nivel enterprise.',
+        author: 'Head of Payments',
+        company: 'Santander',
+        role: 'VP Payments',
+      },
+      {
+        quote:
+          'Su expertise en cloud y sistemas distribuidos nos permitió escalar de 500K a 3M usuarios sin refactorizar. Mentalidad de product engineer.',
+        author: 'Engineering Manager',
+        company: 'BBVA',
+        role: 'Engineering Lead',
+      },
     ],
     companies: [
       { name: 'Santander', logo: '/logos/santander.svg' },
       { name: 'BBVA', logo: '/logos/bbva.svg' },
       { name: 'CaixaBank', logo: '/logos/caixabank.svg' },
-      { name: 'Indra', logo: '/logos/indra.svg' }
+      { name: 'Indra', logo: '/logos/indra.svg' },
     ],
     topCertifications: [
-      { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.svg', issuer: 'Microsoft' },
-      { name: 'Kubernetes Administrator (CKA)', icon: '/certs/cka.svg', issuer: 'CNCF' },
-      { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.svg', issuer: 'Microsoft' },
-      { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.svg', issuer: 'EBA' }
-    ]
+      {
+        name: 'Azure Solutions Architect Expert',
+        icon: '/certs/azure-expert.svg',
+        issuer: 'Microsoft',
+      },
+      {
+        name: 'Kubernetes Administrator (CKA)',
+        icon: '/certs/cka.svg',
+        issuer: 'CNCF',
+      },
+      {
+        name: 'Azure DevOps Engineer Expert',
+        icon: '/certs/azure-devops.svg',
+        issuer: 'Microsoft',
+      },
+      {
+        name: 'PSD2 Technical Specialist',
+        icon: '/certs/psd2.svg',
+        issuer: 'EBA',
+      },
+    ],
   },
   en: {
     eyebrow: 'Social Proof',
     title: 'Validated by industry leaders',
-    subtitle: 'Recognition from teams and organizations I\'ve worked with',
+    subtitle: "Recognition from teams and organizations I've worked with",
     testimonialsTitle: 'Testimonials',
-    companiesTitle: 'I\'ve worked with',
+    companiesTitle: "I've worked with",
     certificationsTitle: 'Featured certifications',
     testimonials: [
-      { quote: 'Juan Carlos led the most critical migration in our history with zero downtime. His technical vision and execution capability are exceptional.', author: 'Chief Technology Officer', company: 'Santander Digital Services', role: 'CTO' },
-      { quote: 'He architected our instant payments system processing 2M daily transactions with 99.95% SLA. An enterprise-level professional.', author: 'Head of Payments', company: 'Santander', role: 'VP Payments' },
-      { quote: 'His expertise in cloud and distributed systems allowed us to scale from 500K to 3M users without refactoring. Product engineer mindset.', author: 'Engineering Manager', company: 'BBVA', role: 'Engineering Lead' }
+      {
+        quote:
+          'Juan Carlos led the most critical migration in our history with zero downtime. His technical vision and execution capability are exceptional.',
+        author: 'Chief Technology Officer',
+        company: 'Santander Digital Services',
+        role: 'CTO',
+      },
+      {
+        quote:
+          'He architected our instant payments system processing 2M daily transactions with 99.95% SLA. An enterprise-level professional.',
+        author: 'Head of Payments',
+        company: 'Santander',
+        role: 'VP Payments',
+      },
+      {
+        quote:
+          'His expertise in cloud and distributed systems allowed us to scale from 500K to 3M users without refactoring. Product engineer mindset.',
+        author: 'Engineering Manager',
+        company: 'BBVA',
+        role: 'Engineering Lead',
+      },
     ],
     companies: [
       { name: 'Santander', logo: '/logos/santander.svg' },
       { name: 'BBVA', logo: '/logos/bbva.svg' },
       { name: 'CaixaBank', logo: '/logos/caixabank.svg' },
-      { name: 'Indra', logo: '/logos/indra.svg' }
+      { name: 'Indra', logo: '/logos/indra.svg' },
     ],
     topCertifications: [
-      { name: 'Azure Solutions Architect Expert', icon: '/certs/azure-expert.svg', issuer: 'Microsoft' },
-      { name: 'Kubernetes Administrator (CKA)', icon: '/certs/cka.svg', issuer: 'CNCF' },
-      { name: 'Azure DevOps Engineer Expert', icon: '/certs/azure-devops.svg', issuer: 'Microsoft' },
-      { name: 'PSD2 Technical Specialist', icon: '/certs/psd2.svg', issuer: 'EBA' }
-    ]
-  }
+      {
+        name: 'Azure Solutions Architect Expert',
+        icon: '/certs/azure-expert.svg',
+        issuer: 'Microsoft',
+      },
+      {
+        name: 'Kubernetes Administrator (CKA)',
+        icon: '/certs/cka.svg',
+        issuer: 'CNCF',
+      },
+      {
+        name: 'Azure DevOps Engineer Expert',
+        icon: '/certs/azure-devops.svg',
+        issuer: 'Microsoft',
+      },
+      {
+        name: 'PSD2 Technical Specialist',
+        icon: '/certs/psd2.svg',
+        issuer: 'EBA',
+      },
+    ],
+  },
 }
 
 export function SocialProofSection({ locale = 'es' }: SocialProofSectionProps) {
@@ -71,28 +139,26 @@ export function SocialProofSection({ locale = 'es' }: SocialProofSectionProps) {
     setCurrentTestimonial((prev) => (prev + 1) % t.testimonials.length)
   }
   const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev - 1 + t.testimonials.length) % t.testimonials.length)
+    setCurrentTestimonial(
+      (prev) => (prev - 1 + t.testimonials.length) % t.testimonials.length
+    )
   }
 
   return (
     <section
       id="social-proof"
-      className="relative py-24 overflow-hidden theme-transition"
-      style={{ backgroundColor: 'var(--bg-primary)' }}
+      className="relative py-24 overflow-hidden theme-transition bg-[var(--bg-primary)]"
     >
       <div className="absolute inset-0 bg-grid opacity-20" />
 
       <div className="relative container-professional">
-
-        {/* Header */}
         <div className="max-w-4xl mx-auto text-center mb-16">
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5 }}
-            className="mb-4 text-xs font-bold uppercase tracking-[0.3em]"
-            style={{ color: 'var(--accent-primary)' }}
+            className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]"
           >
             {t.eyebrow}
           </motion.p>
@@ -101,7 +167,7 @@ export function SocialProofSection({ locale = 'es' }: SocialProofSectionProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            style={{ color: 'var(--text-primary)' }}
+            className="text-[var(--text-primary)]"
           >
             {t.title}
           </motion.h2>
@@ -110,14 +176,12 @@ export function SocialProofSection({ locale = 'es' }: SocialProofSectionProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-4 text-lg mx-auto max-w-2xl"
-            style={{ color: 'var(--text-secondary)' }}
+            className="mt-4 text-lg mx-auto max-w-2xl text-[var(--text-secondary)]"
           >
             {t.subtitle}
           </motion.p>
         </div>
 
-        {/* Testimonials Carousel */}
         <motion.div
           initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -125,36 +189,36 @@ export function SocialProofSection({ locale = 'es' }: SocialProofSectionProps) {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto mb-20"
         >
-          <div
-            className="relative p-8 md:p-12 rounded-2xl glass-card"
-            style={{ border: '1px solid var(--border-subtle)' }}
-          >
-            <Quote size={48} weight="fill" style={{ color: 'var(--accent-subtle)' }} className="mb-6" />
+          <div className="relative p-8 md:p-12 rounded-2xl glass-card border border-[var(--border-subtle)]">
+            <Quote
+              size={48}
+              weight="fill"
+              className="mb-6 text-[var(--accent-subtle)]"
+            />
 
-            <blockquote className="text-lg md:text-xl leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>
+            <blockquote className="text-lg md:text-xl leading-relaxed mb-8 text-[var(--text-secondary)]">
               &ldquo;{t.testimonials[currentTestimonial].quote}&rdquo;
             </blockquote>
 
             <div className="flex items-center gap-4">
               <div>
-                <div className="font-semibold" style={{ color: 'var(--text-primary)' }}>{t.testimonials[currentTestimonial].author}</div>
-                <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  {t.testimonials[currentTestimonial].role} @ {t.testimonials[currentTestimonial].company}
+                <div className="font-semibold text-[var(--text-primary)]">
+                  {t.testimonials[currentTestimonial].author}
+                </div>
+                <div className="text-sm text-[var(--text-secondary)]">
+                  {t.testimonials[currentTestimonial].role} @{' '}
+                  {t.testimonials[currentTestimonial].company}
                 </div>
               </div>
             </div>
 
-            {/* Navigation */}
             <div className="flex items-center gap-4 mt-8">
               <button
                 onClick={prevTestimonial}
-                className="p-2 rounded-lg glass-card transition-colors"
-                style={{ border: '1px solid var(--border-subtle)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+                className="p-2 rounded-lg glass-card transition-colors border border-[var(--border-subtle)] hover:border-[var(--accent-primary)]"
                 aria-label="Previous testimonial"
               >
-                <CaretLeft size={20} style={{ color: 'var(--text-secondary)' }} />
+                <CaretLeft size={20} className="text-[var(--text-secondary)]" />
               </button>
 
               <div className="flex gap-2">
@@ -162,10 +226,13 @@ export function SocialProofSection({ locale = 'es' }: SocialProofSectionProps) {
                   <button
                     key={index}
                     onClick={() => setCurrentTestimonial(index)}
-                    className="h-2 rounded-full transition-all duration-300"
+                    className="h-2 rounded-full transition-all duration-300 bg-[var(--border-default)]"
                     style={{
                       width: index === currentTestimonial ? 32 : 8,
-                      backgroundColor: index === currentTestimonial ? 'var(--accent-primary)' : 'var(--border-default)',
+                      backgroundColor:
+                        index === currentTestimonial
+                          ? 'var(--accent-primary)'
+                          : 'var(--border-default)',
                     }}
                     aria-label={`Go to testimonial ${index + 1}`}
                   />
@@ -174,19 +241,15 @@ export function SocialProofSection({ locale = 'es' }: SocialProofSectionProps) {
 
               <button
                 onClick={nextTestimonial}
-                className="p-2 rounded-lg glass-card transition-colors"
-                style={{ border: '1px solid var(--border-subtle)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+                className="p-2 rounded-lg glass-card transition-colors border border-[var(--border-subtle)] hover:border-[var(--accent-primary)]"
                 aria-label="Next testimonial"
               >
-                <CaretRight size={20} style={{ color: 'var(--text-secondary)' }} />
+                <CaretRight size={20} className="text-[var(--text-secondary)]" />
               </button>
             </div>
           </div>
         </motion.div>
 
-        {/* Companies Logos */}
         <motion.div
           initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -194,25 +257,16 @@ export function SocialProofSection({ locale = 'es' }: SocialProofSectionProps) {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mb-16"
         >
-          <h3
-            className="text-center text-xs font-semibold uppercase tracking-wide mb-8"
-            style={{ color: 'var(--text-tertiary)' }}
-          >
+          <h3 className="text-center text-xs font-semibold uppercase tracking-wide mb-8 text-[var(--text-tertiary)]">
             {t.companiesTitle}
           </h3>
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
             {t.companies.map((company) => (
               <div
                 key={company.name}
-                className="group relative flex items-center justify-center h-12 px-6 rounded-lg glass-card transition-all duration-300"
-                style={{ border: '1px solid var(--border-subtle)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-default)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+                className="group relative flex items-center justify-center h-12 px-6 rounded-lg glass-card transition-all duration-300 border border-[var(--border-subtle)] hover:border-[var(--border-default)]"
               >
-                <span
-                  className="text-sm font-medium transition-colors"
-                  style={{ color: 'var(--text-tertiary)' }}
-                >
+                <span className="text-sm font-medium transition-colors text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]">
                   {company.name}
                 </span>
               </div>
@@ -220,39 +274,30 @@ export function SocialProofSection({ locale = 'es' }: SocialProofSectionProps) {
           </div>
         </motion.div>
 
-        {/* Top Certifications */}
         <motion.div
           initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h3
-            className="text-center text-xs font-semibold uppercase tracking-wide mb-8"
-            style={{ color: 'var(--text-tertiary)' }}
-          >
+          <h3 className="text-center text-xs font-semibold uppercase tracking-wide mb-8 text-[var(--text-tertiary)]">
             {t.certificationsTitle}
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {t.topCertifications.map((cert) => (
               <div
                 key={cert.name}
-                className="group p-4 rounded-xl glass-card transition-all duration-300 text-center"
-                style={{ border: '1px solid var(--border-subtle)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+                className="group p-4 rounded-xl glass-card transition-all duration-300 text-center border border-[var(--border-subtle)] hover:border-[var(--accent-primary)]"
               >
-                <div
-                  className="w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center"
-                  style={{
-                    backgroundColor: 'var(--accent-subtle)',
-                    border: '1px solid var(--accent-muted)',
-                  }}
-                >
+                <div className="w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center bg-[var(--accent-subtle)] border border-[var(--accent-muted)]">
                   <span className="text-xl">🏆</span>
                 </div>
-                <div className="text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{cert.name}</div>
-                <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{cert.issuer}</div>
+                <div className="text-xs font-medium mb-1 text-[var(--text-secondary)]">
+                  {cert.name}
+                </div>
+                <div className="text-xs text-[var(--text-tertiary)]">
+                  {cert.issuer}
+                </div>
               </div>
             ))}
           </div>

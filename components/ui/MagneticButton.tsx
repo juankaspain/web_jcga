@@ -31,43 +31,18 @@ export function MagneticButton({
 
   const handleMouse = (e: React.MouseEvent) => {
     if (prefersReducedMotion) return
-    
+
     const { clientX, clientY } = e
-    const { left, top, width, height } = ref.current!.getBoundingClientRect()
-    const x = (clientX - left - width / 2) * 0.3
-    const y = (clientY - top - height / 2) * 0.3
+    const rect = ref.current?.getBoundingClientRect()
+    if (!rect) return
+
+    const x = (clientX - rect.left - rect.width / 2) * 0.3
+    const y = (clientY - rect.top - rect.height / 2) * 0.3
     setPosition({ x, y })
   }
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseLeave = () => {
     setPosition({ x: 0, y: 0 })
-    // Reset inline styles set by onMouseEnter
-    if (variant === 'secondary') {
-      e.currentTarget.style.borderColor = ''
-      e.currentTarget.style.color = ''
-    } else if (variant === 'ghost') {
-      e.currentTarget.style.color = ''
-      e.currentTarget.style.backgroundColor = ''
-    } else if (variant === 'primary') {
-      e.currentTarget.style.boxShadow = ''
-    }
-  }
-
-  const variantStyles = {
-    primary: {
-      background: 'var(--accent-gradient)',
-      color: 'var(--text-on-accent)',
-      boxShadow: 'var(--shadow-glow-sm)',
-    },
-    secondary: {
-      background: 'var(--surface-primary)',
-      color: 'var(--text-primary)',
-      border: '2px solid var(--border-default)',
-    },
-    ghost: {
-      background: 'transparent',
-      color: 'var(--text-secondary)',
-    },
   }
 
   const sizeClasses = {
@@ -75,6 +50,13 @@ export function MagneticButton({
     md: 'px-6 py-3 text-sm rounded-full gap-2',
     lg: 'px-8 py-4 text-base rounded-full gap-2',
   }
+
+  const variantClass =
+    variant === 'primary'
+      ? 'bg-[var(--accent-gradient)] text-[var(--text-on-accent)] shadow-[var(--shadow-glow-sm)] hover:shadow-[var(--shadow-glow)]'
+      : variant === 'secondary'
+        ? 'bg-[var(--surface-primary)] text-[var(--text-primary)] border-2 border-[var(--border-default)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)]'
+        : 'bg-transparent text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--surface-hover)]'
 
   const content = (
     <motion.div
@@ -86,35 +68,25 @@ export function MagneticButton({
       className={cn(
         'group relative inline-flex items-center justify-center font-semibold transition-all duration-300',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+        'border border-transparent',
+        variantClass,
         sizeClasses[size],
         className
       )}
       style={{
-        ...variantStyles[variant],
         // @ts-expect-error CSS custom properties
         '--tw-ring-color': 'var(--accent-primary)',
         '--tw-ring-offset-color': 'var(--bg-primary)',
       }}
-      onMouseEnter={(e) => {
-        if (variant === 'secondary') {
-          e.currentTarget.style.borderColor = 'var(--accent-primary)'
-          e.currentTarget.style.color = 'var(--accent-primary)'
-        } else if (variant === 'ghost') {
-          e.currentTarget.style.color = 'var(--accent-primary)'
-          e.currentTarget.style.backgroundColor = 'var(--surface-hover)'
-        } else if (variant === 'primary') {
-          e.currentTarget.style.boxShadow = 'var(--shadow-glow)'
-        }
-      }}
     >
       <span className="relative z-10 flex items-center gap-2">{children}</span>
-      
-      {/* Premium shine effect */}
+
       {variant === 'primary' && (
         <motion.span
           className="absolute inset-0 rounded-full"
           style={{
-            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
+            background:
+              'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
           }}
           initial={{ x: '-100%' }}
           whileHover={{ x: '100%' }}

@@ -28,19 +28,14 @@ export function SectionHeading({
   return (
     <div
       ref={ref}
-      className={cn(
-        'mb-16',
-        align === 'center' && 'text-center',
-        className
-      )}
+      className={cn('mb-16', align === 'center' && 'text-center', className)}
     >
       {eyebrow && (
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="mb-4 text-xs font-bold uppercase tracking-[0.3em]"
-          style={{ color: 'var(--accent-primary)' }}
+          className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]"
         >
           {eyebrow}
         </motion.p>
@@ -50,8 +45,7 @@ export function SectionHeading({
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-3xl font-bold md:text-4xl"
-        style={{ color: 'var(--text-primary)' }}
+        className="text-3xl font-bold md:text-4xl text-[var(--text-primary)]"
       >
         {title}
       </motion.h2>
@@ -61,8 +55,7 @@ export function SectionHeading({
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mx-auto mt-4 max-w-2xl text-lg"
-          style={{ color: 'var(--text-secondary)' }}
+          className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-secondary)]"
         >
           {desc}
         </motion.p>

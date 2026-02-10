@@ -10,13 +10,14 @@ const copy = {
   es: {
     eyebrow: 'Trayectoria',
     title: 'Dónde he creado impacto',
-    subtitle: 'Liderazgo técnico en proyectos críticos de transformación digital bancaria'
+    subtitle: 'Liderazgo técnico en proyectos críticos de transformación digital bancaria',
   },
   en: {
     eyebrow: 'Career',
-    title: 'Where I\'ve created impact',
-    subtitle: 'Technical leadership in critical digital banking transformation projects'
-  }
+    title: "Where I've created impact",
+    subtitle:
+      'Technical leadership in critical digital banking transformation projects',
+  },
 }
 
 function mapExperiencesToTimeline(locale: 'es' | 'en') {
@@ -29,9 +30,9 @@ function mapExperiencesToTimeline(locale: 'es' | 'en') {
     impact: exp.impact ? exp.impact[0] : exp.description,
     achievements: exp.highlights.map((h, idx) => ({
       description: h,
-      metric: exp.impact && exp.impact[idx] ? exp.impact[idx] : ''
+      metric: exp.impact && exp.impact[idx] ? exp.impact[idx] : '',
     })),
-    techStack: exp.technologies
+    techStack: exp.technologies,
   }))
 }
 
@@ -40,16 +41,9 @@ export function ExperienceSection({ locale = 'es' }: ExperienceSectionProps) {
   const adaptedExperiences = mapExperiencesToTimeline(locale)
 
   return (
-    <section
-      className="relative py-24 overflow-hidden theme-transition"
-      style={{ backgroundColor: 'var(--bg-primary)' }}
-    >
+    <section className="relative py-24 overflow-hidden theme-transition bg-[var(--bg-primary)]">
       <div className="relative max-w-6xl mx-auto px-6">
-        <SectionHeading
-          eyebrow={t.eyebrow}
-          title={t.title}
-          subtitle={t.subtitle}
-        />
+        <SectionHeading eyebrow={t.eyebrow} title={t.title} subtitle={t.subtitle} />
         <div className="mt-16">
           <ExperienceTimeline experiences={adaptedExperiences} locale={locale} />
         </div>

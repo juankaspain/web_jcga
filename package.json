@@ -17,7 +17,8 @@
     "clsx": "^2.1.1",
     "lenis": "^1.1.18",
     "@phosphor-icons/react": "^2.1.7",
-    "resend": "^4.0.0"
+    "resend": "^4.0.0",
+    "critters": "^0.0.24"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

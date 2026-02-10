@@ -176,8 +176,8 @@ export function Header() {
               )}
               style={{
                 // @ts-expect-error CSS custom properties
-                '--tw-ring-color': 'var(--accent-primary)',
-                '--tw-ring-offset-color': 'var(--bg-primary)',
+                '--tw-ring-color': 'var(--focus-ring)',
+                '--tw-ring-offset-color': 'var(--focus-ring-offset)',
               }}
               aria-label={
                 isMenuOpen
@@ -267,8 +267,8 @@ export function Header() {
                           {label}
                         </Link>
                       </motion.div>
-                    )
-                  })}
+                    )}
+                  )}
                 </div>
 
                 <motion.div

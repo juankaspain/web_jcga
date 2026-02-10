@@ -5,49 +5,48 @@ import { motion, useMotionValue, useSpring } from "framer-motion"
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion"
 
 /**
- * CustomCursor + ambient MouseGlow
- * - Small circular cursor that follows mouse with lerp smoothing
- * - Scales up on hover over interactive elements
- * - Uses mix-blend-mode: difference for contrast
- * - Ambient glow effect follows with spring physics
- * - Disabled on touch devices & when prefers-reduced-motion
+ * Ambient MouseGlow (disabled by default).
+ *
+ * Nota: Este efecto puede percibirse como “círculo negro / donut” por el mix-blend-mode.
+ * Lo dejamos desactivado por defecto para priorizar UX limpia y evitar distracciones.
  */
 export function MouseGlow() {
   const prefersReducedMotion = useReducedMotion()
+  const [enabled] = useState(false)
+
+  // Disabled by default
+  if (!enabled || prefersReducedMotion) return null
+
   const [isVisible, setIsVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
   const cursorRef = useRef<HTMLDivElement>(null)
   const rafRef = useRef<number>(0)
-  
-  // Cursor position with lerp
+
   const mouseX = useRef(0)
   const mouseY = useRef(0)
   const cursorX = useRef(0)
   const cursorY = useRef(0)
-  
-  // Glow position with spring physics
+
   const glowX = useMotionValue(0)
   const glowY = useMotionValue(0)
   const springX = useSpring(glowX, { stiffness: 150, damping: 15, mass: 0.1 })
   const springY = useSpring(glowY, { stiffness: 150, damping: 15, mass: 0.1 })
 
-  // Lerp animation loop for the cursor dot
   const animateCursor = useCallback(() => {
     const lerp = 0.15
     cursorX.current += (mouseX.current - cursorX.current) * lerp
     cursorY.current += (mouseY.current - cursorY.current) * lerp
-    
+
     if (cursorRef.current) {
       cursorRef.current.style.transform = `translate3d(${cursorX.current}px, ${cursorY.current}px, 0)`
     }
-    
+
     rafRef.current = requestAnimationFrame(animateCursor)
   }, [])
 
   useEffect(() => {
-    // Only show on desktop (no touch) and respect reduced motion
     const isTouch = window.matchMedia('(pointer: coarse)').matches
-    if (isTouch || prefersReducedMotion) return
+    if (isTouch) return
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.current = e.clientX
@@ -60,7 +59,6 @@ export function MouseGlow() {
     const handleMouseLeave = () => setIsVisible(false)
     const handleMouseEnter = () => setIsVisible(true)
 
-    // Detect hover on interactive elements
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       const interactive = target.closest(
@@ -74,7 +72,6 @@ export function MouseGlow() {
     document.addEventListener('mouseenter', handleMouseEnter)
     document.addEventListener('mouseover', handleMouseOver, { passive: true })
 
-    // Start lerp animation loop
     rafRef.current = requestAnimationFrame(animateCursor)
 
     return () => {
@@ -84,15 +81,12 @@ export function MouseGlow() {
       document.removeEventListener('mouseover', handleMouseOver)
       cancelAnimationFrame(rafRef.current)
     }
-  }, [isVisible, prefersReducedMotion, animateCursor, glowX, glowY])
+  }, [isVisible, animateCursor, glowX, glowY])
 
-  // Don't render on touch devices or with reduced motion
-  if (prefersReducedMotion) return null
   if (!isVisible) return null
 
   return (
     <>
-      {/* Custom cursor dot — blend-mode difference */}
       <div
         ref={cursorRef}
         className="pointer-events-none fixed top-0 left-0 z-[9999] rounded-full mix-blend-difference"
@@ -102,12 +96,12 @@ export function MouseGlow() {
           marginLeft: isHovering ? -24 : -6,
           marginTop: isHovering ? -24 : -6,
           backgroundColor: '#FFFFFF',
-          transition: 'width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          transition:
+            'width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           willChange: 'transform',
         }}
       />
 
-      {/* Ambient glow — spring-based following */}
       <motion.div
         className="pointer-events-none fixed z-[9998] rounded-full mix-blend-soft-light"
         style={{

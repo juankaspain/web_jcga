@@ -39,7 +39,7 @@ const sizes: Record<ButtonSize, string> = {
 const base = [
   'inline-flex items-center justify-center gap-2 font-semibold',
   'transition-all duration-200 ease-out',
-  'focus-visible:outline-2 focus-visible:outline-offset-2',
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
   'disabled:opacity-50 disabled:cursor-not-allowed',
 ].join(' ')
 
@@ -73,7 +73,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const classes = cn(base, sizes[size], variantClass[variant], className)
 
     const mergedStyle: React.CSSProperties = {
-      outlineColor: 'var(--accent-primary)',
+      outlineColor: 'var(--focus-ring)',
       ...(variant === 'primary' ? { background: 'var(--accent-gradient)' } : null),
       ...style,
     }
@@ -107,7 +107,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     if (href) {
       return (
-        <Link href={href} {...(props as any)} className={classes} style={mergedStyle}>
+        <Link
+          href={href}
+          {...(props as any)}
+          className={classes}
+          style={{
+            ...(mergedStyle || {}),
+            // @ts-expect-error CSS custom properties
+            '--tw-ring-color': 'var(--focus-ring)',
+            '--tw-ring-offset-color': 'var(--focus-ring-offset)',
+          }}
+        >
           {content}
         </Link>
       )
@@ -118,7 +128,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...(props as any)}
         className={classes}
-        style={mergedStyle}
+        style={{
+          ...(mergedStyle || {}),
+          // @ts-expect-error CSS custom properties
+          '--tw-ring-color': 'var(--focus-ring)',
+          '--tw-ring-offset-color': 'var(--focus-ring-offset)',
+        }}
         disabled={disabled || isLoading}
       >
         {content}

@@ -85,6 +85,10 @@
 
   /* Header */
   --header-bg: color-mix(in srgb, var(--bg-primary) 80%, transparent);
+
+  /* Focus */
+  --focus-ring: var(--accent-primary);
+  --focus-ring-offset: var(--bg-primary);
 }
 
 /* ============================================
@@ -166,6 +170,10 @@
 
   /* Header */
   --header-bg: color-mix(in srgb, var(--bg-primary) 70%, transparent);
+
+  /* Focus */
+  --focus-ring: var(--accent-primary);
+  --focus-ring-offset: var(--bg-primary);
 }
 
 /* ============================================
@@ -668,7 +676,17 @@ code, pre {
    ============================================ */
 
 *:focus-visible {
-  outline: 2px solid var(--accent-primary);
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.focus-ring {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 

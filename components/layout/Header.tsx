@@ -82,13 +82,9 @@ export function Header() {
       <motion.header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300 theme-transition border-b border-[var(--border-subtle)]",
-          isScrolled ? "glass-strong shadow-lg" : ""
+          !isScrolled && "header-transparent",
+          isScrolled && "glass-strong shadow-lg"
         )}
-        style={{
-          backgroundColor: isScrolled
-            ? undefined
-            : "color-mix(in srgb, var(--bg-primary) 80%, transparent)",
-        }}
         animate={{ y: isHidden ? -100 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
@@ -159,13 +155,13 @@ export function Header() {
                       "rounded-full px-2.5 py-1 font-medium transition-all duration-200",
                       isActive
                         ? "bg-[var(--accent-primary)] text-[var(--text-on-accent)] shadow-[var(--shadow-glow-sm)]"
-                        : "text-[var(--text-secondary)]"
+                        : "text-[var(--text-secondary)] hover:text-[var(--accent-primary)]"
                     )}
                     aria-current={isActive ? "true" : undefined}
                   >
                     {localeLabels[locale]}
                   </Link>
-                )
+                )}
               })}
             </div>
           </nav>
@@ -175,9 +171,14 @@ export function Header() {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={cn(
-                "p-2 rounded-lg transition-colors",
+                "p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
                 isMenuOpen ? "bg-[var(--surface-hover)]" : "bg-transparent"
               )}
+              style={{
+                // @ts-expect-error CSS custom properties
+                '--tw-ring-color': 'var(--accent-primary)',
+                '--tw-ring-offset-color': 'var(--bg-primary)',
+              }}
               aria-label={
                 isMenuOpen
                   ? currentLocale === "en"
@@ -259,7 +260,7 @@ export function Header() {
                             "block px-4 py-3 rounded-xl text-base font-medium transition-all duration-200",
                             isActive
                               ? "text-[var(--accent-primary)] bg-[var(--accent-subtle)] border-l-2 border-[var(--accent-primary)]"
-                              : "text-[var(--text-secondary)]"
+                              : "text-[var(--text-secondary)] hover:bg-[var(--surface-hover)]"
                           )}
                           aria-current={isActive ? "page" : undefined}
                         >
@@ -292,7 +293,7 @@ export function Header() {
                             "flex-1 text-center rounded-xl py-2.5 font-medium transition-all duration-200",
                             isActive
                               ? "bg-[var(--accent-primary)] text-[var(--text-on-accent)] shadow-[var(--shadow-glow-sm)]"
-                              : "bg-[var(--surface-secondary)] text-[var(--text-secondary)]"
+                              : "bg-[var(--surface-secondary)] text-[var(--text-secondary)] hover:text-[var(--accent-primary)]"
                           )}
                           aria-current={isActive ? "true" : undefined}
                         >

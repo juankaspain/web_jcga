@@ -4,9 +4,9 @@ import { ProjectDetailPage } from '@/components/projects/ProjectDetailPage'
 import { getProject, getProjectSlugs } from '@/lib/data/projects'
 
 interface ProjectPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 // Generate static params for all projects (ISR)
@@ -17,8 +17,9 @@ export async function generateStaticParams() {
 
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
-  const project = getProject(params.slug, 'es')
-  
+  const { slug } = await params
+  const project = getProject(slug, 'es')
+
   if (!project) {
     return {
       title: 'Proyecto no encontrado | Juan Carlos García Arriero',
@@ -50,8 +51,9 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   }
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const project = getProject(params.slug, 'es')
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params
+  const project = getProject(slug, 'es')
 
   if (!project) {
     notFound()

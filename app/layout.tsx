@@ -9,7 +9,6 @@ import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvide
 import { ScrollProgress } from '@/components/effects/ScrollProgress'
 import { MouseGlow } from '@/components/effects/MouseGlow'
 import { ScrollProgressBar } from '@/components/effects/ScrollProgressBar'
-import { CustomCursor } from '@/components/effects/CustomCursor'
 import { SkipToContent } from '@/components/a11y/SkipToContent'
 import { WhileInViewFix } from '@/components/ui/WhileInViewFix'
 
@@ -209,10 +208,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeProvider>
           <SmoothScrollProvider>
             <SkipToContent />
-            
+
             {/* Premium visual effects */}
             <ScrollProgressBar />
-            <CustomCursor />
             <ScrollProgress />
             <MouseGlow />
             <WhileInViewFix />

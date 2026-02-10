@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Cloud, CreditCard, UsersThree, CheckCircle } from '@phosphor-icons/react'
 import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
+import { SectionHeading } from '@/components/ui/SectionHeading'
 
 interface ServicesSectionProps {
   locale?: 'es' | 'en'
@@ -105,81 +106,54 @@ export function ServicesSection({ locale = 'es' }: ServicesSectionProps) {
       <div className="absolute inset-0 bg-grid opacity-30" />
 
       <div className="relative mx-auto max-w-7xl px-6">
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <motion.p
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.5 }}
-            className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]"
-          >
-            {t.eyebrow}
-          </motion.p>
-          <motion.h2
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-[var(--text-primary)]"
-          >
-            {t.title}
-          </motion.h2>
-          <motion.p
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-4 text-lg mx-auto max-w-2xl text-[var(--text-secondary)]"
-          >
-            {t.subtitle}
-          </motion.p>
-        </div>
+        <SectionHeading
+          eyebrow={t.eyebrow}
+          title={t.title}
+          subtitle={t.subtitle}
+          align="center"
+          className="mx-auto max-w-4xl"
+        />
 
         <div className="grid md:grid-cols-3 gap-8">
           {t.services.map((service, index) => {
             const IconComponent = service.icon
             return (
-              <motion.div
+              <motion.article
                 key={service.title}
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.5, delay: index * 0.15 }}
-                className="group relative p-8 rounded-2xl backdrop-blur-sm transition-all duration-500 bg-[var(--surface-primary)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] hover:shadow-[var(--shadow-glow-sm)]"
+                className="group relative p-8 rounded-2xl theme-transition card-interactive"
+                aria-label={service.title}
               >
-                <div className="relative">
-                  <div className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-xl bg-[var(--accent-subtle)] border border-[var(--accent-muted)]">
-                    <IconComponent
-                      size={28}
-                      weight="duotone"
-                      className="text-[var(--accent-primary)]"
-                    />
-                  </div>
-
-                  <h3 className="text-xl font-bold mb-3 text-[var(--text-primary)]">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-sm leading-relaxed mb-6 text-[var(--text-secondary)]">
-                    {service.description}
-                  </p>
-
-                  <ul className="space-y-2">
-                    {service.outcomes.map((outcome) => (
-                      <li key={outcome} className="flex items-start gap-2 text-sm">
-                        <CheckCircle
-                          size={18}
-                          weight="fill"
-                          className="mt-0.5 shrink-0 text-[var(--success)]"
-                        />
-                        <span className="text-[var(--text-secondary)]">{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-xl bg-[var(--accent-subtle)] border border-[var(--accent-muted)]">
+                  <IconComponent size={28} weight="duotone" className="text-[var(--accent-primary)]" />
                 </div>
 
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(135deg,var(--accent-subtle),transparent_60%)]" />
-              </motion.div>
+                <h3 className="text-xl font-bold mb-3 text-[var(--text-primary)]">
+                  {service.title}
+                </h3>
+
+                <p className="text-sm leading-relaxed mb-6 text-[var(--text-secondary)]">
+                  {service.description}
+                </p>
+
+                <ul className="space-y-2">
+                  {service.outcomes.map((outcome) => (
+                    <li key={outcome} className="flex items-start gap-2 text-sm">
+                      <CheckCircle
+                        size={18}
+                        weight="fill"
+                        className="mt-0.5 shrink-0 text-[var(--success)]"
+                      />
+                      <span className="text-[var(--text-secondary)]">{outcome}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[linear-gradient(135deg,var(--accent-subtle),transparent_60%)]" />
+              </motion.article>
             )
           })}
         </div>

@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
 
 interface TestimonialsSectionProps {
   locale?: 'es' | 'en'
@@ -93,6 +94,15 @@ export function TestimonialsSection({ locale = 'es' }: TestimonialsSectionProps)
   const t = copy[locale]
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const prefersReducedMotion = useReducedMotion()
+
+  const baseMotion = prefersReducedMotion
+    ? { initial: false, animate: undefined, transition: undefined }
+    : {
+        initial: { opacity: 0, y: 20 },
+        animate: isInView ? { opacity: 1, y: 0 } : {},
+        transition: { duration: 0.6 },
+      }
 
   return (
     <section
@@ -100,17 +110,22 @@ export function TestimonialsSection({ locale = 'es' }: TestimonialsSectionProps)
       className="relative overflow-hidden py-24 lg:py-32 theme-transition bg-[var(--bg-secondary)]"
     >
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/4 top-0 h-[500px] w-[500px] animate-pulse rounded-full blur-3xl bg-[var(--mesh-color-2)]" />
-        <div className="absolute bottom-0 right-1/4 h-[600px] w-[600px] animate-pulse rounded-full blur-3xl animation-delay-2000 bg-[var(--mesh-color-1)]" />
+        <div
+          className={
+            "absolute left-1/4 top-0 h-[500px] w-[500px] rounded-full blur-3xl bg-[var(--mesh-color-2)] " +
+            (prefersReducedMotion ? "opacity-40" : "animate-pulse")
+          }
+        />
+        <div
+          className={
+            "absolute bottom-0 right-1/4 h-[600px] w-[600px] rounded-full blur-3xl bg-[var(--mesh-color-1)] " +
+            (prefersReducedMotion ? "opacity-40" : "animate-pulse animation-delay-2000")
+          }
+        />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
+        <motion.div {...baseMotion} className="text-center">
           <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-[var(--accent-primary)]">
             {t.eyebrow}
           </p>
@@ -123,63 +138,70 @@ export function TestimonialsSection({ locale = 'es' }: TestimonialsSectionProps)
         </motion.div>
 
         <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.1 * index, duration: 0.5 }}
-              className="group relative"
-            >
-              <div
-                className="absolute -inset-0.5 rounded-2xl opacity-0 blur transition-opacity duration-500 group-hover:opacity-30"
-                style={{ background: 'var(--accent-gradient)' }}
-              />
+          {testimonials.map((testimonial, index) => {
+            const itemMotion = prefersReducedMotion
+              ? { initial: false, animate: undefined, transition: undefined }
+              : {
+                  initial: { opacity: 0, y: 30 },
+                  animate: isInView ? { opacity: 1, y: 0 } : {},
+                  transition: { delay: 0.1 * index, duration: 0.5 },
+                }
 
-              <div className="relative flex h-full flex-col rounded-2xl backdrop-blur-xl p-6 transition-all duration-300 bg-[var(--surface-primary)] border border-[var(--border-subtle)] hover:border-[var(--border-default)]">
-                <div className="mb-4 flex gap-1">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="h-5 w-5 text-[var(--warning)]"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
+            return (
+              <motion.article
+                key={testimonial.id}
+                {...itemMotion}
+                className="group relative"
+                aria-label={`${testimonial.name} — ${testimonial.company}`}
+              >
+                <div className="absolute -inset-0.5 rounded-2xl opacity-0 blur transition-opacity duration-500 group-hover:opacity-30 bg-[var(--accent-gradient)]" />
 
-                <p className="mb-6 flex-grow text-[var(--text-secondary)]">
-                  "{typeof testimonial.content === 'object'
-                    ? testimonial.content[locale]
-                    : testimonial.content}"
-                </p>
+                <div className="relative flex h-full flex-col rounded-2xl p-6 theme-transition card-interactive">
+                  <div className="mb-4 flex gap-1" aria-label={`${testimonial.rating} / 5`}>
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="h-5 w-5 text-[var(--warning)]"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-[var(--border-default)]">
-                    <div className="h-full w-full" style={{ background: 'var(--accent-gradient)' }} />
-                    <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-[var(--text-on-accent)]">
-                      {testimonial.name.charAt(0)}
+                  <p className="mb-6 flex-grow text-[var(--text-secondary)]">
+                    “{typeof testimonial.content === 'object'
+                      ? testimonial.content[locale]
+                      : testimonial.content}”
+                  </p>
+
+                  <div className="flex items-center gap-4">
+                    <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-[var(--border-default)]">
+                      <div className="h-full w-full bg-[var(--accent-gradient)]" />
+                      <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-[var(--text-on-accent)]">
+                        {testimonial.name.charAt(0)}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-[var(--text-primary)]">
+                        {testimonial.name}
+                      </p>
+                      <p className="text-sm text-[var(--text-secondary)]">
+                        {typeof testimonial.role === 'object'
+                          ? testimonial.role[locale]
+                          : testimonial.role}
+                      </p>
+                      <p className="text-xs text-[var(--accent-primary)]">
+                        {testimonial.company}
+                      </p>
                     </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-[var(--text-primary)]">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-sm text-[var(--text-secondary)]">
-                      {typeof testimonial.role === 'object'
-                        ? testimonial.role[locale]
-                        : testimonial.role}
-                    </p>
-                    <p className="text-xs text-[var(--accent-primary)]">
-                      {testimonial.company}
-                    </p>
-                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.article>
+            )
+          })}
         </div>
       </div>
     </section>

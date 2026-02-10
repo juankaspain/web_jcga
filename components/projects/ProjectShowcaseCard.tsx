@@ -21,18 +21,25 @@ interface ProjectShowcaseCardProps {
   tags: string[]
   metrics: [ProjectMetric, ProjectMetric, ProjectMetric]
   locale?: "es" | "en"
-    priority?: boolean
+  priority?: boolean
 }
 
 const copy = {
   es: { readCase: "Leer caso completo" },
-  en: { readCase: "Read full case study" }
+  en: { readCase: "Read full case study" },
 }
 
 export function ProjectShowcaseCard({
-  slug, title, problem, thumbnail, thumbnailAlt,
-  highlightMetric, tags, metrics, locale = "es",
-  priority
+  slug,
+  title,
+  problem,
+  thumbnail,
+  thumbnailAlt,
+  highlightMetric,
+  tags,
+  metrics,
+  locale = "es",
+  priority,
 }: ProjectShowcaseCardProps) {
   const t = copy[locale]
   const prefersReducedMotion = useReducedMotion()
@@ -44,94 +51,92 @@ export function ProjectShowcaseCard({
       whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0 }}
       transition={{ duration: 0.5 }}
-      className="group relative overflow-hidden rounded-2xl hover-lift transition-all duration-300 theme-transition"
-      style={{
-        backgroundColor: 'var(--surface-primary)',
-        border: '1px solid var(--border-subtle)',
-      }}
-      onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.borderColor = 'var(--accent-primary)' }}
-      onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+      className="group relative overflow-hidden rounded-2xl hover-lift transition-all duration-300 theme-transition bg-[var(--surface-primary)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary)]"
     >
-      {/* Thumbnail with overlay */}
       <Link href={projectLink} className="block relative h-64 overflow-hidden">
-        <Image 
-          src={thumbnail} alt={thumbnailAlt} fill
-                    priority={priority}
+        <Image
+          src={thumbnail}
+          alt={thumbnailAlt}
+          fill
+          priority={priority}
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--bg-primary), var(--bg-primary-alpha-60, rgba(0,0,0,0.6)), transparent)' }} />
-        
-        {/* Highlight metric badge */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, var(--bg-primary), var(--bg-primary-alpha-60, rgba(0,0,0,0.6)), transparent)",
+          }}
+        />
+
         <div className="absolute bottom-4 left-4">
-          <span
-            className="inline-flex items-center gap-2 px-3 py-1.5 glass-strong rounded-full text-sm font-semibold"
-            style={{ color: 'var(--warning)', border: '1px solid var(--warning)' }}
-          >
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 glass-strong rounded-full text-sm font-semibold text-[var(--warning)] border border-[var(--warning)]">
             <span>{highlightMetric.icon}</span>
-            <span>{highlightMetric.label}: {highlightMetric.value}</span>
+            <span>
+              {highlightMetric.label}: {highlightMetric.value}
+            </span>
           </span>
         </div>
       </Link>
-      
+
       <div className="p-6">
-        {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-3">
           {tags.slice(0, 4).map((tag) => (
-            <span 
+            <span
               key={tag}
-              className="text-xs px-2 py-1 glass rounded"
-              style={{ color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}
+              className="text-xs px-2 py-1 glass rounded text-[var(--text-secondary)] border border-[var(--border-subtle)]"
             >
               {tag}
             </span>
           ))}
           {tags.length > 4 && (
-            <span className="text-xs px-2 py-1 glass rounded" style={{ color: 'var(--text-tertiary)', border: '1px solid var(--border-subtle)' }}>
+            <span className="text-xs px-2 py-1 glass rounded text-[var(--text-tertiary)] border border-[var(--border-subtle)]">
               +{tags.length - 4}
             </span>
           )}
         </div>
-        
-        {/* Title */}
+
         <Link href={projectLink}>
-          <h3 className="text-2xl font-bold mb-2 transition-all duration-300 cursor-pointer" style={{ color: 'var(--text-primary)' }}>
+          <h3 className="text-2xl font-bold mb-2 transition-colors duration-200 cursor-pointer text-[var(--text-primary)] group-hover:text-[var(--accent-primary)]">
             {title}
           </h3>
         </Link>
-        
-        {/* Problem statement */}
-        <p className="text-sm mb-4 line-clamp-2 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+
+        <p className="text-sm mb-4 line-clamp-2 leading-relaxed text-[var(--text-secondary)]">
           {problem}
         </p>
-        
-        {/* Mini-metrics grid */}
-        <div className="grid grid-cols-3 gap-4 pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+
+        <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[var(--border-subtle)]">
           {metrics.map((metric, index) => (
             <div key={index} className="text-center">
-              <div className="text-lg font-bold" style={{ color: 'var(--accent-primary)' }}>{metric.value}</div>
-              <div className="text-xs line-clamp-1" style={{ color: 'var(--text-tertiary)' }}>{metric.label}</div>
+              <div className="text-lg font-bold text-[var(--accent-primary)]">
+                {metric.value}
+              </div>
+              <div className="text-xs line-clamp-1 text-[var(--text-tertiary)]">
+                {metric.label}
+              </div>
             </div>
           ))}
         </div>
-        
-        {/* CTA */}
-        <Link 
+
+        <Link
           href={projectLink}
-          className="mt-6 inline-flex items-center gap-2 font-semibold transition-colors duration-300"
-          style={{ color: 'var(--accent-primary)' }}
+          className="mt-6 inline-flex items-center gap-2 font-semibold transition-colors duration-200 text-[var(--accent-primary)] hover:text-[var(--accent-glow)]"
         >
           <span className="group-hover:underline">{t.readCase}</span>
-<span className="group-hover:translate-x-1 transition-transform duration-300">
-              <ArrowRight size={18} weight="bold" />
-            </span>
+          <span className="group-hover:translate-x-1 transition-transform duration-300">
+            <ArrowRight size={18} weight="bold" />
+          </span>
         </Link>
       </div>
-      
-      {/* Hover glow effect */}
+
       <div
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ background: 'radial-gradient(circle at 50% 0%, var(--accent-subtle), transparent 70%)' }}
+        style={{
+          background:
+            "radial-gradient(circle at 50% 0%, var(--accent-subtle), transparent 70%)",
+        }}
       />
     </motion.div>
   )

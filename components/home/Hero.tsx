@@ -56,7 +56,11 @@ export function Hero({ locale = "es" }: HeroProps) {
       label: locale === "en" ? "Current team" : "Equipo actual",
       icon: Users,
     },
-    { value: HERO_CLAIMS.sla, label: "SLA Achieved", icon: ChartLine },
+    {
+      value: HERO_CLAIMS.sla,
+      label: locale === "en" ? "SLA achieved" : "SLA logrado",
+      icon: ChartLine,
+    },
   ]
 
   return (
@@ -146,14 +150,14 @@ export function Hero({ locale = "es" }: HeroProps) {
 
           <motion.div
             variants={mounted && !prefersReducedMotion ? staggerItem : undefined}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl"
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl"
           >
             {stats.map((stat, index) => {
               const IconComponent = stat.icon
               return (
                 <motion.div
                   key={stat.label}
-                  className="text-center"
+                  className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-primary)]/60 backdrop-blur px-4 py-4 text-left shadow-sm"
                   initial={
                     mounted && !prefersReducedMotion
                       ? { opacity: 0, y: 20 }
@@ -162,14 +166,16 @@ export function Hero({ locale = "es" }: HeroProps) {
                   animate={mounted ? { opacity: 1, y: 0 } : undefined}
                   transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
                 >
-                  <span className="mx-auto mb-2 text-[var(--accent-primary)]">
-                    <IconComponent size={20} weight="duotone" />
-                  </span>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[var(--accent-primary)]">
+                      <IconComponent size={18} weight="duotone" />
+                    </span>
+                    <p className="text-xs uppercase tracking-wider font-semibold text-[var(--text-tertiary)]">
+                      {stat.label}
+                    </p>
+                  </div>
                   <p className="text-2xl font-bold text-[var(--text-primary)]">
                     {stat.value}
-                  </p>
-                  <p className="text-sm text-[var(--text-tertiary)]">
-                    {stat.label}
                   </p>
                 </motion.div>
               )
